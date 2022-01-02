@@ -1,6 +1,18 @@
 'use strict'
 
-const { http, path, logger, log, end, Route, Client } = require('./bootstrap.js');
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+const mime = require('mime');
+const url = require('url');
+
+const Route = require('./lib/route');
+const Client = require('./lib/Client.js');
+const { log } = require('./helpers');
+const model = require('./lib/Model');
+const { logger, asyncLocalStorage } = require('./lib/Logger');
+
+//const { logger, log, end, Route, Client } = require('./bootstrap.js');
 
 var faker = require('faker');
 
@@ -9,12 +21,8 @@ const randomEmail = faker.internet.email(); // Kassandra.Haley@erich.biz
 const randomCard = faker.helpers.createCard(); // random contact card containing many properties
 const randomImage = faker.image.fashion();
 
-log({ randomName, randomEmail, randomImage });
+//log({ randomName, randomEmail, randomImage });
 
-// var http = require('http');
-const url = require('url');
-const fs = require('fs');
-//
 http.createServer(function (req, res) {
     const q = url.parse(req.url, true);
     const filename = "../src" + q.pathname;log({ __dirname });
