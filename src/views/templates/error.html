@@ -1,0 +1,49 @@
+<html lang="en">
+
+<head>
+    {% block meta %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="трансплантация">
+    {% endblock %}
+
+    <title>{{ title }}</title>
+
+    {% block css %}
+    <link rel="icon" href="/favicon.ico" type="image/ico">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/utility.css">
+    <link rel="stylesheet" href="/css/style.css">
+    {% endblock %}
+
+    {% block js_top %}
+
+    {% endblock %}
+</head>
+
+<body>
+    <header>
+    {% block header %}
+
+    {% endblock %}
+    </header>
+
+    <section>
+    {% block content %}
+
+    {% endblock %}
+    </section>
+
+    <footer>
+    {% block footer %}
+
+    {% endblock %}
+    </footer>
+
+    {% block js_bottom %}
+
+    {% endblock %}
+
+</body>
+</html>

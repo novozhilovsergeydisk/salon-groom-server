@@ -1,0 +1,15 @@
+{% extends "templates/base.html" %}
+{% set title = "Главная страница transplant.net" %}
+{% set h1 = "transplant.net" %}
+
+{% block css %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+    <div id="block-content">
+        <h3>Пациент: {{ name }}</h3>
+        <h5>email: {{ email }}</h5>
+        <p>С момента регистрации прошло: {{ days_left }} дней</p>
+    </div>
+{% endblock %}
