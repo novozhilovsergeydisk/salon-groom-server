@@ -46,6 +46,14 @@ class mainControllers {
         return DTOFactory({ stream: client.body });
     }
 
+    async price() {
+        return DTOFactory({ stream: nunjucks.render('price/index.html', { masters: [] }) });
+    }
+
+    async review() {
+        return DTOFactory({ stream: nunjucks.render('review/index.html', { masters: [] }) });
+    }
+
     async works() {
         return DTOFactory({ stream: nunjucks.render('our-works/index.html', { masters: [] }) });
     }

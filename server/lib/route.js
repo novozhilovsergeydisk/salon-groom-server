@@ -27,6 +27,8 @@ class Route {
             'GET': {
                 '/': mainControllers.index,
                 '/works': mainControllers.works,
+                '/price': mainControllers.price,
+                '/review': mainControllers.review,
                 '/masters': mainControllers.masters,
                 '/contacts': mainControllers.contacts,
                 '/api/activate/*': auth.activate,
