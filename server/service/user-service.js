@@ -63,7 +63,7 @@ class UserService {
         });
 
         if (candidate) {
-            throw new Error('пользователь с таким email ужк существует')
+            throw new Error('пользователь с таким email уже существует')
         }
 
         //const hashPassword = await bcrypt.hash(password, 3);

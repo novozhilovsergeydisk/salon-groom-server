@@ -26,16 +26,19 @@ class Route {
         this.routing = {
             'GET': {
                 '/': mainControllers.index,
+                '/works': mainControllers.works,
+                '/masters': mainControllers.masters,
+                '/contacts': mainControllers.contacts,
                 '/api/activate/*': auth.activate,
                 '/api/refresh': auth.refresh,
                 '/api/cabinet/id/*': cabinetControllers.cabinet,
+                '/api/register': patientController.register,
                 '/css/*': staticController.staticContent,
                 '/js/*': staticController.staticContent,
                 '/img/*': staticController.staticContent,
                 '/images/*': staticController.staticContent,
                 '/fonts/*': staticController.staticContent,
                 '/webfonts/*': staticController.staticContent,
-                '/api/register': patientController.register,
                 '/favicon.ico': staticController.staticContent,
             },
             'POST': {
