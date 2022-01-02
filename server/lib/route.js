@@ -1,21 +1,15 @@
 'use strict'
 
 const { SERVER_PATH } = require('../../constants.js');
-
 const { asyncLocalStorage } = require(SERVER_PATH + '/lib/Logger');
 const { DTOFactory, capitalizeFirstLetter, log } = require(SERVER_PATH + '/helpers');
-//const { controller } = require(SERVER_PATH + '/controllers/Controller.js');
 const { patientController, staticController } = require('../controllers/patients.js');
 const cabinetControllers = require('../controllers/cabinet.js');
 const reportsControllers = require('../controllers/reports.js');
 const { Auth } = require(SERVER_PATH + '/lib/auth.js');
 const mainControllers = require('../controllers/main.js');
 
-// const user = { patient: 'Новожилов Сергей', age: 57 };
-
 const auth = new Auth();
-
-// log( typeof cabinetControllers );
 
 class Route {
     constructor(client) {
@@ -94,12 +88,8 @@ class Route {
 
     resolve() {
         let par;
-        // let url = this.client.url;
         const http_method = this.client.http_method;
         let route = this.routing[http_method][this.client.url];
-
-        // log( this.client );
-
         if (!route) {
             for (let i = 0; i < this.matching.length; i++) {
                 par = null;
@@ -129,25 +119,12 @@ class Route {
         this.renderer = renderer;
         this.client.par = par;
         this.par = par;
-
-        // log(this);
-
-        // log({ route });
-
-        // log({ renderer });
-
-        // log(this.par);
-
         const ret = this.renderer(this.route, this.par, this.client);
-
-        // log({ ret });
-
         return ret;
     }
 }
 
 module.exports = Route;
-
 
 // const routes = [
 //     {
