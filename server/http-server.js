@@ -12,6 +12,16 @@ const { log } = require('./helpers');
 const model = require('./lib/Model');
 const { logger, asyncLocalStorage } = require('./lib/Logger');
 
+const crypto = require('crypto');
+
+const secret = 'abcdefg';
+const hash = crypto.createHmac('sha256', secret)
+                   .update('I love cupcakes')
+                   .digest('hex');
+console.log(hash);
+// Prints:
+//   c0fa1bc00531bd78ef38c628449c5102aeabd49b5dc3a2a516ea6ea959d6658e
+
 //const { logger, log, end, Route, Client } = require('./bootstrap.js');
 
 var faker = require('faker');

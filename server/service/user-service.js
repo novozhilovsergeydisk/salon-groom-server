@@ -1,10 +1,12 @@
 // const UserModel = require('../models/user-model');
 const model = require('../lib/Model.js');
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 const mailService = require('./mail-service.js');
 const db = require('../lib/DB.js');
 const { DTOFactory, log } = require('../helpers');
+
+const crypto = require('crypto');
 
 const pg = db.open({
     user: 'postgres',
@@ -64,7 +66,14 @@ class UserService {
             throw new Error('пользователь с таким email ужк существует')
         }
 
-        const hashPassword = await bcrypt.hash(password, 3);
+        //const hashPassword = await bcrypt.hash(password, 3);
+
+        const secret = 'abcdefg';
+        const hashPassword = crypto.createHmac('sha256', secret)
+                           .update('I love cupcakes')
+                           .digest('hex');
+        console.log(hashPassword);
+
         const activationLink = uuid.v4();
         const user = await model.create({ email, password: hashPassword, activationLink });
         await mailService.sendActivationMail(email, activationLink);
