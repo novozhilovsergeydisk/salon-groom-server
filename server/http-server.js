@@ -123,20 +123,6 @@ const __404 = (client, res, info= null) => {
     log('404 - ' + client.url);
 
     if (info) {
-        // const mailOptions = {
-        //     from: 'sergionov@mail.ru',
-        //     to: 'sergionov@mail.ru',
-        //     subject: 'info from smartjs.ru',
-        //     text: '404 - ' + info
-        // };
-        //
-        // transporter.sendMail(mailOptions, function(error, info__){
-        //     if (error) {
-        //         console.log(error);
-        //     } else {
-        //         console.log('Email sent: ' + info__.response);
-        //     }
-        // });
 
         log({ 'info': info });
     }
