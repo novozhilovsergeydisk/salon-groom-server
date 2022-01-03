@@ -116,29 +116,29 @@ const reject = error => {
     });
 };
 
-const __404 = (client, res, error = null) => {
+const __404 = (client, res, info= null) => {
     res.setHeader('Content-Type', 'text/html; charset=UTF-8');
     res.statusCode = 404;
     res.end('404 not found');
     log('404 - ' + client.url);
 
-    if (error) {
-        const mailOptions = {
-            from: 'sergionov@mail.ru',
-            to: 'sergionov@mail.ru',
-            subject: 'error 404',
-            text: '404 - ' + client.url
-        };
+    if (info) {
+        // const mailOptions = {
+        //     from: 'sergionov@mail.ru',
+        //     to: 'sergionov@mail.ru',
+        //     subject: 'info from smartjs.ru',
+        //     text: '404 - ' + info
+        // };
+        //
+        // transporter.sendMail(mailOptions, function(error, info__){
+        //     if (error) {
+        //         console.log(error);
+        //     } else {
+        //         console.log('Email sent: ' + info__.response);
+        //     }
+        // });
 
-        transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
-
-        log({ 'error': error });
+        log({ 'info': info });
     }
 };
 
@@ -151,11 +151,11 @@ const send = ((mimeType, html, res) => {
 class Server {
     constructor() {};
 
-    make(client, res) {
+    make(client, res, req) {
         try {
             this.execute(client).then(data => {
                 // log({ data });
-                this.answerStrategy(client, data.stream, res);
+                this.answerStrategy(client, data.stream, res, req);
             });
         } catch(err) {
             log({ 'Error while execute()': err });
@@ -188,17 +188,17 @@ class Server {
             });
     }
 
-    answerStrategy(client, content, res) {
+    answerStrategy(client, content, res, req = null) {
         const isPromice = content instanceof Promise;
-        const isObject = typeof content === 'object';
-        // log({ content });
+        // const isObject = typeof content === 'object';
+        const info = req.headers.host + ' | ' + client.url + ' | ' + req.method + ' | ' + client.mimeType;
         if (client.mimeType === MIME_TYPES.html) {
             if (content === null || content === undefined) {
-                __404(client, res, 'error: content === null');
+                __404(client, res,  info);
             } else {
                 if (isPromice) {
                     content.then(data => {
-                         (data === null) ? __404(client, res, 'error: ata === null') : send(client.mimeType, data, res);
+                         (data === null) ? __404(client, res, info) : send(client.mimeType, data, res);
                     });
                 } else {
                     const html = ((typeof content) ==='string' ) ? content : content.toString();
@@ -213,14 +213,14 @@ class Server {
                         if (stream) {
                             stream.pipe(res);
                         } else {
-                            __404(client, res, 'error: not stream');
+                            __404(client, res, info);
                         }
                     })
                     .catch(error_stream => {
-                        __404(client, res, 'error: error_stream'); log({ 'error_stream': error_stream });
+                        __404(client, res, info); log({ 'error_stream': error_stream });
                     });
             } else {
-                __404(client, res, client.mimeType + ' not promice');
+                __404(client, res, ' not promice');
             }
         }
     }
@@ -244,7 +244,7 @@ class Server {
                 req.on('data', chunk => {
                     const contentType = req.headers["content-type"];
 
-                    log({ contentType });
+                    // log({ contentType });
 
                     if (contentType === CONTENT_TYPES.MILTIPART_FORMDATA) {
                         log('MILTIPART_FORMDATA');
@@ -275,13 +275,13 @@ class Server {
                     log({ body });
 
                     client.body = body;
-                    this.make(client, res);
+                    this.make(client, res, req);
                     // console.log(body);
                 });
             }
 
             if (req.method === 'GET') {
-                this.make(client, res);
+                this.make(client, res, req);
             }
 
             // try {
