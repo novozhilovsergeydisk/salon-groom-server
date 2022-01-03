@@ -10,7 +10,26 @@ const Route = require('./lib/route');
 const Client = require('./lib/Client.js');
 const { log } = require('./helpers');
 const model = require('./lib/Model');
-const { logger, asyncLocalStorage } = require('./lib/Logger');
+// const { logger, asyncLocalStorage } = require('./lib/Logger');
+
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    host: 'smtp.mail.ru',
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'sergionov@mail.ru',
+        pass: 'NYN04szNwP8JsMbgjZ4N'
+    }
+});
+
+// const mailOptions = {
+//     from: 'sergionov@mail.ru',
+//     to: 'sergionov@mail.ru',
+//     subject: 'Sending Email using Node.js',
+//     text: 'That was easy!'
+// };
 
 const crypto = require('crypto');
 
@@ -102,7 +121,25 @@ const __404 = (client, res, error = null) => {
     res.statusCode = 404;
     res.end('404 not found');
     log('404 - ' + client.url);
-    if (error) log({ 'error': error });
+
+    if (error) {
+        const mailOptions = {
+            from: 'sergionov@mail.ru',
+            to: 'sergionov@mail.ru',
+            subject: 'error 404',
+            text: '404 - ' + client.url
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+
+        log({ 'error': error });
+    }
 };
 
 const send = ((mimeType, html, res) => {
@@ -157,11 +194,11 @@ class Server {
         // log({ content });
         if (client.mimeType === MIME_TYPES.html) {
             if (content === null || content === undefined) {
-                __404(client, res);
+                __404(client, res, 'error: content === null');
             } else {
                 if (isPromice) {
                     content.then(data => {
-                         (data === null) ? __404(client, res) : send(client.mimeType, data, res);
+                         (data === null) ? __404(client, res, 'error: ata === null') : send(client.mimeType, data, res);
                     });
                 } else {
                     const html = ((typeof content) ==='string' ) ? content : content.toString();
@@ -176,14 +213,14 @@ class Server {
                         if (stream) {
                             stream.pipe(res);
                         } else {
-                            __404(client, res);
+                            __404(client, res, 'error: not stream');
                         }
                     })
                     .catch(error_stream => {
-                        __404(client, res); log({ 'error_stream': error_stream });
+                        __404(client, res, 'error: error_stream'); log({ 'error_stream': error_stream });
                     });
             } else {
-                __404(client, res);
+                __404(client, res, client.mimeType + ' not promice');
             }
         }
     }
