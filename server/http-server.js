@@ -15,21 +15,14 @@ const model = require('./lib/Model');
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.mail.ru',
-    port: 465,
+    host: '.ru',
+    port: 5,
     secure: true,
     auth: {
-        user: 'sergionov@mail.ru',
-        pass: 'NYN04szNwP8JsMbgjZ4N'
+        user: '.ru',
+        pass: ''
     }
 });
-
-// const mailOptions = {
-//     from: 'sergionov@mail.ru',
-//     to: 'sergionov@mail.ru',
-//     subject: 'Sending Email using Node.js',
-//     text: 'That was easy!'
-// };
 
 const crypto = require('crypto');
 
