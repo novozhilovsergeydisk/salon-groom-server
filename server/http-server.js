@@ -8,25 +8,28 @@ const url = require('url');
 
 const Route = require('./lib/route');
 const Client = require('./lib/Client.js');
-const { log } = require('./helpers');
-const model = require('./lib/Model');
+const { log } = require('./helpers.js');
+const model = require('./lib/Model.js');
+const conf = require('./conf.js');
 // const { logger, asyncLocalStorage } = require('./lib/Logger');
+
+log( conf.mailer_config );
 
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-    host: '.ru',
-    port: 5,
-    secure: true,
+    host: conf.mailer.host,
+    port: conf.mailer.port,
+    secure: conf.mailer.secure,
     auth: {
-        user: '.ru',
-        pass: ''
+        user: conf.mailer.auth.user,
+        pass: conf.mailer.auth.pass
     }
 });
 
 const crypto = require('crypto');
 
-const secret = 'abcdefg';
+const secret = conf.secret;
 const hash = crypto.createHmac('sha256', secret)
                    .update('I love cupcakes')
                    .digest('hex');
@@ -116,6 +119,20 @@ const __404 = (client, res, info= null) => {
     log('404 - ' + client.url);
 
     if (info) {
+        const mailOptions = {
+            from: conf.mailOptions.from,
+            to: conf.mailOptions.to,
+            subject: conf.mailOptions.subject,
+            text: '404 - ' + info
+        };
+
+        transporter.sendMail(mailOptions, function(error, info__){
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info__.response);
+            }
+        });
 
         log({ 'info': info });
     }
