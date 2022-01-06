@@ -16,9 +16,6 @@ const mimeTypes = {
 
 const appPath = path.resolve(__dirname);
 
-// console.log(__dirname);
-console.log({ appPath });
-
 const CONSTANTS = {
     MIME_TYPES: mimeTypes,
     APP_PATH: appPath,
