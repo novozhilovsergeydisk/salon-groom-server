@@ -48,6 +48,7 @@ class Route {
                 '/api/login': (client, par) => handler(client, 'main', 'login', par, {roles: ['admin']}),
                 '/api/logut': (client, par) => handler(client, 'main', 'logout', par, {roles: ['admin']}),
                 '/sendmail': mainControllers.send,
+                '/order': mainControllers.order,
             }
         };
 

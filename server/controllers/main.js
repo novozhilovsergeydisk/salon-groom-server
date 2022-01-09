@@ -28,22 +28,53 @@ let patients = [
 
 // Handlers
 class mainControllers {
-    async send(client) {
+    async order(client) {
         const body = decodeURIComponent(client.body);
-        
-        log(body);
+
+        // log({ body });
 
         const bodyArr = body.split('&');
 
-        bodyArr.forEach(item => {
-            let newArr = item.split('=');
+        // log(bodyArr);
+
+        bodyArr.map(item => {
+            return item.split('=');
         });
+
+        const newObj = {};
+
+        bodyArr.forEach(item => {
+            const newArr = item.split('=');
+            newObj[newArr[0]] = newArr[1];
+        });
+
+        
+
+        log({ newObj });
 
         const jsonString = JSON.stringify(Object.assign({}, bodyArr))
 
-        log({ jsonString });
+        // log({ jsonString });
 
-        return DTOFactory({ stream: client.body });
+        return DTOFactory({ stream: body });
+    }
+
+    async send(client) {
+        const body = decodeURIComponent(client.body);
+        
+        // log({ body });
+
+        // const bodyArr = body.split('&');
+        //
+        // bodyArr.forEach(item => {
+        //     let newArr = item.split('=');
+        // });
+        //
+        // const jsonString = JSON.stringify(Object.assign({}, bodyArr))
+        //
+        // log({ jsonString });
+
+        return DTOFactory({ stream: body });
     }
 
     async price() {

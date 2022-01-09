@@ -1,4 +1,4 @@
-const { database } = require('../config.js');
+const { database } = require('../conf.js');
 const db = require('../lib/DB');
 const { DTOFactory, log } = require('../helpers');
 
@@ -10,7 +10,7 @@ class AdminService {
     constructor() {}
 
     clinic(client) {
-        log({ client });
+        // log({ client });
 
         const sql = 'cabinet c';
         const re = pg
@@ -23,7 +23,7 @@ class AdminService {
                 // resolve(data);
             });
 
-        log({ re });
+        // log({ re });
 
         const dto = DTOFactory({ stream: 'AdminService' });
         // log( DTOFactory );

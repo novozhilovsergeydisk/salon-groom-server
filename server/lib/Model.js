@@ -50,7 +50,19 @@ class Model {
         });
     }
 
-    save() {
+    save = (sql, values) => {
+        return new Promise((resolve, reject) => {
+            try {
+                const res = this.pool.query(sql, values);
+                resolve(res);
+            } catch (err) {
+                reject(err);
+                console.log({ 'error stack': err.stack });
+            }
+        });
+    };
+
+    saveUsers() {
         return new Promise((resolve) => {
             pg.query('insert into users values(nextval(\'users_id_seq\'), $1, $2, $3)', ['patient@transplant.' + uuid.v4(), uuid.v4(), false], cb);
         });

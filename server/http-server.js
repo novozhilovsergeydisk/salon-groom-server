@@ -1,6 +1,7 @@
 'use strict'
 
 const http = require('http');
+const logger = require('pino-http')()
 const fs = require('fs');
 const path = require('path');
 const mime = require('mime');
@@ -13,7 +14,7 @@ const model = require('./lib/Model.js');
 const conf = require('./conf.js');
 // const { logger, asyncLocalStorage } = require('./lib/Logger');
 
-log( conf.mailer_config );
+// log( conf.mailer_config );
 
 const nodemailer = require('nodemailer');
 
@@ -31,9 +32,9 @@ const crypto = require('crypto');
 
 const secret = conf.secret;
 const hash = crypto.createHmac('sha256', secret)
-                   .update('I love cupcakes')
-                   .digest('hex');
-console.log(hash);
+    .update('I love cupcakes')
+    .digest('hex');
+//console.log(hash);
 // Prints:
 //   c0fa1bc00531bd78ef38c628449c5102aeabd49b5dc3a2a516ea6ea959d6658e
 
@@ -75,23 +76,23 @@ const CONTENT_TYPES = {
 
 // log(MIME_TYPES.html);
 
-console.table([
-    {doctor: 'Новожилов С.Ю.'},
-    {patient: 'Тихонова Галина Федотовна', sys: 143, dia: 89, pulse: 54, glukose: 5.9},
-    {patient: 'Багдасарян Анна Рафаэловна', sys: 133, dia: 79, pulse: 64},
-    {patient: 'Каргальская Ирина Геннадьевна', sys: 123, dia: 69, pulse: 74}
-]);
+// console.table([
+//     {doctor: 'Новожилов С.Ю.'},
+//     {patient: 'Тихонова Галина Федотовна', sys: 143, dia: 89, pulse: 54, glukose: 5.9},
+//     {patient: 'Багдасарян Анна Рафаэловна', sys: 133, dia: 79, pulse: 64},
+//     {patient: 'Каргальская Ирина Геннадьевна', sys: 123, dia: 69, pulse: 74}
+// ]);
 
 const resolve = data => {
     return new Promise(resolve => {
-        console.log({ 'resolve(data)': data });
+        // console.log console.log({ 'resolve(data)': data });
         resolve(data);
     });
 };
 
 const reject = error => {
     return new Promise(reject => {
-        console.log({ 'reject(error)': error });
+        // console.log({ 'reject(error)': error });
         reject(error);
     });
 };
@@ -114,11 +115,11 @@ const __404 = (client, res, info= null) => {
             if (error) {
                 console.log(error);
             } else {
-                console.log('Email sent: ' + info__.response);
+                // console.log('Email sent: ' + info__.response);
             }
         });
 
-        log({ 'info': info });
+        // log({ 'info': info });
     }
 };
 
@@ -178,7 +179,7 @@ class Server {
             } else {
                 if (isPromice) {
                     content.then(data => {
-                         (data === null) ? __404(client, res, info) : send(client.mimeType, data, res);
+                        (data === null) ? __404(client, res, info) : send(client.mimeType, data, res);
                     });
                 } else {
                     const html = ((typeof content) ==='string' ) ? content : content.toString();
@@ -207,56 +208,47 @@ class Server {
 
     createServer(port, host) {
         const server = http.createServer(async (req, res) => {
+            // logger(req, res);
+            // req.log.info('something else');
             const { url } = req;
             const fileExt = path.extname(url).substring(1);
             const mimeType = MIME_TYPES[fileExt] || MIME_TYPES.html;
             const client = new Client(req.headers.host, req.method, url, fileExt, mimeType);
-
-            if (req.headers['content-type']) {
-                log({ 'req.headers[content-type]': req.headers['content-type'], url });
-            }
+            let body = '';
 
             if (req.method === 'POST') {
-                // log({ 'req.body': req.body });
-
-                let body = '';
-
                 req.on('data', chunk => {
                     const contentType = req.headers["content-type"];
 
                     // log({ contentType });
 
-                    if (contentType === CONTENT_TYPES.MILTIPART_FORMDATA) {
-                        log('MILTIPART_FORMDATA');
-                        log({ chunk });
-                        body += chunk.toString(); // convert Buffer to string
-                        client.body = body;
-                    }
+                    // if (contentType === CONTENT_TYPES.MILTIPART_FORMDATA) {
+                    //     log('MILTIPART_FORMDATA');
+                    //     log({ chunk });
+                    //     body += chunk.toString(); // convert Buffer to string
+                    //     client.body = body;
+                    // }
+                    //
+                    // if (contentType === CONTENT_TYPES.MILTIPART_URLENCODED) {
+                    //     log('MILTIPART_URLENCODED');
+                    //     log({ chunk });
+                    //
+                    //     body += chunk.toString(); // convert Buffer to string
+                    // }
+                    //
+                    // /*const bodyArr = body.split('&');
+                    //
+                    // const jsonString = JSON.stringify(Object.assign({}, bodyArr))
+                    //
+                    // log({ jsonString });*/
+                    //
+                    // if (contentType === CONTENT_TYPES.APPLICATION_JSON) {
+                    //     log({ chunk });
+                    //     body += chunk.toString(); // convert Buffer to string
+                    //     client.body = body;
+                    // }
 
-                    if (contentType === CONTENT_TYPES.MILTIPART_URLENCODED) {
-                        log('MILTIPART_URLENCODED');
-                        log({ chunk });
-
-                        body += chunk.toString(); // convert Buffer to string
-                    }
-
-                    /*const bodyArr = body.split('&');
-
-                    const jsonString = JSON.stringify(Object.assign({}, bodyArr))
-
-                    log({ jsonString });*/
-
-                    if (contentType === CONTENT_TYPES.APPLICATION_JSON) {
-                        log({ chunk });
-                        body += chunk.toString(); // convert Buffer to string
-                        client.body = body;
-                    }
-
-                    log({ body });
-
-                    client.body = body;
-                    this.make(client, res, req);
-                    // console.log(body);
+                    body += chunk.toString(); // convert Buffer to string
                 });
             }
 
@@ -264,29 +256,29 @@ class Server {
                 this.make(client, res, req);
             }
 
-            // try {
-            //     this.execute(client).then(data => {
-            //         // log({ 'url': url, 'mime': client.mimeType });
-            //
-            //         // log({ data });
-            //
-            //         // const content = data.stream;
-            //         this.answerStrategy(client, data.stream, res);
-            //     });
-            // } catch(err) {
-            //     log({ 'Error while execute()': err });
-            // }
             req.on('end', function() {
-                // console.log('end');
+                if (req.method === 'POST') {
+                    client.body = body;
+                    return Promise.resolve()
+                        .then(() => {
+                            const resolve = new Route(client).resolve();
+                            resolve.then(data => {
+                                res.setHeader('Content-Type', mimeType);
+                                res.statusCode = 200;
+                                res.end(JSON.stringify(data));
+                            });
+                            return resolve;
+                        })
+                        .catch(err => {
+                            console.log({ 'Error execute()': err });
+                            return null;
+                        });
+                }
             });
         });
 
         server.on('request', function(req, res) {
             // logger.run(req, res);
-
-            // const client = { req, res };
-            // console.log('On server request url: ' + req.url);
-            // this.statics(client);
         });
 
         server.listen(port, host, () => {

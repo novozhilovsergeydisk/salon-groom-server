@@ -15,9 +15,9 @@ const Files = require('./lib/Files');
 const Route = require('./lib/route');
 const Client = require('./lib/Client.js');
 const model = require('./lib/Model');
-const { secret } = require('./config.js');
+const { secret } = require('./conf.js');
 
-log({ 'process.cwd': process.cwd() });
+// log({ 'process.cwd': process.cwd() });
 
 module.exports = {
     http,

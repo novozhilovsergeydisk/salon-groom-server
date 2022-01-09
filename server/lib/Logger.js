@@ -2,7 +2,7 @@ const { AsyncLocalStorage } = require('async_hooks');
 const asyncLocalStorage = new AsyncLocalStorage();
 const storage = require('./Storage.js');
 
-console.log({ storage });
+//console.log({ storage });
 
 class Logger {
     constructor() {

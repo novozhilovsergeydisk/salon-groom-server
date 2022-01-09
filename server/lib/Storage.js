@@ -6,7 +6,7 @@ const v8 = require('v8');
 
 const PATH = `${__dirname}/sessions`;
 
-console.log({ __dirname });
+//console.log({ __dirname });
 
 const safePath = (fn) => (token, ...args) => {
     const callback = args[args.length - 1];

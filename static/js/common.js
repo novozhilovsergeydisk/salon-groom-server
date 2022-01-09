@@ -567,6 +567,8 @@ $(document).ready(function () {
 
     // Event submit
     $('#contactform').on('submit', function (e) {
+        // console.log({ e });
+
         e.preventDefault();
 
         const _token = document.getElementById('_token');
@@ -617,21 +619,23 @@ $(document).ready(function () {
             return false;
         }
 
-        //console.log('Сообщение отправлено!');
+        console.log('Сообщение отправлено!');
 
         $.ajax({
             type: 'POST',
-            url: '/sendmail',
+            url: '/order',
             data: $('#contactform').serialize(),
             success: function (data) {
-                console.log('Сообщение отправлено!');
-                console.log({ data });
+                console.log('order');
+                const res = JSON.parse(data);
+                console.log(res);
+                console.log(res.status);
 
                 if (data.result == 'success') {
                     codeTarget(70137172, 'nazhatie-na-knopku-zapis');
                     googleConvertionTarget();
 
-                    console.log('data.result = ', data.result);
+                    // console.log('data.result = ', data.result);
 
                     $('#senderror').hide();
                     $('#sendmessage').show();

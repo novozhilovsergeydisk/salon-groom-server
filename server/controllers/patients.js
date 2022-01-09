@@ -8,7 +8,7 @@ const { parse } = require('querystring');
 
 // const userService = new UserService();
 
-log({ userService });
+//log({ userService });
 
 nunjucks.configure(VIEWS_PATH, { autoescape: true });
 
