@@ -1,50 +1,29 @@
 'use strict'
 
 const http = require('http');
-const fs = require('fs');
 const path = require('path');
-const mime = require('mime');
-const url = require('url');
-
-const Route = require('./lib/route');
+const Route = require('./route');
 const Client = require('./lib/Client.js');
-const { log } = require('./helpers.js');
-const model = require('./lib/Model.js');
+const { log, generateToken, hash } = require('./helpers.js');
 const conf = require('./conf.js');
-// const { logger, asyncLocalStorage } = require('./lib/Logger');
+const { transporter } = require('./lib/Mailer.js');
 
+// const fs = require('fs');
+// const mime = require('mime');
+// const url = require('url');
+// const model = require('./lib/Model.js');
+// const { logger, asyncLocalStorage } = require('./lib/Logger');
 // log( conf.mailer_config );
 
-const nodemailer = require('nodemailer');
+log(generateToken());
 
-const transporter = nodemailer.createTransport({
-    host: conf.mailer.host,
-    port: conf.mailer.port,
-    secure: conf.mailer.secure,
-    auth: {
-        user: conf.mailer.auth.user,
-        pass: conf.mailer.auth.pass
-    }
-});
+log(hash());
 
-const crypto = require('crypto');
-
-const secret = conf.secret;
-const hash = crypto.createHmac('sha256', secret)
-    .update('I love cupcakes')
-    .digest('hex');
-//console.log(hash);
-// Prints:
-//   c0fa1bc00531bd78ef38c628449c5102aeabd49b5dc3a2a516ea6ea959d6658e
-
-//const { logger, log, end, Route, Client } = require('./bootstrap.js');
-
-var faker = require('faker');
-
-const randomName = faker.name.findName(); // Rowan Nikolaus
-const randomEmail = faker.internet.email(); // Kassandra.Haley@erich.biz
-const randomCard = faker.helpers.createCard(); // random contact card containing many properties
-const randomImage = faker.image.fashion();
+// var faker = require('faker');
+// const randomName = faker.name.findName(); // Rowan Nikolaus
+// const randomEmail = faker.internet.email(); // Kassandra.Haley@erich.biz
+// const randomCard = faker.helpers.createCard(); // random contact card containing many properties
+// const randomImage = faker.image.fashion();
 
 //log({ randomName, randomEmail, randomImage });
 
@@ -110,15 +89,13 @@ const __404 = (client, res, info= null) => {
             text: '404 - ' + info
         };
 
-        transporter.sendMail(mailOptions, function(error, info__){
+        transporter.sendMail(mailOptions, function(error, info){
             if (error) {
                 console.log(error);
             } else {
-                // console.log('Email sent: ' + info__.response);
+                console.log('Email sent: ' + info.response);
             }
         });
-
-        // log({ 'info': info });
     }
 };
 

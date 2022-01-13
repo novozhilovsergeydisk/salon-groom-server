@@ -41,7 +41,7 @@ class Patient extends Base {
         this.header('Content-Type', 'text/html');
 
         try {
-            this.nunjucks.configure(this.constants.appPath + '/src/views', { autoescape: true });
+            this.nunjucks.configure(this.constants.appPath + '/views', { autoescape: true });
 
             const render = this.nunjucks.render('patient-edit.html', params);
 

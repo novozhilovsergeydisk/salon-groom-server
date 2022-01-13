@@ -1,5 +1,7 @@
 const db = require('./DB.js');
 
+const { generateToken, log } = require('../helpers.js');
+
 const pg = db.open({
     user: 'postgres',
     host: '127.0.0.1',
@@ -64,7 +66,8 @@ class Model {
 
     saveUsers() {
         return new Promise((resolve) => {
-            pg.query('insert into users values(nextval(\'users_id_seq\'), $1, $2, $3)', ['patient@transplant.' + uuid.v4(), uuid.v4(), false], cb);
+            const insert = pg.query('insert into users values(nextval(\'users_id_seq\'), $1, $2, $3)', ['patient@transplant.' + generateToken(), generateToken.v4(), false], cb);
+
         });
     }
 

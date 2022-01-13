@@ -25,30 +25,26 @@ class Route {
 
         this.routing = {
             'GET': {
-                '/': mainControllers.index,
-                '/works': mainControllers.works,
-                '/price': mainControllers.price,
-                '/review': mainControllers.review,
-                '/masters': mainControllers.masters,
-                '/contacts': mainControllers.contacts,
+                '/': patientController.main,
+                '/index': patientController.getAllPatients,
+                '/index/*': patientController.getAllPatients,
+                '/test': patientController.test,
+                '/patient/id/*': patientController.getPatient,
                 '/api/activate/*': auth.activate,
                 '/api/refresh': auth.refresh,
                 '/api/cabinet/id/*': cabinetControllers.cabinet,
-                '/api/register': patientController.register,
                 '/css/*': staticController.staticContent,
                 '/js/*': staticController.staticContent,
                 '/img/*': staticController.staticContent,
-                '/images/*': staticController.staticContent,
-                '/fonts/*': staticController.staticContent,
-                '/webfonts/*': staticController.staticContent,
+                '/api/register': patientController.register,
                 '/favicon.ico': staticController.staticContent,
+                '/reports/clinic': reportsControllers.clinic,
+                '/reports/clinic/*': reportsControllers.clinicById
             },
             'POST': {
                 '/api/register': patientController.register,
-                '/api/login': (client, par) => handler(client, 'main', 'login', par, {roles: ['admin']}),
-                '/api/logut': (client, par) => handler(client, 'main', 'logout', par, {roles: ['admin']}),
-                '/sendmail': mainControllers.send,
-                '/order': mainControllers.order,
+                '/login': (client, par) => handler(client, 'main', 'login', par, {roles: ['admin']}),
+                '/logout': (client, par) => handler(client, 'main', 'logout', par, {roles: ['admin']})
             }
         };
 
@@ -125,6 +121,9 @@ class Route {
         this.renderer = renderer;
         this.client.par = par;
         this.par = par;
+
+        // console.log(this.renderer);
+
         const ret = this.renderer(this.route, this.par, this.client);
         return ret;
     }

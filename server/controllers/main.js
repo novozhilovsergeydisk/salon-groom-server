@@ -6,7 +6,7 @@ const nunjucks = require('nunjucks');
 const userService = require('../service/user-service.js');
 // const { parse } = require('querystring');
 
-// log({ userService });
+// log({ VIEWS_PATH });
 
 nunjucks.configure(VIEWS_PATH, { autoescape: true });
 
@@ -48,7 +48,7 @@ class mainControllers {
             newObj[newArr[0]] = newArr[1];
         });
 
-        
+
 
         log({ newObj });
 
@@ -61,7 +61,7 @@ class mainControllers {
 
     async send(client) {
         const body = decodeURIComponent(client.body);
-        
+
         // log({ body });
 
         // const bodyArr = body.split('&');

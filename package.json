@@ -22,8 +22,6 @@
     "nodemon": "^2.0.13"
   },
   "dependencies": {
-    "clinic": "^11.0.0",
-    "do": "^0.6.2",
     "faker": "^5.5.3",
     "formidable": "^2.0.1",
     "jsonwebtoken": "^8.5.1",
@@ -31,7 +29,6 @@
     "nodemailer": "^6.7.2",
     "nunjucks": "^3.2.3",
     "pg": "^8.7.1",
-    "uuid": "^8.3.2",
-    "winston": "^3.3.3"
+    "uuid": "^8.3.2"
   }
 }

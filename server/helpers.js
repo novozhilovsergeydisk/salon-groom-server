@@ -1,6 +1,30 @@
-// const serializeTypes = require('./helpers/serialization.js');
-//
-// console.log(serializeTypes['object']);
+const crypto = require('crypto');
+const conf = require('./conf.js');
+
+const TOKEN_LENGTH = 32;
+const ALPHA_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const ALPHA_LOWER = 'abcdefghijklmnopqrstuvwxyz';
+const ALPHA = ALPHA_UPPER + ALPHA_LOWER;
+const DIGIT = '0123456789';
+const ALPHA_DIGIT = ALPHA + DIGIT;
+
+const generateToken = () => {
+    const base = ALPHA_DIGIT.length;
+    let key = '';
+    for (let i = 0; i < TOKEN_LENGTH; i++) {
+        const index = Math.floor(Math.random() * base);
+        key += ALPHA_DIGIT[index];
+    }
+    return key;
+};
+
+const hash = () => {
+    const phrase = generateToken();
+    const hash = crypto.createHmac('sha256', conf.secret)
+        .update(phrase)
+        .digest('hex');
+    return hash;
+};
 
 const capitalizeFirstLetter = (string) => {
     if (typeof string !== 'string') {
@@ -94,4 +118,4 @@ const DTOFactory = (props => {
     return ret;
 });
 
-module.exports = { capitalizeFirstLetter, DTOFactory, log, start, end, getFunctionParams, getFunctionBody };
+module.exports = { capitalizeFirstLetter, DTOFactory, log, start, end, getFunctionParams, getFunctionBody, generateToken, hash };
