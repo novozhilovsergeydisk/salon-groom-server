@@ -1,0 +1,138 @@
+{% extends "templates/base.html" %}
+{% set title = "Форма авторизации" %}
+{% set _h1 = "Вход в трансплант.net" %}
+
+{% block content %}
+<div class="container">
+    <div class="">
+        <header id="header" class="header flex-item">
+            <a href="/"><img src="/img/logo.png" id="logo-pic" class="w-160"></a>
+
+            <h2 class="mt-10">{{ _h1 }}</h2>
+        </header>
+
+        <section id="section" class="section flex-item">
+            <form class="flex direction-col font-smaller form">
+                <input id="csrf_token" type="hidden" name="csrf_token" value="a2b2332f554e11597b128a133d767b8ca431796bc0bdb84887944f940e127c22">
+
+                <p id="error" class="error display-none"></p>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control display-block" id="email" placeholder="ваш email" name="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="pass">Пароль:</label>
+                    <div class="flex direction-row">
+                        <input type="password" class="form-control" id="pass" placeholder="ваш пароль" name="password" data-toggle="password">
+
+                        <div class="password-control">
+                            <span id="password-control" data-over="password_control" data-click="password_control" class="material-icons">visibility</span>
+                        </div>
+
+                        <!--<div id="password-show" class="password-control mt-5 display-block">-->
+                            <!--<a class="color-common" href="#">Показать пароль</a>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="checkbox" name="save" id="save" checked="checked" class="display-inline"> <span>Запомнить меня</span>
+                </div>
+
+                <!--<button type="submit" class="btn btn-primary" style="width:160px" onclick="login();return false">вход</button>-->
+
+                <div class="form-group">
+                    <a href="#" id="sign" data-href="/doc/quest/156" class="btn btn-common display-block">Войти</a>
+
+                    <p class="mt-6">
+                        <a class="color-common decoration-block-hover" href="/usr/pass/form">Не помню пароль</a>
+                    </p>
+                </div>
+
+            </form>
+        </section>
+
+        <footer id="footer" class="footer">
+            <a class="patient-library" href="/infoDoc/doca" target="_blank">
+                <span class="material-icons icon">library_books</span><span class="text"> Библиотека врача</span>
+            </a>
+
+            <a class="patient-library" href="/info" target="_blank">
+                <span class="material-icons icon">library_books</span>
+                <span class="text"> Библиотека пациента</span>
+            </a>
+
+            <div class="patient-library">
+                <span class="text">Техподдержка</span>
+                <span class="text">
+                    <script type="text/javascript">eval(unescape('%64%6f%63%75%6d%65%6e%74%2e%77%72%69%74%65%28%27%3c%61%20%68%72%65%66%3d%22%6d%61%69%6c%74%6f%3a%73%65%72%67%69%6f%6e%6f%76%40%6f%6e%63%6f%6e%65%74%2e%6f%6e%6c%69%6e%65%3f%73%75%62%6a%65%63%74%3d%25%44%31%25%38%32%25%44%31%25%38%30%25%44%30%25%42%30%25%44%30%25%42%44%25%44%31%25%38%31%25%44%30%25%42%46%25%44%30%25%42%42%25%44%30%25%42%30%25%44%30%25%42%44%25%44%31%25%38%32%2e%6e%65%74%22%20%3e%73%65%72%67%69%6f%6e%6f%76%40%6f%6e%63%6f%6e%65%74%2e%6f%6e%6c%69%6e%65%3c%2f%61%3e%27%29%3b'))</script>
+                </span>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<script>
+    // let handler = addEventListener;
+    //
+    // // handler('click', event);
+
+    // console.log({ 'handler ': handler('click', event)  });
+
+    const handler = ((event) => {
+        document.addEventListener(event, (e) => {
+            if (event === 'click') {
+                e.preventDefault();
+
+                const { click } = e.target.dataset;
+
+                if (click === 'password_control') {
+                    console.log({ 'click': click});
+                }
+            }
+
+            if (event === 'mouseover') {
+                // console.log(e.target.dataset);
+
+                const { over } = e.target.dataset;
+
+                if (over === 'password_control') {
+                    e.target.css
+                    console.log({ 'over': over});
+                }
+            }
+        });
+    });
+
+    handler('click');
+
+    handler('mouseover');
+
+
+    // const passwordInput = document.getElementById('pass');
+    // const passwordControl = document.getElementById('password-control');
+    //
+    // // console.log({ 'passwordInput': passwordInput });
+    //
+    // passwordControl.addEventListener('click', function(e) {
+    //     // console.log(e.target);
+    // });
+
+    // $('body').on('click', '.password-control', function(){
+    //     if ($('#password-input').attr('type') == 'password'){
+    //         $(this).html('Скрыть пароль');
+    //         $('#password-input').attr('type', 'text');
+    //     } else {
+    //         $(this).html('Показать пароль');
+    //         $('#password-input').attr('type', 'password');
+    //     }
+    //     return false;
+    // });
+</script>
+{% endblock %}
+
+<!--<div>-->
+<!--Пациент: {{ patient }}-->
+<!--</div>-->

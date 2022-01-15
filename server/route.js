@@ -1,13 +1,13 @@
 'use strict'
 
-const { SERVER_PATH } = require('../../constants.js');
+const { SERVER_PATH } = require('../constants.js');
 const { asyncLocalStorage } = require(SERVER_PATH + '/lib/Logger');
 const { DTOFactory, capitalizeFirstLetter, log } = require(SERVER_PATH + '/helpers');
-const { patientController, staticController } = require('../controllers/patients.js');
-const cabinetControllers = require('../controllers/cabinet.js');
-const reportsControllers = require('../controllers/reports.js');
+const { patientController, staticController } = require('./controllers/patients.js');
+// const cabinetControllers = require('../controllers/cabinet.js');
+// const reportsControllers = require('../controllers/reports.js');
 const { Auth } = require(SERVER_PATH + '/lib/auth.js');
-const mainControllers = require('../controllers/main.js');
+const mainControllers = require('./controllers/main.js');
 
 const auth = new Auth();
 
@@ -25,51 +25,29 @@ class Route {
 
         this.routing = {
             'GET': {
-                '/': patientController.main,
-                '/index': patientController.getAllPatients,
-                '/index/*': patientController.getAllPatients,
-                '/test': patientController.test,
-                '/patient/id/*': patientController.getPatient,
+                '/': mainControllers.index,
+                '/works': mainControllers.works,
+                '/price': mainControllers.price,
+                '/review': mainControllers.review,
+                '/masters': mainControllers.masters,
+                '/contacts': mainControllers.contacts,
                 '/api/activate/*': auth.activate,
                 '/api/refresh': auth.refresh,
-                '/api/cabinet/id/*': cabinetControllers.cabinet,
+                '/api/register': patientController.register,
                 '/css/*': staticController.staticContent,
                 '/js/*': staticController.staticContent,
                 '/img/*': staticController.staticContent,
-                '/api/register': patientController.register,
-                '/favicon.ico': staticController.staticContent,
-                '/reports/clinic': reportsControllers.clinic,
-                '/reports/clinic/*': reportsControllers.clinicById
-            },
-            'POST': {
-                '/api/register': patientController.register,
-                '/login': (client, par) => handler(client, 'main', 'login', par, {roles: ['admin']}),
-                '/logout': (client, par) => handler(client, 'main', 'logout', par, {roles: ['admin']})
-            }
-        };
-
-        this.routing__ = {
-            'GET': {
-                '/': patientController.main,
-                '/index': patientController.getAllPatients,
-                '/index/*': patientController.getAllPatients,
-                '/test': patientController.test,
-                '/patient/id/*': patientController.getPatient,
-                '/api/activate/*': auth.activate,
-                '/api/refresh': auth.refresh,
-                '/api/cabinet/id/*': cabinetControllers.cabinet,
-                '/css/*': staticController.staticContent,
-                '/js/*': staticController.staticContent,
                 '/images/*': staticController.staticContent,
-                '/api/register': patientController.register,
+                '/fonts/*': staticController.staticContent,
+                '/webfonts/*': staticController.staticContent,
                 '/favicon.ico': staticController.staticContent,
-                '/reports/clinic': reportsControllers.clinic,
-                '/reports/clinic/*': reportsControllers.clinicById
             },
             'POST': {
                 '/api/register': patientController.register,
-                '/login': (client, par) => handler(client, 'main', 'login', par, {roles: ['admin']}),
-                '/logut': (client, par) => handler(client, 'main', 'logout', par, {roles: ['admin']})
+                '/api/login': (client, par) => handler(client, 'main', 'login', par, {roles: ['admin']}),
+                '/api/logut': (client, par) => handler(client, 'main', 'logout', par, {roles: ['admin']}),
+                '/sendmail': mainControllers.send,
+                '/order': mainControllers.order,
             }
         };
 
@@ -121,9 +99,6 @@ class Route {
         this.renderer = renderer;
         this.client.par = par;
         this.par = par;
-
-        // console.log(this.renderer);
-
         const ret = this.renderer(this.route, this.par, this.client);
         return ret;
     }
