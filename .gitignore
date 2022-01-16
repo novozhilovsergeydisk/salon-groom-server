@@ -6,4 +6,3 @@ script.sql
 .idea/
 server/conf.js
 src/
-server/controllers
