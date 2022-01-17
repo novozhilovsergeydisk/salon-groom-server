@@ -2,7 +2,7 @@
 
 const http = require('http');
 const path = require('path');
-const Route = require('./routes.js');
+const Route = require('./route');
 const Client = require('./lib/Client.js');
 const { log, generateToken, hash } = require('./helpers.js');
 const conf = require('./conf.js');
@@ -37,11 +37,11 @@ function test(num) {
 
             const result = num * num;
             resolve(result);
-        }, 1000);
+        }, 100);
     });
 }
 
-test(79)
+test({})
     .then((result) => console.log(result))
     .catch((err) => console.error(err));
 

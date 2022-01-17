@@ -16,6 +16,8 @@ class reportsControllers {
     async clinicById(client) {
         const data = adminService.clinicById(client.par.value);
 
+        // log({ 'data XXX': data });
+
         const list =
         [
             { id: 62, name: 'ГБУЗ "НИИ-ККБ№1 им.проф.С.В.Очаповского" г.Краснодар', reg_time: '2019-07-08 23:40:48' },
@@ -32,7 +34,7 @@ class reportsControllers {
         ];
 
         const stream = data.then(clinics => {
-           // log({ clinics });
+           log({ clinics });
 
            const patients = [{ title: "Иванов", id: 1 }, { title: "Козлов", id: 2}, { title: "Гришин", id: 3}];
 

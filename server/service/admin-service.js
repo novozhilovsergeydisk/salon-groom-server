@@ -18,7 +18,7 @@ class AdminService {
             .where({'id': `<=59`})
             // .fields(['u.id, u.email'])
             .then(data => {
-                log({ data });
+                // log({ data });
 
                 // resolve(data);
             });
@@ -31,14 +31,14 @@ class AdminService {
     }
 
     clinicById(id) {
-        try {
-            const clinicList = new Promise((resolve) => {
+            const clinicList = new Promise((resolve, reject) => {
                 const sql = 'cabinet c';
-                const re = pg
+                pg
                     .select(sql)
                     .where({'id': `${id}`})
                     // .fields(['u.id, u.email'])
                     .then(result => {
+                        log({ 'typeof result': typeof result });
                         // log({ result });
                         // resolve(DTOFactory({ stream: result }));
 
@@ -47,13 +47,9 @@ class AdminService {
 
             });
 
-            // log(typeof clinicList);
+            // log({ clinicList });
 
             return clinicList;
-        } catch(e) {
-            log({ e });
-            return { error: e };
-        }
     }
 }
 
