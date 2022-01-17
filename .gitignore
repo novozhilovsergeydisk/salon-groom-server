@@ -8,6 +8,5 @@ server/conf.js
 server/controllers/**
 server/route.js
 server/routes.js
-views/**
 static/favicon.ico
 static/img/logo.png
