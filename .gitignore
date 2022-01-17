@@ -5,7 +5,7 @@ email.js
 script.sql
 .idea/
 server/conf.js
-server/controllers/
+server/controllers/**
 server/route.js
 server/routes.js
 views/**

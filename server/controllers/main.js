@@ -79,6 +79,7 @@ class mainControllers {
             password: "postgres@12345",
             port: 5432
         });
+        
         await client_pg.connect();
 
         // 1 select * from crm.clients where id = 1;
