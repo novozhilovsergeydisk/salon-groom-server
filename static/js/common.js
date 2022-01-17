@@ -1,5 +1,18 @@
 // Фунции общего применения
 
+const master_link = document.getElementById('master-link');
+console.log({ master_link });
+master_link.addEventListener('click', function() {
+    const body = document.getElementById('body');
+    body.classList.remove('lock');
+    const menu = document.getElementById('menu');
+    menu.classList.remove('active');
+    const header_burger = document.getElementById('header-burger');
+    header_burger.classList.remove('active');
+    console.log({ body });
+});
+
+
 const log = (log) => {
     console.log({ log });
 }

@@ -43,50 +43,5 @@
         {% endfor %}
     </div>
 
-    <div class="block">
-        <form class="">
-            <input id="csrf_token" type="hidden" name="csrf_token" value="a2b2332f554e11597b128a133d767b8ca431796bc0bdb84887944f940e127c22">
-
-            <p id="error" class="error display-none"></p>
-
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" class="form-control display-block" id="email" placeholder="ваш email" name="email">
-            </div>
-
-            <div class="form-group">
-                <label for="pass">Пароль:</label>
-                <div class="flex direction-row">
-                    <input type="password" class="form-control" id="pass" placeholder="ваш пароль" name="password" data-toggle="password">
-
-                    <div class="password-control">
-                        <span id="password-control" data-over="password_control" data-click="password_control" class="material-icons">visibility</span>
-                    </div>
-
-                    <!--<div id="password-show" class="password-control mt-5 display-block">-->
-                    <!--<a class="color-common" href="#">Показать пароль</a>-->
-                    <!--</div>-->
-                </div>
-            </div>
-
-            <div class="form-group">
-                <input type="checkbox" name="save" id="save" checked="checked" class="display-inline"> <span>Запомнить меня</span>
-            </div>
-
-            <!--<button type="submit" class="btn btn-primary" style="width:160px" onclick="login();return false">вход</button>-->
-
-            <div class="form-group">
-                <a href="#" id="sign" data-href="/doc/quest/156" class="btn btn-common display-block">Войти</a>
-
-                <p class="mt-6">
-                    <a class="color-common decoration-block-hover" href="/usr/pass/form">Не помню пароль</a>
-                </p>
-            </div>
-
-        </form>
-    </div
-
-    >
-
 </div>
 {% endblock %}
