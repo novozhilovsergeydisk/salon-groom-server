@@ -142,11 +142,24 @@ class Server {
     }
 
     execute(client) {
+        // return new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //         if (typeof num !== 'number') {
+        //             reject(new TypeError(`Expected number but got: ${typeof num}`));
+        //         }
+        //
+        //         const result = num * num;
+        //         resolve(result);
+        //     }, 100);
+        // });
+
         return Promise.resolve()
             .then(() => {
                 const resolve = new Route(client).resolve();
 
-                // log({ resolve });
+                log({ resolve });
+                log(resolve instanceof Promise );
+                log(typeof resolve);
 
                 return resolve;
             })

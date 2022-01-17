@@ -5,9 +5,9 @@ email.js
 script.sql
 .idea/
 server/conf.js
-src/
-controller/
-views/**
+server/controllers/
 server/route.js
+server/routes.js
+views/**
 static/favicon.ico
 static/img/logo.png

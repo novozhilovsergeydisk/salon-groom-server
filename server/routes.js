@@ -48,31 +48,6 @@ class Route {
             }
         };
 
-        this.routing__ = {
-            'GET': {
-                '/': patientController.main,
-                '/index': patientController.getAllPatients,
-                '/index/*': patientController.getAllPatients,
-                '/test': patientController.test,
-                '/patient/id/*': patientController.getPatient,
-                '/api/activate/*': auth.activate,
-                '/api/refresh': auth.refresh,
-                '/api/cabinet/id/*': cabinetControllers.cabinet,
-                '/css/*': staticController.staticContent,
-                '/js/*': staticController.staticContent,
-                '/images/*': staticController.staticContent,
-                '/api/register': patientController.register,
-                '/favicon.ico': staticController.staticContent,
-                '/reports/clinic': reportsControllers.clinic,
-                '/reports/clinic/*': reportsControllers.clinicById
-            },
-            'POST': {
-                '/api/register': patientController.register,
-                '/login': (client, par) => handler(client, 'main', 'login', par, {roles: ['admin']}),
-                '/logut': (client, par) => handler(client, 'main', 'logout', par, {roles: ['admin']})
-            }
-        };
-
         this.client = client;
         for (const key in this.routing[client.http_method]) {
             if (key.includes('*')) {
@@ -122,9 +97,12 @@ class Route {
         this.client.par = par;
         this.par = par;
 
-        // console.log(this.renderer);
+        // console.log(typeof this.renderer);
 
         const ret = this.renderer(this.route, this.par, this.client);
+
+        // console.log(ret instanceof Promise);
+
         return ret;
     }
 }

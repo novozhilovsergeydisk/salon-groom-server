@@ -181,3 +181,54 @@
     square__(77)
         .then((result) => console.log(result))
         .catch((err) => console.error(err));
+
+// 4. Генераторы событий
+// Другой шаблон, который можно использовать при работе с длительными асинхронными операциями, которые могут привести к множеству ошибок или результатов,
+// заключается в возврате EventEmitter из функции и создании события как в случае успеха, так и в случае неудачи. Пример этого кода показан ниже:
+
+    const { EventEmitter } = require('events');
+
+    function emitCount() {
+        const emitter = new EventEmitter();
+
+        let count = 0;
+        // Async operation
+        const interval = setInterval(() => {
+            count++;
+            if (count % 4 == 0) {
+                emitter.emit(
+                    'error',
+                    new Error(`Something went wrong on count: ${count}`)
+                );
+                return;
+            }
+            emitter.emit('success', count);
+
+            if (count === 10) {
+                clearInterval(interval);
+                emitter.emit('end');
+            }
+        }, 1000);
+
+        return emitter;
+    }
+
+// Функция emitCount() возвращает новый источник событий, который сообщает как об успехе, так и о сбое в асинхронной операции. Функция увеличивает переменную count
+// и генерирует событие success каждую секунду, а также событие error, если count делится на 4. Когда count достигает 10, генерируется событие end.
+// Этот шаблон позволяет выполнять потоковую передачу результатов по мере их поступления, а не ждать завершения всей операции.
+
+// Вот как вы можете обрабатывать и реагировать на каждое из событий, исходящих от функции emitCount():
+
+    const counter = emitCount();
+
+    counter.on('success', (count) => {
+        console.log(`Count is: ${count}`);
+    });
+
+    counter.on('error', (err) => {
+        console.error(err.message);
+    });
+
+    counter.on('end', () => {
+        console.info('Counter has ended');
+    });
