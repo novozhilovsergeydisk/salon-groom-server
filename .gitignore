@@ -2,11 +2,7 @@
 node_modules/
 formidable.js
 email.js
-script.sql
 .idea/
 server/conf.js
-server/controllers/**
-server/route.js
-server/routes.js
 static/favicon.ico
 static/img/logo.png
