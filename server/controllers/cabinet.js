@@ -1,5 +1,5 @@
 // const nunjucks = require('nunjucks');
-const userService = require('../service/user-service.js');
+const userService = require('../services/user-service.js');
 
 // Handlers
 class cabinetControllers {

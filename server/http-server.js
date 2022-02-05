@@ -3,52 +3,44 @@
 const http = require('http');
 const path = require('path');
 const Route = require('./routes.js');
-const Client = require('./lib/Client.js');
-const { log, generateToken, hash } = require('./helpers.js');
+const ClientApp = require('./lib/Client.js');
+const { notify, log, generateToken, hash } = require('./helpers.js');
 const conf = require('./conf.js');
-const { transporter } = require('./lib/Mailer.js');
+const { mail } = require('./services/mail-service.js');
 
-// const fs = require('fs');
-// const mime = require('mime');
-// const url = require('url');
-// const model = require('./lib/Model.js');
-// const { logger, asyncLocalStorage } = require('./lib/Logger');
-// log( conf.mailer_config );
+process.env.PGHOST='localhost';
+process.env.PGUSER='postgres';
+process.env.PGDATABASE='salon_groom';
+process.env.PGPASSWORD='postgres@12345';
+process.env.PGPORT=5432;
 
-// var faker = require('faker');
-// const randomName = faker.name.findName(); // Rowan Nikolaus
-// const randomEmail = faker.internet.email(); // Kassandra.Haley@erich.biz
-// const randomCard = faker.helpers.createCard(); // random contact card containing many properties
-// const randomImage = faker.image.fashion();
+// const Ajv = require("ajv")
+// const ajv = new Ajv() // options can be passed, e.g. {allErrors: true}
+//
+// const schema = {
+//     type: "object",
+//     properties: {
+//         foo: {type: "integer"},
+//         bar: {type: "string"}
+//     },
+//     required: ["foo", "bar"],
+//     additionalProperties: false
+// }
+//
+// const validate = ajv.compile(schema)
+//
+// const data = {
+//     foo: 1,
+//     bar: "mem"
+// }
+//
+// const valid = validate(data)
+// if (!valid) console.log(validate.errors)
 
-//log({ randomName, randomEmail, randomImage });
+// log(generateToken());
+// log(hash());
 
-// Вы можете использовать промисы в своих асинхронных функциях, возвращая промис из функции и помещая код функции в обратный вызов промиса.
-// Если есть ошибка, reject с объектом Error. В противном случае resolve промис с результатом, чтобы оно было доступно в цепочке метода .then
-// или непосредственно в качестве значения функции async при использовании async/await.
-
-function test(num) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if (typeof num !== 'number') {
-                //reject('error');
-                reject(new TypeError(`Expected number but got: ${typeof num}`));
-            }
-
-            const result = num * num;
-            resolve(result);
-        }, 1000);
-    });
-}
-
-test(79)
-    .then((result) => console.log(result))
-    .catch((err) => console.error(err));
-
-log(generateToken());
-
-log(hash());
-
+const cachedPromise = new Map();
 // const { Auth } = require('./lib/auth.js');
 const MIME_TYPES = {
     html: 'text/html; charset=UTF-8',
@@ -68,11 +60,11 @@ const MIME_TYPES = {
 // http://espressocode.top/http-headers-content-type/
 // https://nodejsdev.ru/doc/email/
 
-const CONTENT_TYPES = {
-    MILTIPART_FORMDATA: 'multipart/form-data',
-    MILTIPART_URLENCODED: 'application/x-www-form-urlencoded; charset=UTF-8',
-    APPLICATION_JSON: 'application/json'
-}
+// const CONTENT_TYPES = {
+//     MILTIPART_FORMDATA: 'multipart/form-data',
+//     MILTIPART_URLENCODED: 'application/x-www-form-urlencoded; charset=UTF-8',
+//     APPLICATION_JSON: 'application/json'
+// }
 
 // log(MIME_TYPES.html);
 
@@ -100,7 +92,7 @@ const reject = error => {
 const __404 = (client, res, info= null) => {
     res.setHeader('Content-Type', 'text/html; charset=UTF-8');
     res.statusCode = 404;
-    res.end('404 not found');
+    res.end(info);
     log('404 - ' + client.url);
 
     if (info) {
@@ -111,127 +103,142 @@ const __404 = (client, res, info= null) => {
             text: '404 - ' + info
         };
 
-        transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
+        mail.options(mailOptions);
+
+        mail.send();
     }
 };
-
-const send = ((mimeType, html, res) => {
-    res.setHeader('Content-Type', mimeType);
-    res.statusCode = 200;
-    res.end(html);
-});
 
 class Server {
     constructor() {};
 
-    make(client, res, req) {
-        try {
-            this.execute(client).then(data => {
-                // log({ data });
-                this.answerStrategy(client, data.stream, res, req);
-            });
-        } catch(err) {
-            log({ 'Error while execute()': err });
-        }
+    message(client, req) {
+        return req.headers.host + ' | ' + client.url + ' | ' + req.method + ' | ' + client.mimeType;
     }
 
-    execute(client) {
-        // return new Promise((resolve, reject) => {
-        //     setTimeout(() => {
-        //         if (typeof num !== 'number') {
-        //             reject(new TypeError(`Expected number but got: ${typeof num}`));
-        //         }
-        //
-        //         const result = num * num;
-        //         resolve(result);
-        //     }, 100);
-        // });
-
-        return Promise.resolve()
-            .then(() => {
-                const resolve = new Route(client).resolve();
-
-                log({ resolve });
-                log(resolve instanceof Promise );
-                log(typeof resolve);
-
-                return resolve;
-            })
-            // Здесь можно проверить аутентификацию, авторизацию пользователя
-            //
-            // .then(dat => {
-            //     // user.fullName = 'Новожилов Сергей';
-            //     // const isAuth = auth.login();
-            //     // log({ isAuth });
-            //
-            //     log({ dat });
-            //
-            //     return dat;
-            // })
-            .catch(err => {
-                console.log({ 'Error execute()': err });
-                return null;
-            });
-    }
-
-    answerStrategy(client, content, res, req = null) {
-        const isPromice = content instanceof Promise;
-        // const isObject = typeof content === 'object';
-        const info = req.headers.host + ' | ' + client.url + ' | ' + req.method + ' | ' + client.mimeType;
-        if (client.mimeType === MIME_TYPES.html) {
-            if (content === null || content === undefined) {
-                __404(client, res,  info);
-            } else {
-                if (isPromice) {
-                    content.then(data => {
-                        (data === null) ? __404(client, res, info) : send(client.mimeType, data, res);
-                    });
-                } else {
-                    const html = ((typeof content) ==='string' ) ? content : content.toString();
-                    send(client.mimeType, html, res);
-                }
-            }
-        } else {
-            if (isPromice) {
-                content
-                    .then(stream => {
-                        res.setHeader('Content-Type', client.mimeType);
-                        if (stream) {
-                            stream.pipe(res);
-                        } else {
-                            __404(client, res, info);
-                        }
-                    })
-                    .catch(error_stream => {
-                        __404(client, res, info); log({ 'error_stream': error_stream });
-                    });
-            } else {
-                __404(client, res, ' not promice');
-            }
-        }
-    }
+    response(mimeType, html, res, status = 200) {
+        res.setHeader('Content-Type', mimeType);
+        res.statusCode = status;
+        res.end(html);
+    };
 
     createServer(port, host) {
         const server = http.createServer(async (req, res) => {
-            // logger(req, res);
-            // req.log.info('something else');
+            if (req.method === 'GET') {
+                const { url } = req;
+                const fileExt = path.extname(url).substring(1);
+                const mimeType = MIME_TYPES[fileExt] || MIME_TYPES.html;
+                const client = new ClientApp(req.headers.host, req.method, url, fileExt, mimeType);
+                client.res = res;
+                // let body = null;
+                // let bodyArr = [];
+
+                console.time('route')
+                const resolve = new Route(client).resolve();
+
+                if (!(resolve instanceof Promise)) {
+                    __404(client, res, '404 not found')
+                } else {
+                    resolve.then(content => {
+                        const isPromice = content instanceof Promise;
+                        // const info = req.headers.host + ' | ' + client.url + ' | ' + req.method + ' | ' + client.mimeType;
+
+                        if (!(content instanceof Promise)) {
+                            if (content.stream instanceof Promise) {
+                                content.stream.then(stream => {
+                                    if ((typeof stream) === 'string') {
+                                        this.response(mimeType, stream, res);
+                                        // res.setHeader('Content-Type', mimeType);
+                                        // res.statusCode = 200;
+                                        // res.end(stream);
+                                    }
+                                    if (stream instanceof Object) {
+                                        stream.pipe(res);
+                                    }
+
+                                })
+                            } else {
+                                this.response(mimeType, content.stream, res);
+                                // res.setHeader('Content-Type', mimeType);
+                                // res.statusCode = 200;
+                                // res.end(content.stream);
+                            }
+
+                            // log({ 'content.status': content.status })
+                        }
+                        //
+
+                        // if (client.mimeType === MIME_TYPES.html) {
+                        //     if (content === null || content === undefined) {
+                        //         // log({ content })
+                        //         // __404(client, res,  this.message(client, req));
+                        //     } else {
+                        //         // log({ mimeType })
+                        //     }
+                        //     //     if (isPromice) {
+                        //     //         content.then(data => {
+                        //     //             console.time('cached-promise');
+                        //     //             (data === null) ? __404(client, res, info) : this.header(client.mimeType, data, res);
+                        //     //             console.timeEnd('cached-promise');
+                        //     //         });
+                        //     //     } else {
+                        //     //         console.time('cached-no-promise');
+                        //     //         const html = ((typeof content) ==='string' ) ? content : content.toString();
+                        //     //         this.header(client.mimeType, html, res);
+                        //     //         console.timeEnd('cached-no-promise');
+                        //     //     }
+                        //     // }
+                        // } else {
+                        //     if (isPromice) {
+                        //         // log({ mimeType })
+                        //
+                        //         // content
+                        //         //     .then(stream => {
+                        //         //         res.setHeader('Content-Type', client.mimeType);
+                        //         //         if (stream) {
+                        //         //             stream.pipe(res);
+                        //         //         } else {
+                        //         //             __404(client, res, info);
+                        //         //         }
+                        //         //     })
+                        //         //     .catch(error_stream => {
+                        //         //         __404(client, res, info); log({ 'error_stream': error_stream });
+                        //         //     });
+                        //     } else {
+                        //         // log({ url })
+                        //         // log({ mimeType })
+                        //         // log({ content })
+                        //         // __404(client, res, ' not promice');
+                        //     }
+                        // }
+
+                        // res.setHeader('Content-Type', mimeType);
+                        // res.statusCode = 200;
+                        // res.end('<h3>transplant</h3>');
+                    })
+                }
+
+                console.timeEnd('route')
+
+                // res.setHeader('Content-Type', MIME_TYPES.html);
+                // res.statusCode = 200;
+                // res.end('<h1>header</h1>');
+
+                // console.timeEnd('chain')
+            }
+
             const { url } = req;
             const fileExt = path.extname(url).substring(1);
             const mimeType = MIME_TYPES[fileExt] || MIME_TYPES.html;
-            const client = new Client(req.headers.host, req.method, url, fileExt, mimeType);
-            let body = '';
+            const client = new ClientApp(req.headers.host, req.method, url, fileExt, mimeType);
+            let body = null;
+            let bodyArr = [];
 
             if (req.method === 'POST') {
                 req.on('data', chunk => {
-                    const contentType = req.headers["content-type"];
+                    bodyArr.push(chunk);
 
-                    // log({ contentType });
+                    // const contentType = req.headers["content-type"];
 
                     // if (contentType === CONTENT_TYPES.MILTIPART_FORMDATA) {
                     //     log('MILTIPART_FORMDATA');
@@ -239,7 +246,7 @@ class Server {
                     //     body += chunk.toString(); // convert Buffer to string
                     //     client.body = body;
                     // }
-                    //
+                    // application/x-www-form-urlencoded
                     // if (contentType === CONTENT_TYPES.MILTIPART_URLENCODED) {
                     //     log('MILTIPART_URLENCODED');
                     //     log({ chunk });
@@ -259,36 +266,221 @@ class Server {
                     //     client.body = body;
                     // }
 
-                    body += chunk.toString(); // convert Buffer to string
+                    // body += chunk.toString(); // convert Buffer to string
+                });
+
+                req.on('end', function() {
+                    const urlencoded = req.method === 'POST' && req.headers["content-type"] === 'application/x-www-form-urlencoded';
+                    if (urlencoded) {
+                        // let body = [];
+                        // request.on('data', (chunk) => {
+                        //     body.push(chunk);
+                        // }).on('end', () => {
+                        //     body = Buffer.concat(body).toString();
+                        //     // at this point, `body` has the entire request body stored in it as a string
+                        // });
+                        body = Buffer.concat(bodyArr).toString();
+                        client.body = body;
+                        const resolve = new Route(client).resolve();
+                        resolve.renderer(resolve.route, undefined, client).then(Promise => {
+                            Promise.data.then(data => {
+                                // log({ data })
+
+
+                                data.order.then(fd => {
+                                    log(fd)
+                                    log(data.client)
+                                    const order = fd[0];
+                                    const client = data.client;
+                                    const response = { status: 'success', order: { id: order.id, created_at: order.created_at }, client: { name: client.name, phone: client.phone } }
+                                    const info = JSON.stringify(response);
+                                    notify(info);
+                                    res.setHeader('Content-Type', mimeType);
+                                    res.statusCode = 200;
+                                    res.end(JSON.stringify(response));
+                                })
+                            })
+
+                            // notify('OK')
+                            // log({ data })
+                            // res.setHeader('Content-Type', mimeType);
+                            // res.statusCode = 200;
+                            // res.end(JSON.stringify(data));
+
+                            // log({ data })
+                        })
+                        .catch(error => log({ error }))
+                    }
                 });
             }
 
-            if (req.method === 'GET') {
-                this.make(client, res, req);
-            }
-
-            req.on('end', function() {
-                if (req.method === 'POST') {
-                    client.body = body;
-                    return Promise.resolve()
-                        .then(() => {
-                            const resolve = new Route(client).resolve();
-                            resolve.then(data => {
-                                res.setHeader('Content-Type', mimeType);
-                                res.statusCode = 200;
-                                res.end(JSON.stringify(data));
-                            });
-                            return resolve;
-                        })
-                        .catch(err => {
-                            console.log({ 'Error execute()': err });
-                            return null;
-                        });
-                }
-            });
+//             // logger(req, res);
+//             // req.log.info('something else');
+//             const { url } = req;
+//             const fileExt = path.extname(url).substring(1);
+//             const mimeType = MIME_TYPES[fileExt] || MIME_TYPES.html;
+//             const client = new ClientApp(req.headers.host, req.method, url, fileExt, mimeType);
+//             let body = null;
+//             let bodyArr = [];
+//
+//             if (req.method === 'POST') {
+//                 req.on('data', chunk => {
+//                     bodyArr.push(chunk);
+//
+//                     // const contentType = req.headers["content-type"];
+//
+//                     // if (contentType === CONTENT_TYPES.MILTIPART_FORMDATA) {
+//                     //     log('MILTIPART_FORMDATA');
+//                     //     log({ chunk });
+//                     //     body += chunk.toString(); // convert Buffer to string
+//                     //     client.body = body;
+//                     // }
+//                     // application/x-www-form-urlencoded
+//                     // if (contentType === CONTENT_TYPES.MILTIPART_URLENCODED) {
+//                     //     log('MILTIPART_URLENCODED');
+//                     //     log({ chunk });
+//                     //
+//                     //     body += chunk.toString(); // convert Buffer to string
+//                     // }
+//                     //
+//                     // /*const bodyArr = body.split('&');
+//                     //
+//                     // const jsonString = JSON.stringify(Object.assign({}, bodyArr))
+//                     //
+//                     // log({ jsonString });*/
+//                     //
+//                     // if (contentType === CONTENT_TYPES.APPLICATION_JSON) {
+//                     //     log({ chunk });
+//                     //     body += chunk.toString(); // convert Buffer to string
+//                     //     client.body = body;
+//                     // }
+//
+//                     // body += chunk.toString(); // convert Buffer to string
+//                 });
+//             }
+//
+//             if (req.method === 'GET') {
+//                 // const memoize = cache.memoize(this.renderer);
+//                 //
+//                 // log({ memoize });
+//                 //
+//                 // memoize(this.route, this.par, this.client);
+//                 // console.time('send');
+//
+//
+//
+//                 // this.send(client, res, req);
+//
+//
+//                 if (req.method === 'GET') {
+//                     console.time('chain')
+//                     try {
+//
+//                         this.header(client.mimeType, '<h1>header</h1>', res);
+//
+//                         // this.chain(client).then(data => {
+//                         //     // log({ data });
+//                         //     this.answerStrategy(client, data.stream, res, req);
+//                         // });
+//                     } catch(err) {
+//                         log({ 'Error while chain()': err });
+//                     }
+//                     console.timeEnd('chain')
+//                 }
+//
+//                 // let map = new Map();
+//
+//                 // if (!cached.has(url)) {
+//                 //     cached.set(url, url);
+//                 //     // log({ url });
+//                 // }
+//
+//
+//                 // map.set("1", "str1");    // строка в качестве ключа
+//                 // map.set(1, "num1");      // цифра как ключ
+//                 // map.set(true, "bool1");  // булево значение как ключ
+//
+// // помните, обычный объект Object приводит ключи к строкам?
+// // Map сохраняет тип ключей, так что в этом случае сохранится 2 разных значения:
+// //                 alert(map.get(1)); // "num1"
+// //                 alert(map.get("1")); // "str1"
+//
+//                 log(cached.size); // 3
+//
+//                 // cached.forEach((v, k) => {
+//                 //     log(k + '=' + v);
+//                 // })
+//
+//                 // log({ url });
+//                 // console.timeEnd('send');
+//                 // log('---------------');
+//             }
+//
+//             req.on('end', function() {
+//                 const urlencoded = req.method === 'POST' && req.headers["content-type"] === 'application/x-www-form-urlencoded';
+//                 if (urlencoded) {
+//
+//                     // let body = [];
+//
+//                     // request.on('data', (chunk) => {
+//                     //     body.push(chunk);
+//                     // }).on('end', () => {
+//                     //     body = Buffer.concat(body).toString();
+//                     //     // at this point, `body` has the entire request body stored in it as a string
+//                     // });
+//
+//                     body = toObj(bodyArr);
+//                     client.body = body;
+//
+//                     // log(body.toString());
+//
+//                     // res.setHeader('Content-Type', mimeType);
+//                     // res.statusCode = 200;
+//                     // res.end(JSON.stringify(body));
+//                     //
+//                     // log(req.headers["content-type"]);
+//
+//                     const send = (() => {
+//                         return Promise.resolve()
+//                             .then(() => {
+//                                 // console.time('resolve');
+//                                 const resolve = new Route(client).resolve();
+//                                 // console.timeEnd('resolve');
+//                                 if (resolve.status === '404 not found') {
+//                                     const info = req.headers.host + ' | ' + client.url + ' | ' + req.method + ' | ' + client.mimeType;
+//                                     __404(client, res, info);
+//                                     return;
+//                                 }
+//
+//                                 // log({ resolve });
+//                                 // log('OK');
+//
+//                                 resolve.then(data => {
+//
+//                                     // const stream = data.stream;
+//
+//                                     // log({ stream });
+//
+//                                     res.setHeader('Content-Type', mimeType);
+//                                     res.statusCode = 200;
+//                                     res.end(JSON.stringify(data));
+//                                 });
+//                                 return;
+//                                 // return resolve;
+//                             })
+//                             .catch(err => {
+//                                 console.log({ 'Error chain()': err });
+//                                 return null;
+//                             });
+//                     });
+//
+//                     return send();
+//                 }
+//             });
         });
 
         server.on('request', function(req, res) {
+            log('request')
             // logger.run(req, res);
         });
 

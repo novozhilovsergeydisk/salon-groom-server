@@ -634,37 +634,85 @@ $(document).ready(function () {
 
         console.log('Сообщение отправлено!');
 
-        $.ajax({
-            type: 'POST',
-            url: '/order',
-            data: $('#contactform').serialize(),
-            success: function (data) {
-                console.log('order');
-                const res = JSON.parse(data);
-                console.log(res);
-                console.log(res.status);
+        // console.log($('#contactform').serialize());
+        //
+        // console.log(decodeURIComponent('%2B'));
 
-                if (data.result == 'success') {
-                    codeTarget(70137172, 'nazhatie-na-knopku-zapis');
-                    googleConvertionTarget();
+        // Пример отправки POST запроса:
+        async function postData(url = '', data = {}) {
+            // Default options are marked with *
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    //'Content-Type': 'application/json'
+                     'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *client
+                body: data
+                // body: JSON.stringify(data) // body data type must match "Content-Type" header
+            });
+            return await response.json(); // parses JSON response into native JavaScript objects
+        }
 
-                    // console.log('data.result = ', data.result);
+        const clientName = document.getElementById('name').value;
+        const clientPhone = document.getElementById('phone').value;
+        const dataRequest = 'name=' + clientName + '&' + 'phone=' + clientPhone;
+        const data = dataRequest; //'name=admin&phone=+7(916)346-5407';
 
-                    $('#senderror').hide();
-                    $('#sendmessage').show();
-                    $('#contactform')[0].reset();
+        postData('/order', data) // $('#contactform').serialize()
+            .then((data) => {
+                if (data.status === 'success') {
+                    document.getElementById('name').value = '';
+                    document.getElementById('phone').value = '';
+                    document.getElementById('senderror').innerText = '';
+                    const endmessage = document.getElementById('sendmessage');
+                    endmessage.classList.remove('hidden');
+                    endmessage.innerText = 'Ваша заявка принята';
+                    console.log('success')
                 }
+                console.log({ data }); // JSON data parsed by `response.json()` call
+            });
 
-                if (data.result == 'failed') {
-                    console.log('data = ', data);
-                    $('#senderror').show();
-                    $('#sendmessage').hide();
-                }
-            },
-            error: function () {
-                console.log('error ajax');
-            }
-        });
+        // postData('https://example.com/answer', { answer: 42 })
+        //     .then((data) => {
+        //         console.log(data); // JSON data parsed by `response.json()` call
+        //     });
+
+        // $.ajax({
+        //     type: 'POST',
+        //     url: '/order',
+        //     data: $('#contactform').serialize(),
+        //     success: function (data) {
+        //         console.log('order');
+        //         const res = JSON.parse(data);
+        //         console.log(res);
+        //         console.log(res.status);
+        //
+        //         if (data.result == 'success') {
+        //             codeTarget(70137172, 'nazhatie-na-knopku-zapis');
+        //             googleConvertionTarget();
+        //
+        //             // console.log('data.result = ', data.result);
+        //
+        //             $('#senderror').hide();
+        //             $('#sendmessage').show();
+        //             $('#contactform')[0].reset();
+        //         }
+        //
+        //         if (data.result == 'failed') {
+        //             console.log('data = ', data);
+        //             $('#senderror').show();
+        //             $('#sendmessage').hide();
+        //         }
+        //     },
+        //     error: function () {
+        //         console.log('error ajax');
+        //     }
+        // });
     });
 });
 

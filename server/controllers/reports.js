@@ -1,6 +1,6 @@
 const nunjucks = require('nunjucks');
 // const userService = require('../service/user-service.js');
-const adminService = require('../service/admin-service.js');
+const adminService = require('../services/admin-service.js');
 const { DTOFactory, getFunctionParams, log } = require('../helpers.js');
 const { VIEWS_PATH } = require('../../constants.js');
 

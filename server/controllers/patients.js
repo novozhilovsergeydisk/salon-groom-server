@@ -3,7 +3,7 @@ const fs = require('fs');
 const { DTOFactory, log } = require('../helpers.js');
 const { VIEWS_PATH, STATIC_PATH } = require('../../constants.js');
 const nunjucks = require('nunjucks');
-const userService = require('../service/user-service.js');
+const userService = require('../services/user-service.js');
 const { parse } = require('querystring');
 
 // const userService = new UserService();

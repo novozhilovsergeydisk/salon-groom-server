@@ -4,7 +4,7 @@ const { Client, Pool } = require('pg');
 const { DTOFactory, log, generateToken, hash } = require('../helpers.js');
 const { VIEWS_PATH, STATIC_PATH } = require('../../constants.js');
 const nunjucks = require('nunjucks');
-const userService = require('../service/user-service.js');
+const userService = require('../services/user-service.js');
 const conf = require('../conf.js');
 // const { parse } = require('querystring');
 
@@ -51,6 +51,8 @@ let patients = [
 // Handlers
 class mainControllers {
     async order(client) {
+
+
         const body = decodeURIComponent(client.body);
 
         // log({ body });

@@ -5,9 +5,9 @@ const { asyncLocalStorage } = require(SERVER_PATH + '/lib/Logger');
 const { DTOFactory, capitalizeFirstLetter, log } = require(SERVER_PATH + '/helpers');
 const { patientController, staticController } = require('./controllers/patients.js');
 const cabinetControllers = require('./controllers/cabinet.js');
-const reportsControllers = require('./controllers/reports.js');
+const reportsControllers = require('./controllers/reports/index.js');
 const { Auth } = require(SERVER_PATH + '/lib/auth.js');
-const mainControllers = require('./controllers/main.js');
+const mainControllers = require('./controllers/main/index.js');
 
 const auth = new Auth();
 
@@ -41,13 +41,14 @@ class Route {
                 '/fonts/*': staticController.staticContent,
                 '/webfonts/*': staticController.staticContent,
                 '/favicon.ico': staticController.staticContent,
+                '/client/add': reportsControllers.addClient
             },
             'POST': {
                 '/api/register': patientController.register,
                 '/api/login': (client, par) => handler(client, 'main', 'login', par, {roles: ['admin']}),
                 '/api/logut': (client, par) => handler(client, 'main', 'logout', par, {roles: ['admin']}),
                 '/sendmail': mainControllers.send,
-                '/order': mainControllers.order,
+                '/order': mainControllers.order
             }
         };
 
@@ -60,10 +61,6 @@ class Route {
                 delete this.routing[client.http_method][key];
             }
         }
-    }
-
-    test() {
-        log('test');
     }
 
     resolve() {
@@ -97,16 +94,24 @@ class Route {
         }
         this.route = route;
         this.renderer = renderer;
+
+        //
+
+
+
+        //
+
         this.client.par = par;
         this.par = par;
 
-        // console.log(typeof this.renderer);
+        if (http_method === 'GET') {
+            const ret = this.renderer(this.route, this.par, this.client);
+            return ret;
+        }
 
-        const ret = this.renderer(this.route, this.par, this.client);
-
-        // console.log(ret instanceof Promise);
-
-        return ret;
+        if (http_method === 'POST') {
+            return this;
+        }
     }
 }
 
