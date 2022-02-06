@@ -6425,10 +6425,11 @@ label {
     font-size: 25px;
     font-family: "bebas-ciryllic";
 	color: white;
-	background: #14490D;
-	background: -webkit-linear-gradient(bottom, #14490D, #27BE12);
-	background: -moz-linear-gradient(bottom, #14490D, #27BE12);
-	background: linear-gradient(to top, #14490D, #27BE12);
+	background: #7eb377;
+	/*background: #14490D;*/
+	/*background: -webkit-linear-gradient(bottom, #14490D, #27BE12);*/
+	/*background: -moz-linear-gradient(bottom, #14490D, #27BE12);*/
+	/*background: linear-gradient(to top, #14490D, #27BE12);*/
     /*color: #8708fe;*/
     /*background-color: #f8d90c;*/
     text-align: center;
@@ -6437,10 +6438,11 @@ label {
 }
 
 .time-section .btn-cats:hover {
-	background: #14490D;
-	background: -webkit-linear-gradient(bottom, #14490D, #3DA32F);
-	background: -moz-linear-gradient(bottom, #14490D, #3DA32F);
-	background: linear-gradient(to top, #14490D, #3DA32F);
+	background: #6e9769;
+	/*background: #14490D;*/
+	/*background: -webkit-linear-gradient(bottom, #14490D, #3DA32F);*/
+	/*background: -moz-linear-gradient(bottom, #14490D, #3DA32F);*/
+	/*background: linear-gradient(to top, #14490D, #3DA32F);*/
 }
 
 .time-section .btn-cats:active, .time-section .btn-cats:focus {
@@ -6957,7 +6959,8 @@ label {
         color: #726f74;
     }
     .section-recording .recording .time-section .btn-cats {
-        color: #8708fe;
+		color: white;
+        /*color: #8708fe;*/
     }
     .section-img img {
         max-width: 400px;
