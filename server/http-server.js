@@ -50,7 +50,7 @@ const MIME_TYPES = {
     jpeg: 'image/jpeg',
     jpg: 'image/jpeg',
     ico:  'image/x-icon',
-    svg:  'image/svg+xml',
+    svg:  'application/xhtml+xml',
     woff: 'application/x-font-woff',
     woff2: 'application/x-font-woff2',
     ttf: 'application/x-font-ttf',
@@ -100,7 +100,7 @@ const __404 = (client, res, info= null) => {
             from: conf.mailOptions.from,
             to: conf.mailOptions.to,
             subject: conf.mailOptions.subject,
-            text: '404 - ' + info
+            text: '404 - ' + client.url
         };
 
         mail.options(mailOptions);
@@ -146,6 +146,8 @@ class Server {
                         if (!(content instanceof Promise)) {
                             if (content.stream instanceof Promise) {
                                 content.stream.then(stream => {
+
+
                                     if ((typeof stream) === 'string') {
                                         this.response(mimeType, stream, res);
                                         // res.setHeader('Content-Type', mimeType);
@@ -153,6 +155,8 @@ class Server {
                                         // res.end(stream);
                                     }
                                     if (stream instanceof Object) {
+                                        log({ url, mimeType })
+
                                         stream.pipe(res);
                                     }
 
