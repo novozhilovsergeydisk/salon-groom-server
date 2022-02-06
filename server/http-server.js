@@ -227,70 +227,25 @@ class Server {
                 // console.timeEnd('chain')
             }
 
-            const { url } = req;
-            const fileExt = path.extname(url).substring(1);
-            const mimeType = MIME_TYPES[fileExt] || MIME_TYPES.html;
-            const client = new ClientApp(req.headers.host, req.method, url, fileExt, mimeType);
-            let body = null;
-            let bodyArr = [];
-
             if (req.method === 'POST') {
+                const { url } = req;
+                const fileExt = path.extname(url).substring(1);
+                const mimeType = MIME_TYPES[fileExt] || MIME_TYPES.html;
+                const client = new ClientApp(req.headers.host, req.method, url, fileExt, mimeType);
+                let body = null;
+                let bodyArr = [];
                 req.on('data', chunk => {
                     bodyArr.push(chunk);
-
-                    // const contentType = req.headers["content-type"];
-
-                    // if (contentType === CONTENT_TYPES.MILTIPART_FORMDATA) {
-                    //     log('MILTIPART_FORMDATA');
-                    //     log({ chunk });
-                    //     body += chunk.toString(); // convert Buffer to string
-                    //     client.body = body;
-                    // }
-                    // application/x-www-form-urlencoded
-                    // if (contentType === CONTENT_TYPES.MILTIPART_URLENCODED) {
-                    //     log('MILTIPART_URLENCODED');
-                    //     log({ chunk });
-                    //
-                    //     body += chunk.toString(); // convert Buffer to string
-                    // }
-                    //
-                    // /*const bodyArr = body.split('&');
-                    //
-                    // const jsonString = JSON.stringify(Object.assign({}, bodyArr))
-                    //
-                    // log({ jsonString });*/
-                    //
-                    // if (contentType === CONTENT_TYPES.APPLICATION_JSON) {
-                    //     log({ chunk });
-                    //     body += chunk.toString(); // convert Buffer to string
-                    //     client.body = body;
-                    // }
-
-                    // body += chunk.toString(); // convert Buffer to string
                 });
-
                 req.on('end', function() {
                     const urlencoded = req.method === 'POST' && req.headers["content-type"] === 'application/x-www-form-urlencoded';
                     if (urlencoded) {
-                        // let body = [];
-                        // request.on('data', (chunk) => {
-                        //     body.push(chunk);
-                        // }).on('end', () => {
-                        //     body = Buffer.concat(body).toString();
-                        //     // at this point, `body` has the entire request body stored in it as a string
-                        // });
                         body = Buffer.concat(bodyArr).toString();
                         client.body = body;
                         const resolve = new Route(client).resolve();
                         resolve.renderer(resolve.route, undefined, client).then(Promise => {
                             Promise.data.then(data => {
-                                // log({ data })
-
-
                                 data.order.then(fd => {
-                                    // log(fd)
-                                    // log(data.client)
-                                    // log({ fd })
                                     const order = fd[0];
                                     const client = data.client;
                                     const response = { status: 'success', order: { id: order.id, created_at: order.created_at }, client: { name: client.name, phone: client.phone } }
@@ -301,189 +256,15 @@ class Server {
                                     res.end(JSON.stringify(response));
                                 })
                             })
-
-                            // notify('OK')
-                            // log({ data })
-                            // res.setHeader('Content-Type', mimeType);
-                            // res.statusCode = 200;
-                            // res.end(JSON.stringify(data));
-
-                            // log({ data })
                         })
                         .catch(error => log({ error }))
                     }
                 });
             }
-
-//             // logger(req, res);
-//             // req.log.info('something else');
-//             const { url } = req;
-//             const fileExt = path.extname(url).substring(1);
-//             const mimeType = MIME_TYPES[fileExt] || MIME_TYPES.html;
-//             const client = new ClientApp(req.headers.host, req.method, url, fileExt, mimeType);
-//             let body = null;
-//             let bodyArr = [];
-//
-//             if (req.method === 'POST') {
-//                 req.on('data', chunk => {
-//                     bodyArr.push(chunk);
-//
-//                     // const contentType = req.headers["content-type"];
-//
-//                     // if (contentType === CONTENT_TYPES.MILTIPART_FORMDATA) {
-//                     //     log('MILTIPART_FORMDATA');
-//                     //     log({ chunk });
-//                     //     body += chunk.toString(); // convert Buffer to string
-//                     //     client.body = body;
-//                     // }
-//                     // application/x-www-form-urlencoded
-//                     // if (contentType === CONTENT_TYPES.MILTIPART_URLENCODED) {
-//                     //     log('MILTIPART_URLENCODED');
-//                     //     log({ chunk });
-//                     //
-//                     //     body += chunk.toString(); // convert Buffer to string
-//                     // }
-//                     //
-//                     // /*const bodyArr = body.split('&');
-//                     //
-//                     // const jsonString = JSON.stringify(Object.assign({}, bodyArr))
-//                     //
-//                     // log({ jsonString });*/
-//                     //
-//                     // if (contentType === CONTENT_TYPES.APPLICATION_JSON) {
-//                     //     log({ chunk });
-//                     //     body += chunk.toString(); // convert Buffer to string
-//                     //     client.body = body;
-//                     // }
-//
-//                     // body += chunk.toString(); // convert Buffer to string
-//                 });
-//             }
-//
-//             if (req.method === 'GET') {
-//                 // const memoize = cache.memoize(this.renderer);
-//                 //
-//                 // log({ memoize });
-//                 //
-//                 // memoize(this.route, this.par, this.client);
-//                 // console.time('send');
-//
-//
-//
-//                 // this.send(client, res, req);
-//
-//
-//                 if (req.method === 'GET') {
-//                     console.time('chain')
-//                     try {
-//
-//                         this.header(client.mimeType, '<h1>header</h1>', res);
-//
-//                         // this.chain(client).then(data => {
-//                         //     // log({ data });
-//                         //     this.answerStrategy(client, data.stream, res, req);
-//                         // });
-//                     } catch(err) {
-//                         log({ 'Error while chain()': err });
-//                     }
-//                     console.timeEnd('chain')
-//                 }
-//
-//                 // let map = new Map();
-//
-//                 // if (!cached.has(url)) {
-//                 //     cached.set(url, url);
-//                 //     // log({ url });
-//                 // }
-//
-//
-//                 // map.set("1", "str1");    // строка в качестве ключа
-//                 // map.set(1, "num1");      // цифра как ключ
-//                 // map.set(true, "bool1");  // булево значение как ключ
-//
-// // помните, обычный объект Object приводит ключи к строкам?
-// // Map сохраняет тип ключей, так что в этом случае сохранится 2 разных значения:
-// //                 alert(map.get(1)); // "num1"
-// //                 alert(map.get("1")); // "str1"
-//
-//                 log(cached.size); // 3
-//
-//                 // cached.forEach((v, k) => {
-//                 //     log(k + '=' + v);
-//                 // })
-//
-//                 // log({ url });
-//                 // console.timeEnd('send');
-//                 // log('---------------');
-//             }
-//
-//             req.on('end', function() {
-//                 const urlencoded = req.method === 'POST' && req.headers["content-type"] === 'application/x-www-form-urlencoded';
-//                 if (urlencoded) {
-//
-//                     // let body = [];
-//
-//                     // request.on('data', (chunk) => {
-//                     //     body.push(chunk);
-//                     // }).on('end', () => {
-//                     //     body = Buffer.concat(body).toString();
-//                     //     // at this point, `body` has the entire request body stored in it as a string
-//                     // });
-//
-//                     body = toObj(bodyArr);
-//                     client.body = body;
-//
-//                     // log(body.toString());
-//
-//                     // res.setHeader('Content-Type', mimeType);
-//                     // res.statusCode = 200;
-//                     // res.end(JSON.stringify(body));
-//                     //
-//                     // log(req.headers["content-type"]);
-//
-//                     const send = (() => {
-//                         return Promise.resolve()
-//                             .then(() => {
-//                                 // console.time('resolve');
-//                                 const resolve = new Route(client).resolve();
-//                                 // console.timeEnd('resolve');
-//                                 if (resolve.status === '404 not found') {
-//                                     const info = req.headers.host + ' | ' + client.url + ' | ' + req.method + ' | ' + client.mimeType;
-//                                     __404(client, res, info);
-//                                     return;
-//                                 }
-//
-//                                 // log({ resolve });
-//                                 // log('OK');
-//
-//                                 resolve.then(data => {
-//
-//                                     // const stream = data.stream;
-//
-//                                     // log({ stream });
-//
-//                                     res.setHeader('Content-Type', mimeType);
-//                                     res.statusCode = 200;
-//                                     res.end(JSON.stringify(data));
-//                                 });
-//                                 return;
-//                                 // return resolve;
-//                             })
-//                             .catch(err => {
-//                                 console.log({ 'Error chain()': err });
-//                                 return null;
-//                             });
-//                     });
-//
-//                     return send();
-//                 }
-//             });
         });
 
         server.on('request', function(req, res) {
-            log(req.url)
-            // log('request')
-            // logger.run(req, res);
+            // log(req.url)
         });
 
         server.listen(port, host, () => {

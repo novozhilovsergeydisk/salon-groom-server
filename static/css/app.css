@@ -5956,22 +5956,48 @@ nav.dot-vrt-nav a {
 }
 
 .header .btn-section {
-    right: 20%;
+    right: 2%;
+	bottom: 5%;
     position: fixed;
     -ms-flex-item-align: end;
     align-self: flex-end;
     z-index: 100;
-    margin-bottom: 40px;
+    /*margin-bottom: 40px;*/
 }
 
 .header .btn-section .btn {
-    background-color: #f8d90c;
-    border-radius: 5px;
-    padding: 8px 20px;
+	outline: none;
+	background: #7eb377;
+	/*background: -webkit-linear-gradient(bottom, #14490D, #27BE12);*/
+	/*background: -moz-linear-gradient(bottom, #14490D, #27BE12);*/
+	/*background: linear-gradient(to top, #14490D, #27BE12);*/
+    /*background-color: #f8d90c;*/
+    /*border-radius: 5px;*/
+    padding: 11px 5px 37px 5px;
     height: 50px;
-    color: #6211c9;
-    font-size: 25px;
+	color: white;
+    /*color: #6211c9;*/
+    font-size: 23px;
     font-family: "bebas-ciryllic";
+	width: 200px;
+}
+
+.header .btn-section .btn:hover {
+	background: #6b9965;
+	/*background: -webkit-linear-gradient(bottom, #14490D, #3DA32F);*/
+	/*background: -moz-linear-gradient(bottom, #14490D, #3DA32F);*/
+	/*background: linear-gradient(to top, #14490D, #3DA32F);*/
+}
+
+.header .btn-section .btn:active {
+	background: #6e9769;
+	outline: none;
+}
+
+.header .btn-section .btn:focus {
+	background: #6e9769;
+	outline: none !important;
+	border: #6e9769 !important;
 }
 
 .header_list {
@@ -6396,13 +6422,29 @@ label {
 }
 
 .time-section .btn-cats {
-    font-size: 29px;
+    font-size: 25px;
     font-family: "bebas-ciryllic";
-    color: #8708fe;
-    background-color: #f8d90c;
+	color: white;
+	background: #14490D;
+	background: -webkit-linear-gradient(bottom, #14490D, #27BE12);
+	background: -moz-linear-gradient(bottom, #14490D, #27BE12);
+	background: linear-gradient(to top, #14490D, #27BE12);
+    /*color: #8708fe;*/
+    /*background-color: #f8d90c;*/
     text-align: center;
-    padding: 0 65px;
+    padding: 20px;
     width: 100%;
+}
+
+.time-section .btn-cats:hover {
+	background: #14490D;
+	background: -webkit-linear-gradient(bottom, #14490D, #3DA32F);
+	background: -moz-linear-gradient(bottom, #14490D, #3DA32F);
+	background: linear-gradient(to top, #14490D, #3DA32F);
+}
+
+.time-section .btn-cats:active, .time-section .btn-cats:focus {
+	outline: none;
 }
 
 .input-group-addon {
