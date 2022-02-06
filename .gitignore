@@ -7,3 +7,4 @@ server/conf.js
 static/favicon.ico
 static/img/logo.png
 script.sql
+examples.js

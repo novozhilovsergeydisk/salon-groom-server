@@ -512,11 +512,7 @@ const googleConvertionTarget = () => {
     gtag('event', 'conversion', {'send_to': 'AW-342943335/_KP6CIeAn4EDEOfMw6MB'});
 }
 
-// ym(70137172,'reachGoal','nazhatie-na-knopku-zapis')
-// ym(70137172,'reachGoal','nazhatie-na-telefon')
-
 $(document).ready(function () {
-    // Event click
     $("#header-phone").click(function () {
         if (getCookie('user_statistic') == undefined || getCookie('user_statistic') == '') {
             let date = new Date(Date.now() + 86400e3);
@@ -614,8 +610,8 @@ $(document).ready(function () {
             return false;
         }
 
-        if (Validate.maxLength(json.name, 20)) {
-            senderror.innerText = 'Имя должно содержать не более 20 символов.';
+        if (Validate.maxLength(json.name, 30)) {
+            senderror.innerText = 'Имя должно содержать не более 30 символов.';
             show(senderror);
             hide(sendmessage);
 
@@ -661,7 +657,7 @@ $(document).ready(function () {
         const clientName = document.getElementById('name').value;
         const clientPhone = document.getElementById('phone').value;
         const dataRequest = 'name=' + clientName + '&' + 'phone=' + clientPhone;
-        const data = dataRequest; //'name=admin&phone=+7(916)346-5407';
+        const data = dataRequest;
 
         postData('/order', data) // $('#contactform').serialize()
             .then((data) => {
@@ -672,47 +668,8 @@ $(document).ready(function () {
                     const endmessage = document.getElementById('sendmessage');
                     endmessage.classList.remove('hidden');
                     endmessage.innerText = 'Ваша заявка принята';
-                    // console.log('success')
                 }
-                // console.log({ data }); // JSON data parsed by `response.json()` call
             });
-
-        // postData('https://example.com/answer', { answer: 42 })
-        //     .then((data) => {
-        //         console.log(data); // JSON data parsed by `response.json()` call
-        //     });
-
-        // $.ajax({
-        //     type: 'POST',
-        //     url: '/order',
-        //     data: $('#contactform').serialize(),
-        //     success: function (data) {
-        //         console.log('order');
-        //         const res = JSON.parse(data);
-        //         console.log(res);
-        //         console.log(res.status);
-        //
-        //         if (data.result == 'success') {
-        //             codeTarget(70137172, 'nazhatie-na-knopku-zapis');
-        //             googleConvertionTarget();
-        //
-        //             // console.log('data.result = ', data.result);
-        //
-        //             $('#senderror').hide();
-        //             $('#sendmessage').show();
-        //             $('#contactform')[0].reset();
-        //         }
-        //
-        //         if (data.result == 'failed') {
-        //             console.log('data = ', data);
-        //             $('#senderror').show();
-        //             $('#sendmessage').hide();
-        //         }
-        //     },
-        //     error: function () {
-        //         console.log('error ajax');
-        //     }
-        // });
     });
 });
 
@@ -725,64 +682,4 @@ raitengItemsArray.forEach(item =>
         item.parentNode.dataset.totalValue = itemValue;
     })
 );
-
-// Examples
-// 1 Array.prototype.filter()
-// const studentsAge = [17, 16, 18, 19, 21, 17];
-// const ableToDrink = studentsAge.filter( age => age > 18 );
-// // Массив ableToDrink будет содержать два значения: [19, 21]
-//
-// console.log({ 'studentsAge': studentsAge });
-// console.log({ 'ableToDrink': ableToDrink });
-
-// 2 Array.prototype.map()
-let numbers = [2, 3, 4, 5];
-// const dollars = numbers.map( number => '$' + number);
-// // Вот как будет выглядеть массив dollars: ['$2', '$3', '$4', '$5']
-//
-// console.log({ 'numbers Array.prototype.map()': numbers });
-// console.log({ 'dollars': dollars });
-
-// 3 Array.prototype.reduce()
-/*
-Метод Array.prototype.reduce() нередко незаслуженно обходят вниманием. Он позволяет свести массив к единственному значению, накапливаемому в элементе-приёмнике. Значение, возвращаемое этим методом, может быть любого типа. Например, это может быть объект, массив, строка или число.
- */
-numbers = [5, 10, 15];
-const total = numbers.reduce( (accumulator, currentValue) => accumulator + currentValue);
-// в константу total будет записано число 30
-
-console.log({ 'numbers Array.prototype.reduce()': numbers });
-console.log({ 'total': total });
-
-// 4 Array.prototype.some()
-/*
-Метод Array.prototype.some() проверяет, соответствует ли хотя бы один элемент массива условию, задаваемому передаваемой ему функцией. Этот метод, например, способен хорошо показать себя в решении задачи проверки полномочий пользователя. Его можно рассматривать в качестве аналога ранее рассмотренного .forEach(), с той разницей, что, при его применении, с помощью функции, которая ему передана, можно выполнять над элементами массива некие действия до тех пор, пока эта функция не вернёт истинное значение, после чего — прервать обработку.
- */
-const userPrivileges = ['user', 'user', 'user', 'admin'];
-const containsAdmin = userPrivileges.some( element => element === 'admin');
-// в containsAdmin будет записано true
-
-console.log({ 'userPrivileges': userPrivileges });
-console.log({ 'containsAdmin': containsAdmin });
-
-// 5 Array.prototype.forEach()
-const emotions = ['happy', 'sad', 'angry'];
-emotions.forEach( emotion => console.log(emotion) );
-// Выведено будет следующее:
-// 'happy'
-// 'sad'
-// 'angry'
-
-// 6 Array.prototype.every()
-/*
-Метод Array.prototype.every() похож на вышеописанный метод .some(), но он возвращает true только в том случае, если все элементы массива соответствуют условию, задаваемому передаваемой этому методу функцией.
- */
-const ratings = [3, 5, 4, 3, 5];
-const goodOverallRating = ratings.every( rating => rating >= 3 );
-//goodOverallRating будет равно true
-
-console.log({ 'ratings': ratings });
-console.log({ 'goodOverallRating': goodOverallRating });
-
-// END Examples
 

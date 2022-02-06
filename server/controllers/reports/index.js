@@ -8,28 +8,6 @@ nunjucks.configure(VIEWS_PATH, { autoescape: true });
 
 // Handlers
 class reportsControllers {
-    async clinics() {
-        const data = adminService.clinics();
-
-        log({ data });
-
-        log(typeof data);
-
-        const stream = data
-            .then(clinics => {
-                log({ clinics });
-                const render = nunjucks.render('reports/index.html', { clinics: clinics });
-                return render;
-
-            })
-            .catch(error => {
-                log({ error });
-                return '<h1>500</h1>';
-            });
-
-        return DTOFactory({ stream: stream });
-    }
-
     async clinicById(client) {
         const id = client.par.value;
         const data = adminService.clinicById(id)
@@ -51,7 +29,7 @@ class reportsControllers {
     }
 
     async addClient(cli) {
-        log({ cli });
+        // log({ cli });
         const data = adminService.addClient(cli);
         const stream = data
             .then(data => {
@@ -67,9 +45,9 @@ class reportsControllers {
 
         // log({ stream });
 
-        stream.then(d => {
-            log({ d });
-        });
+        // stream.then(d => {
+        //     log({ d });
+        // });
 
         return DTOFactory({ stream: stream });
     }
