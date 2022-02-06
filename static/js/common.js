@@ -614,8 +614,8 @@ $(document).ready(function () {
             return false;
         }
 
-        if (Validate.maxLength(json.name, 11)) {
-            senderror.innerText = 'Имя должно содержать не более 11 символов.';
+        if (Validate.maxLength(json.name, 20)) {
+            senderror.innerText = 'Имя должно содержать не более 20 символов.';
             show(senderror);
             hide(sendmessage);
 
@@ -623,16 +623,16 @@ $(document).ready(function () {
             return false;
         }
 
-        if (Validate.maxLength(json.phone, 18)) {
-            senderror.innerText = 'Телефон должен содержать не более 18 символов.';
+        if (Validate.maxLength(json.phone, 20)) {
+            senderror.innerText = 'Телефон должен содержать не более 20 символов.';
             show(senderror);
             hide(sendmessage);
 
-            console.log({ 'json.phone.length': json.phone.length });
+            // console.log({ 'json.phone.length': json.phone.length });
             return false;
         }
 
-        console.log('Сообщение отправлено!');
+        // console.log('Сообщение отправлено!');
 
         // console.log($('#contactform').serialize());
         //
@@ -672,9 +672,9 @@ $(document).ready(function () {
                     const endmessage = document.getElementById('sendmessage');
                     endmessage.classList.remove('hidden');
                     endmessage.innerText = 'Ваша заявка принята';
-                    console.log('success')
+                    // console.log('success')
                 }
-                console.log({ data }); // JSON data parsed by `response.json()` call
+                // console.log({ data }); // JSON data parsed by `response.json()` call
             });
 
         // postData('https://example.com/answer', { answer: 42 })
@@ -728,20 +728,20 @@ raitengItemsArray.forEach(item =>
 
 // Examples
 // 1 Array.prototype.filter()
-const studentsAge = [17, 16, 18, 19, 21, 17];
-const ableToDrink = studentsAge.filter( age => age > 18 );
-// Массив ableToDrink будет содержать два значения: [19, 21]
-
-console.log({ 'studentsAge': studentsAge });
-console.log({ 'ableToDrink': ableToDrink });
+// const studentsAge = [17, 16, 18, 19, 21, 17];
+// const ableToDrink = studentsAge.filter( age => age > 18 );
+// // Массив ableToDrink будет содержать два значения: [19, 21]
+//
+// console.log({ 'studentsAge': studentsAge });
+// console.log({ 'ableToDrink': ableToDrink });
 
 // 2 Array.prototype.map()
 let numbers = [2, 3, 4, 5];
-const dollars = numbers.map( number => '$' + number);
-// Вот как будет выглядеть массив dollars: ['$2', '$3', '$4', '$5']
-
-console.log({ 'numbers Array.prototype.map()': numbers });
-console.log({ 'dollars': dollars });
+// const dollars = numbers.map( number => '$' + number);
+// // Вот как будет выглядеть массив dollars: ['$2', '$3', '$4', '$5']
+//
+// console.log({ 'numbers Array.prototype.map()': numbers });
+// console.log({ 'dollars': dollars });
 
 // 3 Array.prototype.reduce()
 /*

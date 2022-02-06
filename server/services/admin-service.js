@@ -79,10 +79,9 @@ class AdminService {
         const nextval = "nextval('crm.clients_id_seq')";
 
         const text = `INSERT INTO crm.clients VALUES(${nextval}, $1, $2, $3) RETURNING *`;
-        const values = [name, phone, generateToken()];
+        const values = [name, phone, generateToken(10)];
         return query(text, values);
     }
-
     async addOrder(client_id) {
         log(new Date())
         log(client_id)

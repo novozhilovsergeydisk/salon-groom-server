@@ -288,12 +288,13 @@ class Server {
 
 
                                 data.order.then(fd => {
-                                    log(fd)
-                                    log(data.client)
+                                    // log(fd)
+                                    // log(data.client)
+                                    // log({ fd })
                                     const order = fd[0];
                                     const client = data.client;
                                     const response = { status: 'success', order: { id: order.id, created_at: order.created_at }, client: { name: client.name, phone: client.phone } }
-                                    const info = JSON.stringify(response);
+                                    const info = 'Заявка №' + order.id + '. Клиент: ' + client.name + ', тел. ' + client.phone + '. Создана ' + order.created_at + '.';
                                     notify(info);
                                     res.setHeader('Content-Type', mimeType);
                                     res.statusCode = 200;
