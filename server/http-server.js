@@ -481,7 +481,8 @@ class Server {
         });
 
         server.on('request', function(req, res) {
-            log('request')
+            log(req.url)
+            // log('request')
             // logger.run(req, res);
         });
 
