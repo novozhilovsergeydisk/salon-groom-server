@@ -95,18 +95,18 @@ const __404 = (client, res, info= null) => {
     res.end(info);
     log('404 - ' + client.url);
 
-    if (info) {
-        const mailOptions = {
-            from: conf.mailOptions.from,
-            to: conf.mailOptions.to,
-            subject: conf.mailOptions.subject,
-            text: '404 - ' + client.url
-        };
-
-        mail.options(mailOptions);
-
-        mail.send();
-    }
+    // if (info) {
+    //     const mailOptions = {
+    //         from: conf.mailOptions.from,
+    //         to: conf.mailOptions.to,
+    //         subject: conf.mailOptions.subject,
+    //         text: '404 - ' + client.url
+    //     };
+    //
+    //     mail.options(mailOptions);
+    //
+    //     mail.send();
+    // }
 };
 
 class Server {
