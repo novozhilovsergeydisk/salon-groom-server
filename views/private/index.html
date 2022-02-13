@@ -1,0 +1,1144 @@
+<html lang="en">
+<head><title>PM2+ Monit</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta charset="utf-8">
+	<meta name="application-name" content="PM2 Plus">
+	<!--	<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">-->
+	<!--	<meta name="apple-mobile-web-app-title" content="PM2 Plus"><link rel="apple-touch-icon" href="/static/img/favicon.da03ee3.png">-->
+	<link rel="apple-touch-startup-image" href="/favicon.ico">
+	<link href="/css/ui.css" rel="stylesheet">
+
+</head>
+<body class="base">
+<div class="application v-app base theme--dark">
+
+
+
+	<div class="application--wrap">
+
+
+<!--		<div data-v-64ffe22a="" data-v-5f013164="" class="v-dialog__container" style="display: block;"></div>-->
+
+		<div data-v-1fff1db1="" data-v-5f013164="" class="upgrade-stepper-component">
+			<div data-v-64ffe22a="" data-v-1fff1db1="" class="v-dialog__container" style="display: block;">
+				<div tabindex="-1" data-v-64ffe22a="" class="v-dialog__content" style="z-index: 0;">
+					<div class="v-dialog v-dialog--persistent v-dialog--scrollable"
+						 style="max-width: 700px; display: none;"></div>
+				</div>
+			</div>
+		</div>
+
+		<div data-v-5f013164="" class="app-content flex-col flex-1">
+			<div data-v-15ac054e="" data-v-5f013164="" class="header-component contrast elevation-2"><a
+					data-v-15ac054e="" href="/" class="logo-container px-4 router-link-active">
+				<svg data-v-c1df68ec="" data-v-15ac054e="" viewBox="0 0 1108 190" xmlns="http://www.w3.org/2000/svg"
+					 xmlns:xlink="http://www.w3.org/1999/xlink" class="logo">
+					<path data-v-c1df68ec="" fill="#07a4ff"
+						  d="M274 35.91H16c-8.837 0-16-7.163-16-16s7.163-16 16-16h258c8.837 0 16 7.163 16 16s-7.163 16-16 16zM274 182.91H16c-8.837 0-16-7.163-16-16s7.163-16 16-16h258c8.837 0 16 7.163 16 16s-7.163 16-16 16zM274 109.91H16c-8.837 0-16-7.163-16-16s7.163-16 16-16h258c8.837 0 16 7.163 16 16s-7.163 16-16 16z"></path>
+					<path data-v-c1df68ec="" fill="#fff"
+						  d="M903 150.93c0-9.833 1.207-17.997 3.62-24.49a34.64 34.64 0 0 1 11.12-15.62 48.76 48.76 0 0 1 18.76-8.62 173.65 173.65 0 0 1 26.74-4l80.46-5.75c8.827-.667 15.78-1.747 20.86-3.24s8.913-3.62 11.5-6.38a19 19 0 0 0 4.87-10.12 92.3 92.3 0 0 0 1-14.74A92.75 92.75 0 0 0 1080.5 41a24.21 24.21 0 0 0-5.5-11.87 24.66 24.66 0 0 0-11.5-6.87c-4.88-1.507-11.403-2.26-19.57-2.26h-76a135.92 135.92 0 0 0-17.37 1 28.1 28.1 0 0 0-13 4.87c-3.593 2.587-6.303 6.46-8.13 11.62-1.827 5.16-2.74 12.24-2.74 21.24v10h-23v-17c0-18.993 5.247-32.36 15.74-40.1C929.923 3.89 945.853.013 967.22 0h76.46c12.987 0 23.48 1.417 31.48 4.25s14.207 6.833 18.62 12a40.9 40.9 0 0 1 8.87 18.62 120.59 120.59 0 0 1 2.25 24.36c0 12-1.25 21.453-3.75 28.36a29.88 29.88 0 0 1-12.74 15.87c-6 3.673-14 6.173-24 7.5s-22.41 2.49-37.23 3.49l-37.49 2.5c-14.32 1-25.73 2-34.23 3-8.5 1-14.913 2.5-19.24 4.5-4.333 2-7.123 4.747-8.37 8.24-1.247 3.493-1.87 8.243-1.87 14.25v16h181.42v20H903v-32.01zM537.93 25.74c-2.327-6.5-5.66-11.5-10-15a35.44 35.44 0 0 0-16.25-7 124.66 124.66 0 0 0-22-1.75H340.84V22H484a78.93 78.93 0 0 1 14.12 1.12 25.89 25.89 0 0 1 10.37 4.13 17.9 17.9 0 0 1 6.27 8.24c1.42 3.5 2 7.92 2 13.25V66c0 9.49-2.62 16.28-8 20.11C503.38 89.94 495.78 92 486 92H340.84v91h24v-71H485c13.32 0 23.74-1.37 31.23-3.87 7.49-2.5 13.12-6.35 16.87-11.43 3.75-5.08 6.08-11.44 7-19a224.06 224.06 0 0 0 1.37-26.38c-.04-10.57-1.21-19.09-3.54-25.58zM573.91 2h38.23l105.7 151.67L823.54 2h38.23v180.91h-24.49V24h-.5L726.59 182.91H709.1L598.9 24h-.5v158.91h-24.49z"></path>
+					<!----></svg>
+			</a>
+				<div data-v-15ac054e="" class="navigation-container">
+					<div data-v-15ac054e="" title="Realtime Updates" class="icon-heartbeat"><i data-v-15ac054e=""
+																							   class="heartbeat material-icons"
+																							   style="display: none;">sync_alt</i>
+					</div>
+				</div> <!---->
+				<div data-v-15ac054e="" class="spacer"></div>
+
+				<div data-v-0a58d59a="" data-v-15ac054e="" class="v-menu menu-component v-menu--inline">
+					<div class="v-menu__activator">
+						<div data-v-021d4686="" data-v-15ac054e="" class="button-component px-3">
+							<svg data-v-009a24aa="" data-v-15ac054e="" width="28" height="28" class="km-icon-component"
+								 data-v-021d4686="" viewBox="0 0 24 24">
+								<g fill="none" fill-rule="evenodd">
+									<circle cx="9.6" cy="9.6" r="8.85" stroke="currentColor" stroke-width="1.5"
+											transform="translate(2 2)"></circle>
+									<path fill="currentColor" stroke="currentColor" stroke-width=".5"
+										  d="M10.888 12.79c0-.288.029-.51.087-.665a.707.707 0 0 1 .274-.356 2.32 2.32 0 0 1 .56-.239l.373-.128c.327-.117.562-.226.706-.327a.741.741 0 0 0 .291-.408c.05-.17.076-.435.076-.793 0-.404-.056-.7-.169-.886-.113-.187-.292-.31-.536-.367-.245-.059-.617-.088-1.114-.088-.529 0-1.174.047-1.936.14v-.665c.319-.054.68-.097 1.085-.128.404-.031.758-.047 1.06-.047.576 0 1.033.059 1.371.175.338.117.587.319.746.607.16.287.24.684.24 1.19 0 .567-.065 1.002-.193 1.305-.128.304-.402.529-.822.677l-.338.116c-.381.14-.636.243-.764.31a.502.502 0 0 0-.25.238c-.04.094-.06.253-.06.479v.816h-.687v-.956zm-.082 3.16v-1.003h.863v1.003h-.863z"></path>
+								</g>
+							</svg>
+						</div>
+					</div>
+					<div data-v-0a58d59a="" class="v-menu__content theme--dark contrast"
+						 style="min-width: 0px; top: 12px; left: 0px; transform-origin: left top; z-index: 0; display: none;"></div>
+				</div>
+
+				<div data-v-0a58d59a="" data-v-15ac054e="" class="v-menu menu-component v-menu--inline"
+					 data-km-tests="settings-menu">
+					<div class="v-menu__activator">
+						<div data-v-021d4686="" data-v-15ac054e="" class="button-component px-3">
+							<svg data-v-009a24aa="" data-v-15ac054e="" width="24" height="24" class="km-icon-component"
+								 data-v-021d4686="" viewBox="0 0 24 24">
+								<path fill="none" stroke="currentColor" stroke-width="1.5"
+									  d="M4.647 9.11l-.968-.783c-.346-.28-.442-.419-.514-.589a.909.909 0 0 1-.056-.531c.035-.182.1-.337.381-.683l1.494-1.845c.28-.347.419-.443.589-.515.17-.072.35-.09.532-.056.181.035.336.1.682.381l.956.774a7.829 7.829 0 0 1 1.838-.877V3.282c0-.446.047-.607.134-.77a.909.909 0 0 1 .378-.378c.163-.088.325-.134.77-.134h2.375c.446 0 .607.046.77.134.163.087.291.215.378.378.087.163.134.324.134.77V4.41c.599.2 1.166.472 1.69.804l.898-.726c.346-.28.5-.346.682-.381a.909.909 0 0 1 .532.056c.17.072.308.168.589.515l1.494 1.845c.28.346.346.501.38.683a.909.909 0 0 1-.055.531c-.072.17-.168.308-.515.589l-.866.702c.25.647.418 1.336.489 2.053l1.096.254c.434.1.581.181.72.303.14.122.236.275.284.453.048.179.057.347-.043.781l-.534 2.314c-.1.434-.182.581-.304.72a.909.909 0 0 1-.453.284c-.179.048-.347.057-.78-.044l-1.062-.245a7.897 7.897 0 0 1-1.293 1.625l.45.923c.195.4.224.566.217.75a.909.909 0 0 1-.174.506c-.108.15-.233.262-.633.458l-2.135 1.04c-.4.196-.566.225-.75.218a.909.909 0 0 1-.506-.174c-.15-.108-.262-.233-.458-.633l-.463-.95a7.939 7.939 0 0 1-2.098-.013l-.47.963c-.195.4-.307.525-.457.633a.909.909 0 0 1-.505.174c-.185.007-.35-.022-.751-.217l-2.134-1.041c-.401-.196-.526-.308-.634-.458a.909.909 0 0 1-.174-.505c-.007-.185.022-.35.217-.751l.481-.986a7.896 7.896 0 0 1-1.23-1.567l-1.085.25c-.434.1-.602.092-.78.044a.909.909 0 0 1-.454-.284c-.122-.139-.203-.286-.304-.72l-.534-2.314c-.1-.434-.091-.602-.043-.78a.909.909 0 0 1 .283-.454c.14-.122.287-.203.721-.303l1.124-.26a7.817 7.817 0 0 1 .457-1.966zm7.366 5.704a2.949 2.949 0 1 0 0-5.897 2.949 2.949 0 0 0 0 5.897z"></path>
+							</svg>
+						</div>
+					</div>
+					<div data-v-0a58d59a="" class="v-menu__content theme--dark contrast"
+						 style="min-width: 0px; top: 12px; left: 0px; transform-origin: left top; z-index: 0; display: none;"></div>
+				</div>
+
+				<div data-v-0a58d59a="" data-v-15ac054e="" class="v-menu menu-component v-menu--inline">
+					<div class="v-menu__activator">
+						<div data-v-021d4686="" data-v-15ac054e="" class="button-component px-3">
+							<div data-v-15ac054e="" data-v-021d4686="" class="v-avatar"
+								 style="height: 28px; width: 28px;"><img data-v-15ac054e="" data-v-021d4686=""
+																		 src="https://www.gravatar.com/avatar/012ac792a66e119919b1724011f13e44?s=28&amp;r=pg&amp;d=identicon"
+																		 alt="gravatar"></div>
+						</div>
+					</div>
+					<div data-v-0a58d59a="" class="v-menu__content theme--dark contrast"
+						 style="min-width: 0px; top: 12px; left: 0px; transform-origin: left top; z-index: 0; display: none;"></div>
+				</div>
+			</div>
+
+
+
+
+			<div data-v-5f013164="" class="flex-row flex-1">
+				<div data-v-60b1c70a="" data-v-5f013164="" class="nav-bar-component">
+					<aside data-v-60b1c70a=""
+						   class="contrast nav-drawer v-navigation-drawer v-navigation-drawer--absolute v-navigation-drawer--clipped v-navigation-drawer--floating v-navigation-drawer--mini-variant v-navigation-drawer--open theme--dark is-mini"
+						   data-booted="true"
+						   style="height: 100%; margin-top: 0px; max-height: calc(100% - 0px); transform: translateX(0px); width: 80px;">
+
+
+
+						<div data-v-60b1c70a="" class="scroller flex-col">
+<!--							<div data-v-60b1c70a="" class="v-list route-list py-0 theme&#45;&#45;dark">-->
+<!--								<div data-v-60b1c70a="" class="font-light mx-3 mb-2 mt-2 menu-subtitle">-->
+<!--									<h3 data-v-60b1c70a=""><b data-v-60b1c70a="">-->
+<!--										<center data-v-60b1c70a="">-->
+<!--											sergionov-->
+<!--										</center>-->
+<!--									</b></h3>-->
+<!--								</div>-->
+<!--								<div data-v-60b1c70a="" class="font-light mx-3 my-1 menu-subtitle">-->
+<!--									Global Views-->
+<!--								</div>-->
+<!--								<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--										href="/bucket/62078668beaf5197f89e3bee/backend/overview/servers"-->
+<!--										class="primary&#45;&#45;text v-list__tile&#45;&#45;active v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--									<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--										<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--											 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--											<g fill="none" fill-rule="evenodd">-->
+<!--												<g transform="translate(2 2)">-->
+<!--													<rect width="18.5" height="4.5" x=".75" y=".75"-->
+<!--														  stroke="currentColor" stroke-width="1.5" rx="1"></rect>-->
+<!--													<ellipse cx="3.135" cy="3.125" fill="currentColor" rx="1"-->
+<!--															 ry="1"></ellipse>-->
+<!--													<ellipse cx="5.635" cy="3.125" fill="currentColor" rx="1"-->
+<!--															 ry="1"></ellipse>-->
+<!--												</g>-->
+<!--												<g transform="translate(2 9)">-->
+<!--													<rect width="18.5" height="4.5" x=".75" y=".75"-->
+<!--														  stroke="currentColor" stroke-width="1.5" rx="1"></rect>-->
+<!--													<ellipse cx="3.135" cy="3.125" fill="currentColor" rx="1"-->
+<!--															 ry="1"></ellipse>-->
+<!--													<ellipse cx="5.635" cy="3.125" fill="currentColor" rx="1"-->
+<!--															 ry="1"></ellipse>-->
+<!--												</g>-->
+<!--												<g transform="translate(2 16)">-->
+<!--													<rect width="18.362" height="4.5" x=".75" y=".75"-->
+<!--														  stroke="currentColor" stroke-width="1.5" rx="1"></rect>-->
+<!--													<ellipse cx="3.12" cy="3.125" fill="currentColor" rx="1"-->
+<!--															 ry="1"></ellipse>-->
+<!--													<ellipse cx="5.602" cy="3.125" fill="currentColor" rx="1"-->
+<!--															 ry="1"></ellipse>-->
+<!--												</g>-->
+<!--											</g>-->
+<!--										</svg>-->
+<!--									</div>-->
+<!--									<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--											Processes Overview-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</a></div>-->
+<!--								<div data-v-60b1c70a="" class="font-light mx-3 mt-3 mb-1 menu-subtitle">-->
+<!--									App Views-->
+<!--								</div>-->
+<!--								<div data-v-60b1c70a=""-->
+<!--									 class="v-input app-selector mx-3 mb-1 v-text-field v-text-field&#45;&#45;single-line v-select v-autocomplete v-overflow-btn v-overflow-btn&#45;&#45;editable v-input&#45;&#45;hide-details v-input&#45;&#45;is-label-active v-input&#45;&#45;is-dirty theme&#45;&#45;dark select-hidden">-->
+<!--									<div class="v-input__control">-->
+<!--										<div class="v-input__slot">-->
+<!--											<div class="v-select__slot"><input aria-label="Select Application"-->
+<!--																			   type="text" autocomplete="off">-->
+<!--												<div class="v-input__append-inner">-->
+<!--													<div class="v-input__icon v-input__icon&#45;&#45;append"><i-->
+<!--															aria-hidden="true"-->
+<!--															class="v-icon material-icons theme&#45;&#45;dark">arrow_drop_down</i>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--											<div class="v-menu"></div>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<div data-v-7200e305="" data-v-60b1c70a="" class=""><a-->
+<!--										href="/bucket/62078668beaf5197f89e3bee/backend/metrics-histograms?app=server"-->
+<!--										class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--									<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--										<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--											 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--											<g stroke="currentColor" stroke-width="1.5" fill="none" fill-rule="evenodd">-->
+<!--												<path d="M2 4v16.522h20"></path>-->
+<!--												<path d="M2 20.522L9.098 8.403l8.205 4.37L22 4"></path>-->
+<!--											</g>-->
+<!--										</svg>-->
+<!--									</div>-->
+<!--									<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--											Realtime Metrics-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</a></div>-->
+<!--								<div data-v-7200e305="" data-v-60b1c70a="" class=""><a-->
+<!--										href="/bucket/62078668beaf5197f89e3bee/backend/issues/?app=server"-->
+<!--										class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--									<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--										<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--											 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--											<g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-width="1.5"-->
+<!--											   transform="translate(2 2)">-->
+<!--												<rect width="11.833" height="16" x="4.083" y="2.417" rx="5.917"></rect>-->
+<!--												<path stroke-linecap="square"-->
+<!--													  d="M19.583 7.5h-2.916M3.333 7.5H.417M14.708 0L12.5 2.357M5 0l2.208 2.357M19.583 10.417h-2.916M11.25 9.167H8.333M11.25 11.667H8.333M3.333 10.417H.417M19.583 13.333h-2.916M3.333 13.333H.417"></path>-->
+<!--											</g>-->
+<!--										</svg>-->
+<!--									</div>-->
+<!--									<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--											Realtime Issues-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</a></div>-->
+<!--							</div>-->
+<!--							<div data-v-60b1c70a="" class="v-list route-list py-0 theme&#45;&#45;dark">-->
+<!--								<hr data-v-60b1c70a="">-->
+<!--								<div data-v-60b1c70a="">-->
+<!--									<div data-v-60b1c70a="" class="font-light mx-3 my-1 menu-subtitle">-->
+<!--										PM2 Plus-->
+<!--										<button data-v-60b1c70a="" type="button"-->
+<!--												class="v-btn v-btn&#45;&#45;small theme&#45;&#45;dark primary">-->
+<!--											<div class="v-btn__content">Upgrade</div>-->
+<!--										</button>-->
+<!--									</div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/1"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<path fill="none" stroke="currentColor" stroke-linecap="round"-->
+<!--													  stroke-linejoin="round" stroke-width="1.5"-->
+<!--													  d="M11.66 2l8.661 5v10l-8.661 5L3 17V7z"></path>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												Apps Overview-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/7"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<g fill="none" fill-rule="evenodd">-->
+<!--													<path fill="currentColor" fill-rule="nonzero"-->
+<!--														  d="M14.062 19.472l1.04-.013a3.148 3.148 0 0 1-1.917 1.471 3.143 3.143 0 0 1-1.7-.018 3.165 3.165 0 0 1-1.811-1.383l1.041-.014c.277.279.622.486 1.003.597a2.31 2.31 0 0 0 1.251.013 2.313 2.313 0 0 0 1.093-.653zm1.04-.013a3.148 3.148 0 0 1-1.917 1.471 3.143 3.143 0 0 1-1.7-.018 3.165 3.165 0 0 1-1.811-1.383l1.041-.014c.277.279.622.486 1.003.597a2.31 2.31 0 0 0 1.251.013 2.313 2.313 0 0 0 1.093-.653l1.04-.013z"></path>-->
+<!--													<path stroke="currentColor" stroke-width="1.5"-->
+<!--														  d="M5.79 17.4l.126.039c.299.088.74.176 1.313.26 1.187.17 2.916.318 5.1.44 2.255-.122 3.978-.27 5.162-.44.572-.084 1.01-.171 1.308-.26l.126-.04c-.038-.2-.13-.48-.275-.834-.318-.773-.876-1.846-1.67-3.211l-.109-.187.008-.217c.002-.053.003-.107.003-.161V9.63a4.514 4.514 0 0 0-2.785-4.17l-.55-.23.098-.587c.012-.07.018-.142.018-.216v-.121a1.294 1.294 0 1 0-2.589 0v.121c0 .074.006.146.018.216l.098.588-.55.228a4.514 4.514 0 0 0-2.785 4.17v3.159l.002.139.007.215-.109.186c-.802 1.373-1.365 2.452-1.686 3.23-.148.356-.24.64-.28.84z"></path>-->
+<!--												</g>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												Notifications-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/8"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<g fill="none" fill-rule="evenodd">-->
+<!--													<path stroke="currentColor" stroke-linecap="round"-->
+<!--														  stroke-linejoin="round" stroke-width="1.5"-->
+<!--														  d="M21.32 19.03c2.167-4.012 1.556-9.128-1.833-12.517-4.135-4.135-10.84-4.135-14.974 0C1.119 9.907.51 15.03 2.688 19.046l18.632-.016z"></path>-->
+<!--													<g fill="currentColor" transform="rotate(55 -.633 19.919)">-->
+<!--														<circle cx="1.702" cy="6.265" r="1.576"></circle>-->
+<!--														<rect width="1.324" height="5.294" x="1" y=".347"-->
+<!--															  rx=".662"></rect>-->
+<!--													</g>-->
+<!--													<path fill="currentColor"-->
+<!--														  d="M11.979 4.735c.183 0 .33.149.33.332v.842a.331.331 0 0 1-.662 0v-.842c0-.183.148-.332.332-.332zm4.309 1.063a.331.331 0 0 1 .137.449l-.396.743a.331.331 0 0 1-.585-.311l.395-.744a.331.331 0 0 1 .449-.137zM19.6 8.733a.331.331 0 0 1-.081.462l-.69.482a.331.331 0 0 1-.38-.543l.69-.482a.331.331 0 0 1 .461.08zm1.576 4.15a.331.331 0 0 1-.289.369l-.836.102a.331.331 0 0 1-.08-.658l.835-.102a.331.331 0 0 1 .37.288zm-.536 4.405a.331.331 0 0 1-.428.19l-.786-.3a.331.331 0 1 1 .238-.62l.785.302c.171.066.257.257.191.428zm-17.323 0a.331.331 0 0 1 .19-.428l.786-.302a.331.331 0 1 1 .238.62l-.786.3a.331.331 0 0 1-.428-.19zm-.536-4.406a.331.331 0 0 1 .37-.288l.835.102a.331.331 0 0 1-.08.658l-.836-.102a.331.331 0 0 1-.289-.37zm1.576-4.15a.331.331 0 0 1 .461-.08l.69.482a.331.331 0 1 1-.38.543l-.69-.482a.331.331 0 0 1-.081-.462zm3.312-2.934a.331.331 0 0 1 .449.137l.395.744a.331.331 0 1 1-.585.31l-.396-.742a.331.331 0 0 1 .137-.449z"></path>-->
+<!--												</g>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												App Dashboard-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/9"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<g stroke="currentColor" stroke-width="1.5" fill="none"-->
+<!--												   fill-rule="evenodd">-->
+<!--													<path d="M2 4v16.522h20"></path>-->
+<!--													<path d="M2 20.522L9.098 8.403l8.205 4.37L22 4"></path>-->
+<!--												</g>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												Metrics Histograms-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/11"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<g fill="none" fill-rule="evenodd" stroke="currentColor"-->
+<!--												   stroke-width="1.5" transform="translate(2 2)">-->
+<!--													<rect width="11.833" height="16" x="4.083" y="2.417"-->
+<!--														  rx="5.917"></rect>-->
+<!--													<path stroke-linecap="square"-->
+<!--														  d="M19.583 7.5h-2.916M3.333 7.5H.417M14.708 0L12.5 2.357M5 0l2.208 2.357M19.583 10.417h-2.916M11.25 9.167H8.333M11.25 11.667H8.333M3.333 10.417H.417M19.583 13.333h-2.916M3.333 13.333H.417"></path>-->
+<!--												</g>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												Historical Issues-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/14"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<g fill="none" fill-rule="evenodd" transform="translate(4 2)">-->
+<!--													<path stroke="currentColor" stroke-linecap="round"-->
+<!--														  stroke-linejoin="round" stroke-width="1.5"-->
+<!--														  d="M5.888 1.985a1.83 1.83 0 0 1 3.585 0h4.698a1 1 0 0 1 1 1v15.556a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V2.985a1 1 0 0 1 1-1h4.888z"></path>-->
+<!--													<ellipse cx="7.669" cy="2.2" fill="currentColor" rx="1"-->
+<!--															 ry="1"></ellipse>-->
+<!--													<g stroke="currentColor" stroke-linecap="square" stroke-width="1.5">-->
+<!--														<path d="M2.915 7.314h9.53M2.915 10.972h9.53M2.915 14.63H7.68"></path>-->
+<!--													</g>-->
+<!--												</g>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												Realtime Logs-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/18"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<g fill="none" fill-rule="evenodd" stroke="currentColor"-->
+<!--												   stroke-width="1.5" transform="translate(2 2)">-->
+<!--													<circle cx="10.199" cy="9.959" r="8.85"></circle>-->
+<!--													<path d="M8.35 6.946v6.108L13.289 10 8.35 6.946z"></path>-->
+<!--												</g>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												Remote Actions-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--								</div>-->
+<!--								<div data-v-60b1c70a="">-->
+<!--									<div data-v-60b1c70a="" class="font-light mx-3 my-1 menu-subtitle">-->
+<!--										PM2 Enterprise-->
+<!--									</div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/2"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<path stroke="currentColor" stroke-width="1.5"-->
+<!--													  d="M4 16.292a.25.25 0 0 0-.25.25V21c0 .138.112.25.25.25h6.125a.25.25 0 0 0 .25-.25v-4.458a.25.25 0 0 0-.25-.25H4zM4 2.75a.25.25 0 0 0-.25.25v8.833c0 .138.112.25.25.25h6.125a.25.25 0 0 0 .25-.25V3a.25.25 0 0 0-.25-.25H4zm16.958 4.958a.25.25 0 0 0 .25-.25V3a.25.25 0 0 0-.25-.25h-6.125a.25.25 0 0 0-.25.25v4.458c0 .138.112.25.25.25h6.125zm0 13.542a.25.25 0 0 0 .25-.25v-8.833a.25.25 0 0 0-.25-.25h-6.125a.25.25 0 0 0-.25.25V21c0 .138.112.25.25.25h6.125z"-->
+<!--													  fill="none" fill-rule="evenodd"></path>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												Dashboards-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/3"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<g fill="none" fill-rule="evenodd">-->
+<!--													<circle cx="10.08" cy="10.08" r="9.33" stroke="currentColor"-->
+<!--															stroke-width="1.5" transform="translate(2 3)"></circle>-->
+<!--													<path fill="currentColor" stroke="currentColor" stroke-width=".5"-->
+<!--														  d="M11.625 9.125h1.126l-.164 5.965h-.802l-.16-5.965zm.065 8.531v-1.168h1.005v1.168H11.69z"></path>-->
+<!--												</g>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												Anomalies-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/4"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<g fill="none" fill-rule="evenodd">-->
+<!--													<path stroke="currentColor" stroke-linecap="round"-->
+<!--														  stroke-width="1.5"-->
+<!--														  d="M9.472 4.98H3a1 1 0 0 0-1 1v10.137a1 1 0 0 0 1 1h4.085v3.542a.5.5 0 0 0 .798.402l5.324-3.944h5.813a1 1 0 0 0 1-1v-5.18"></path>-->
+<!--													<g transform="translate(10.518 3)">-->
+<!--														<path stroke="currentColor" stroke-width="1.5"-->
+<!--															  d="M5.448.926c2.06 0 4.508 1.878 4.508 2.874 0 .995-2.448 2.873-4.508 2.873-2.02 0-4.203-1.818-4.203-2.873 0-1.056 2.184-2.874 4.203-2.874z"></path>-->
+<!--														<circle cx="5.627" cy="3.809" r="1.319" fill="currentColor"-->
+<!--																transform="matrix(1 0 0 -1 0 7.618)"></circle>-->
+<!--													</g>-->
+<!--												</g>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												Alerting-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/5"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<path fill="currentColor"-->
+<!--													  d="M16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2 0-.68.06-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.923 7.923 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8.008 8.008 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.65 15.65 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2z"></path>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												Webchecks-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/6"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<g stroke="currentColor" stroke-width="1.5" fill="none"-->
+<!--												   fill-rule="evenodd" stroke-linecap="square">-->
+<!--													<path d="M5 4.123h14.628M5 12.333h14.628M5 20.544h14.628M12.579 8.228h7.314M12.579 16.439h7.314"></path>-->
+<!--												</g>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												Distributed Tracing-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/13"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<g fill="none" fill-rule="evenodd" transform="translate(4 2)">-->
+<!--													<path stroke="currentColor" stroke-linecap="round"-->
+<!--														  stroke-linejoin="round" stroke-width="1.5"-->
+<!--														  d="M5.888 1.985a1.83 1.83 0 0 1 3.585 0h4.698a1 1 0 0 1 1 1v15.556a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V2.985a1 1 0 0 1 1-1h4.888z"></path>-->
+<!--													<ellipse cx="7.669" cy="2.2" fill="currentColor" rx="1"-->
+<!--															 ry="1"></ellipse>-->
+<!--													<g stroke="currentColor" stroke-linecap="square" stroke-width="1.5">-->
+<!--														<path d="M2.915 7.314h9.53M2.915 10.972h9.53M2.915 14.63H7.68"></path>-->
+<!--													</g>-->
+<!--												</g>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												Historical Logs-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/15"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<g fill="none" fill-rule="evenodd">-->
+<!--													<path stroke="currentColor" stroke-width="1.5"-->
+<!--														  d="M2 4v16.522h20"></path>-->
+<!--													<g fill="currentColor">-->
+<!--														<path d="M12.158 9.823v1.5H4.229v-1.5zM17.55 15.13v1.5H4.229v-1.5zM8.832 4.515v1.5H4.233v-1.5z"></path>-->
+<!--													</g>-->
+<!--												</g>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												CPU Profiling-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/16"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<g fill="none" fill-rule="evenodd">-->
+<!--													<g fill="currentColor">-->
+<!--														<path d="M21.495 10.416v1.5H4.084v-1.5zM21.495 6.25v1.5H4.084v-1.5zM21.495 14.583v1.5H4.084v-1.5z"></path>-->
+<!--													</g>-->
+<!--													<path stroke="currentColor" stroke-width="1.5"-->
+<!--														  d="M2 5.763v13.259h20"></path>-->
+<!--												</g>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												Memory Profiling-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--									<div data-v-7200e305="" data-v-60b1c70a=""><a-->
+<!--											href="/bucket/62078668beaf5197f89e3bee/backend/feature/17"-->
+<!--											class="v-list__tile v-list__tile&#45;&#45;link theme&#45;&#45;dark">-->
+<!--										<div data-v-7200e305="" class="v-list__tile__action action-centered">-->
+<!--											<svg data-v-009a24aa="" data-v-7200e305="" width="24" height="24"-->
+<!--												 class="km-icon-component" viewBox="0 0 24 24">-->
+<!--												<g fill="none" fill-rule="evenodd" stroke="currentColor"-->
+<!--												   stroke-width="1.5" transform="translate(2 2)">-->
+<!--													<circle cx="13.459" cy="6.09" r="5.34"></circle>-->
+<!--													<circle cx="4.211" cy="13.684" r="3.461"></circle>-->
+<!--													<circle cx="12.632" cy="16.842" r="2.408"></circle>-->
+<!--												</g>-->
+<!--											</svg>-->
+<!--										</div>-->
+<!--										<div data-v-7200e305="" class="v-list__tile__content">-->
+<!--											<div data-v-7200e305="" class="v-list__tile__title">-->
+<!--												Memory Snapshot-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</a></div>-->
+<!--								</div>-->
+<!--							</div> &lt;!&ndash;&ndash;&gt;-->
+							<div data-v-60b1c70a="" class="menu-space-bellow">spacebeetween</div>
+						</div>
+						<div class="v-navigation-drawer__border"></div>
+					</aside>
+					<div data-v-60b1c70a="" class="backdrop">XXX</div>
+				</div>
+
+
+
+
+
+
+
+
+
+				<div data-v-5f013164="" class="flex-1 flex-col page-top-and-content">
+
+					<div data-v-6c4da838="" data-v-5f013164="" class="empty-bread">ZZZ</div>
+
+
+					<div data-v-55fb1e30="" data-v-77199c9a="" data-v-5f013164=""
+						 class="page-base-component px-3 pb-3 servers-overview-page"><!---->
+<!--						<div data-v-db0abff6="" data-v-77199c9a="" class="overview-page-header-component mb-3"-->
+<!--							 data-v-55fb1e30="">-->
+<!--							<div data-v-db0abff6="" class="header">-->
+<!--								<button data-v-db0abff6="" type="button" class="contrast v-btn theme&#45;&#45;dark">-->
+<!--									<div class="v-btn__content"><i data-v-db0abff6="" aria-hidden="true"-->
+<!--																   class="v-icon v-icon&#45;&#45;left  mdi  mdi-unfold-less-horizontal  theme&#45;&#45;dark"-->
+<!--																   style="font-size: 16px;"></i>Condensed mode-->
+<!--									</div>-->
+<!--								</button>-->
+<!--								<div data-v-db0abff6="" class="spacer"></div>-->
+<!--								<div data-v-db0abff6="" class="field"><label data-v-db0abff6="" for="gbs">Group by-->
+<!--									server</label>-->
+<!--									<div data-v-db0abff6=""-->
+<!--										 class="v-input no-top-space v-input&#45;&#45;selection-controls v-input&#45;&#45;checkbox v-input&#45;&#45;hide-details v-input&#45;&#45;is-label-active v-input&#45;&#45;is-dirty theme&#45;&#45;dark">-->
+<!--										<div class="v-input__control">-->
+<!--											<div class="v-input__slot">-->
+<!--												<div class="v-input&#45;&#45;selection-controls__input"><input-->
+<!--														aria-checked="true" id="gbs" role="checkbox" type="checkbox"-->
+<!--														value="">-->
+<!--													<div class="v-input&#45;&#45;selection-controls__ripple accent&#45;&#45;text"></div>-->
+<!--													<i aria-hidden="true"-->
+<!--													   class="v-icon material-icons theme&#45;&#45;dark accent&#45;&#45;text">check_box</i>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<div data-v-db0abff6="" class="field"><label data-v-db0abff6="" for="mpa">Merge process-->
+<!--									apps</label>-->
+<!--									<div data-v-db0abff6=""-->
+<!--										 class="v-input no-top-space v-input&#45;&#45;selection-controls v-input&#45;&#45;checkbox v-input&#45;&#45;hide-details v-input&#45;&#45;is-label-active v-input&#45;&#45;is-dirty theme&#45;&#45;dark">-->
+<!--										<div class="v-input__control">-->
+<!--											<div class="v-input__slot">-->
+<!--												<div class="v-input&#45;&#45;selection-controls__input"><input-->
+<!--														aria-checked="true" id="mpa" role="checkbox" type="checkbox"-->
+<!--														value="">-->
+<!--													<div class="v-input&#45;&#45;selection-controls__ripple accent&#45;&#45;text"></div>-->
+<!--													<i aria-hidden="true"-->
+<!--													   class="v-icon material-icons theme&#45;&#45;dark accent&#45;&#45;text">check_box</i>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<span data-v-db0abff6="" class="field">-->
+<!--      Order by-->
+<!--      <div data-v-db0abff6="" role="combobox"-->
+<!--		   class="v-input border-contrast small v-text-field v-text-field&#45;&#45;single-line v-text-field&#45;&#45;enclosed v-text-field&#45;&#45;outline v-select v-input&#45;&#45;hide-details v-input&#45;&#45;is-label-active v-input&#45;&#45;is-dirty theme&#45;&#45;dark"><div-->
+<!--			  class="v-input__control"><div class="v-input__slot"><div class="v-select__slot"><div-->
+<!--			  class="v-select__selections"><div class="v-select__selection v-select__selection&#45;&#45;comma">App</div><input-->
+<!--			  readonly="readonly" type="text" autocomplete="on" aria-readonly="false"></div><div-->
+<!--			  class="v-input__append-inner"><div class="v-input__icon v-input__icon&#45;&#45;append"><i aria-hidden="true"-->
+<!--																								class="v-icon material-icons theme&#45;&#45;dark">arrow_drop_down</i></div></div></div><div-->
+<!--			  class="v-menu"></div></div></div></div></span> &lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt;</div> &lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt;</div>-->
+<!--						<div data-v-77199c9a="" class="server-overview-row" data-v-55fb1e30="">-->
+<!--							<div class="server-meta my-1">-->
+<!--								<div class="server-meta-content">-->
+<!--									<div class="server-meta-items mr-4" top="">-->
+<!--										<svg data-v-009a24aa="" data-v-8d6cd78a="" width="24" height="24"-->
+<!--											 class="km-icon-component status-icon-component"-->
+<!--											 title="Server is online: displayed data is in real time" bottom=""-->
+<!--											 viewBox="0 0 24 24" style="color: rgb(7, 164, 255);">-->
+<!--											<g fill="none" fill-rule="evenodd">-->
+<!--												<g transform="translate(2 2)">-->
+<!--													<rect width="18.5" height="4.5" x=".75" y=".75"-->
+<!--														  stroke="currentColor" stroke-width="1.5" rx="1"></rect>-->
+<!--													<ellipse cx="3.135" cy="3.125" fill="currentColor" rx="1"-->
+<!--															 ry="1"></ellipse>-->
+<!--													<ellipse cx="5.635" cy="3.125" fill="currentColor" rx="1"-->
+<!--															 ry="1"></ellipse>-->
+<!--												</g>-->
+<!--												<g transform="translate(2 9)">-->
+<!--													<rect width="18.5" height="4.5" x=".75" y=".75"-->
+<!--														  stroke="currentColor" stroke-width="1.5" rx="1"></rect>-->
+<!--													<ellipse cx="3.135" cy="3.125" fill="currentColor" rx="1"-->
+<!--															 ry="1"></ellipse>-->
+<!--													<ellipse cx="5.635" cy="3.125" fill="currentColor" rx="1"-->
+<!--															 ry="1"></ellipse>-->
+<!--												</g>-->
+<!--												<g transform="translate(2 16)">-->
+<!--													<rect width="18.362" height="4.5" x=".75" y=".75"-->
+<!--														  stroke="currentColor" stroke-width="1.5" rx="1"></rect>-->
+<!--													<ellipse cx="3.12" cy="3.125" fill="currentColor" rx="1"-->
+<!--															 ry="1"></ellipse>-->
+<!--													<ellipse cx="5.602" cy="3.125" fill="currentColor" rx="1"-->
+<!--															 ry="1"></ellipse>-->
+<!--												</g>-->
+<!--											</g>-->
+<!--										</svg>-->
+<!--										<h2 class="title ml-2">-->
+<!--											192.168.1.4-78f1-->
+<!--										</h2></div>-->
+<!--									<div class="server-meta-items mr-4" top="">-->
+<!--										<svg data-v-009a24aa="" width="24" height="24" class="km-icon-component"-->
+<!--											 viewBox="0 0 24 24" style="color: rgb(7, 164, 255);">-->
+<!--											<g fill="none" fill-rule="evenodd" stroke="currentColor"-->
+<!--											   stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">-->
+<!--												<path d="M11.821 2l4.297 2.481v4.961l-4.297 2.481-4.297-2.481V4.481zM6.297 11.821l4.296 2.481v4.961l-4.296 2.481L2 19.263v-4.961zM17.345 11.821l4.297 2.481v4.961l-4.297 2.481-4.296-2.481v-4.961z"></path>-->
+<!--											</g>-->
+<!--										</svg>-->
+<!--										<h2 class="title ml-2">-->
+<!--											1-->
+<!--										</h2></div>-->
+<!--									<div class="server-meta-items mr-4" top="">-->
+<!--										<svg data-v-009a24aa="" width="24" height="24" class="km-icon-component"-->
+<!--											 viewBox="0 0 24 24" style="color: rgb(7, 164, 255);">-->
+<!--											<g transform="translate(5 2)" fill="none" fill-rule="evenodd">-->
+<!--												<rect width="8.187" height="18.056" x="1.063" y=".75"-->
+<!--													  stroke="currentColor" stroke-width="1.5" rx="1"></rect>-->
+<!--												<path fill="currentColor"-->
+<!--													  d="M2.7 2.958h4.76v1.25H2.7zM2.7 7.125h4.76v1.25H2.7zM2.7 11.292h4.76v1.25H2.7zM2.7 15.458h4.76v1.25H2.7zM8.917 4.417h2.937v1.25H8.917zM8.917 7.75h2.937V9H8.917zM8.917 11.083h2.937v1.25H8.917zM8.917 14.417h2.937v1.25H8.917z"></path>-->
+<!--												<path stroke="currentColor" stroke-width="1.5"-->
+<!--													  d="M9.083 1.583V18h3.01a.25.25 0 0 0 .25-.25V1.833a.25.25 0 0 0-.25-.25h-3.01z"></path>-->
+<!--											</g>-->
+<!--										</svg>-->
+<!--										<h2 class="title ml-2">-->
+<!--											N/A-->
+<!--										</h2></div>-->
+<!--									<div class="server-meta-items mr-4" top="">-->
+<!--										<svg data-v-009a24aa="" width="24" height="24" class="km-icon-component"-->
+<!--											 viewBox="0 0 24 24" style="color: rgb(7, 164, 255);">-->
+<!--											<g transform="translate(5 2)" fill="none" fill-rule="evenodd">-->
+<!--												<rect width="8.187" height="18.056" x="1.063" y=".75"-->
+<!--													  stroke="currentColor" stroke-width="1.5" rx="1"></rect>-->
+<!--												<path fill="currentColor"-->
+<!--													  d="M2.7 2.958h4.76v1.25H2.7zM2.7 7.125h4.76v1.25H2.7zM2.7 11.292h4.76v1.25H2.7zM2.7 15.458h4.76v1.25H2.7zM8.917 4.417h2.937v1.25H8.917zM8.917 7.75h2.937V9H8.917zM8.917 11.083h2.937v1.25H8.917zM8.917 14.417h2.937v1.25H8.917z"></path>-->
+<!--												<path stroke="currentColor" stroke-width="1.5"-->
+<!--													  d="M9.083 1.583V18h3.01a.25.25 0 0 0 .25-.25V1.833a.25.25 0 0 0-.25-.25h-3.01z"></path>-->
+<!--											</g>-->
+<!--										</svg> &lt;!&ndash;&ndash;&gt;</div>-->
+<!--									<div class="server-meta-items mr-4" top=""><i aria-hidden="true" class="v-icon-->
+<!--  mdi-->
+<!--  mdi-nodejs-->
+<!-- theme&#45;&#45;dark primary&#45;&#45;text"></i>-->
+<!--										<h2 class="title ml-2">-->
+<!--											v16.10.0-->
+<!--										</h2></div>-->
+<!--									<div class="server-meta-items mr-4" top=""><i aria-hidden="true" class="v-icon-->
+<!--              mdi-->
+<!--              mdi-menu-->
+<!--             theme&#45;&#45;dark primary&#45;&#45;text"></i>-->
+<!--										<h2 class="title ml-2">-->
+<!--											5.1.2-->
+<!--										</h2></div>-->
+<!--								</div>-->
+<!--								<div class="server-meta-content">-->
+<!--									<div class="server-meta-items"><h2 class="title">91.78.111.230 / 192.168.1.4 /-->
+<!--										192.168.1.4</h2></div>-->
+<!--									<div class="server-meta-items ml-4">-->
+<!--										<button type="button"-->
+<!--												class="error ma-0 delete-server-btn v-btn v-btn&#45;&#45;small theme&#45;&#45;dark">-->
+<!--											<div class="v-btn__content"><i aria-hidden="true" class="v-icon-->
+<!--            mdi-->
+<!--            mdi-close-->
+<!--           theme&#45;&#45;dark" style="font-size: 15px;"></i>-->
+<!--												Delete Server-->
+<!--											</div>-->
+<!--										</button>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div> &lt;!&ndash;&ndash;&gt;</div>-->
+<!--						<div data-v-06adfeb2="" data-v-77199c9a="" class="processes-overview-rows-component"-->
+<!--							 data-v-55fb1e30="">-->
+<!--							<div data-v-06adfeb2="">-->
+<!--								<div data-v-06adfeb2="">-->
+<!--									<div data-v-3c81f518="" data-v-06adfeb2=""-->
+<!--										 class="lazy-container-component servers-overview-processes-row-component contrast visible expanded">-->
+<!--										<div data-v-3c81f518="" class="v-dialog__container" style="display: block;">-->
+<!--											<div tabindex="-1" data-v-3c81f518="" class="v-dialog__content"-->
+<!--												 style="z-index: 0;">-->
+<!--												<div class="v-dialog" style="max-width: 1000px; display: none;"></div>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--										<div data-v-3c81f518="" class="top-row pr-3">-->
+<!--											<div data-v-3c81f518="" class="app-name-and-meta">-->
+<!--												<h3 data-v-0086a1e8="" data-v-3c81f518=""-->
+<!--													class="app-name-component expanded">-->
+<!--													<button data-v-0086a1e8="" type="button"-->
+<!--															class="toggle-btn v-btn v-btn&#45;&#45;flat v-btn&#45;&#45;small theme&#45;&#45;dark"-->
+<!--															title="Collapse informations">-->
+<!--														<div class="v-btn__content"><i data-v-0086a1e8=""-->
+<!--																					   aria-hidden="true" class="v-icon-->
+<!--      mdi-->
+<!--      mdi-unfold-less-horizontal-->
+<!--     theme&#45;&#45;dark" style="font-size: 16px;"></i></div>-->
+<!--													</button>-->
+<!--													<div data-v-0086a1e8="" class="app-title px-3"><span-->
+<!--															data-v-0086a1e8="" class="v-badge"><div data-v-0086a1e8=""-->
+<!--																									class="app-title-container"><svg-->
+<!--															data-v-009a24aa="" data-v-8d6cd78a="" data-v-0086a1e8=""-->
+<!--															width="24" height="24"-->
+<!--															class="km-icon-component status-icon-component pr-1"-->
+<!--															title="App is offline: displayed data is not in real time"-->
+<!--															bottom="" style="color: rgb(234, 52, 101);"-->
+<!--															viewBox="0 0 24 24"><path fill="none" stroke="currentColor"-->
+<!--																					  stroke-linecap="round"-->
+<!--																					  stroke-linejoin="round"-->
+<!--																					  stroke-width="1.5"-->
+<!--																					  d="M11.66 2l8.661 5v10l-8.661 5L3 17V7z"></path></svg>-->
+<!--        server-->
+<!--      </div> <span class="v-badge__badge transparent"><span data-v-0086a1e8=""-->
+<!--															class="process-count-badge primary&#45;&#45;text">-->
+<!--        x1-->
+<!--      </span></span></span></div>-->
+<!--												</h3>-->
+<!--												<div data-v-3c81f518="" class="app-meta mx-3 mt-2"><b data-v-3c81f518=""-->
+<!--																									  class="process-nb">1</b>-->
+<!--													process-->
+
+<!--													<div data-v-3c81f518="" title="NODE_ENV">NODE_ENV=<b-->
+<!--															data-v-3c81f518="" class="process-nb">N/A</b></div>-->
+<!--													<div data-v-3c81f518=""><b data-v-3c81f518=""-->
+<!--																			   class="stopped-status">-->
+<!--														stopped-->
+<!--													</b> &lt;!&ndash;&ndash;&gt;</div>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--											<div data-v-3c81f518="" class="main-info ml-3 nav-to-element">-->
+<!--												<div data-v-3c81f518="" data-v-4406bd73="" class="icon-and-label"-->
+<!--													 right="" color="base">-->
+<!--													<svg data-v-009a24aa="" data-v-3c81f518="" width="24" height="24"-->
+<!--														 class="km-icon-component mr-2" viewBox="0 0 24 24">-->
+<!--														<g stroke="currentColor" stroke-width="1.5"-->
+<!--														   transform="translate(2 2)" fill="none" fill-rule="evenodd">-->
+<!--															<g stroke-linecap="square">-->
+<!--																<path d="M8.167.334v2.333M11.833.334v2.333"></path>-->
+<!--																<g>-->
+<!--																	<path d="M8.167 17.4v2.333M11.833 17.4v2.333"></path>-->
+<!--																</g>-->
+<!--															</g>-->
+<!--															<g stroke-linecap="square">-->
+<!--																<path d="M.334 11.834h2.333M.334 8.168h2.333"></path>-->
+<!--																<g>-->
+<!--																	<path d="M17.4 11.834h2.333M17.4 8.168h2.333"></path>-->
+<!--																</g>-->
+<!--															</g>-->
+<!--															<rect width="13.167" height="13.167" x="3.417" y="3.417"-->
+<!--																  rx="1"></rect>-->
+<!--															<rect width="4.833" height="4.833" x="7.583" y="7.583"-->
+<!--																  rx="1"></rect>-->
+<!--														</g>-->
+<!--													</svg>-->
+<!--													<h3 data-v-3c81f518="">CPU</h3></div>-->
+<!--												<div data-v-3c81f518=""-->
+<!--													 class="display-metric font-stylized font-light mb-0">-->
+<!--													<div data-v-3c81f518="">-->
+<!--														<div data-v-3c81f518=""-->
+<!--															 class="metric-line-chart-component visible">-->
+<!--															<div class="chart-container">-->
+<!--																<div data-v-2d8a7750=""-->
+<!--																	 class="e-charts-component chart">-->
+<!--																	<div data-v-2d8a7750="" class="chart"-->
+<!--																		 _echarts_instance_="ec_1644660624178"-->
+<!--																		 style="-webkit-tap-highlight-color: transparent; user-select: none;">-->
+<!--																		<div style="position: relative; overflow: hidden; width: 100px; height: 71px; padding: 0px; margin: 0px; border-width: 0px;">-->
+<!--																			<canvas data-zr-dom-id="zr_0" width="100"-->
+<!--																					height="71"-->
+<!--																					style="position: absolute; left: 0px; top: 0px; width: 100px; height: 71px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>-->
+<!--																		</div>-->
+<!--																		<div></div>-->
+<!--																	</div>-->
+<!--																	<div dir="ltr" class="resize-sensor"-->
+<!--																		 style="pointer-events: none; position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden; max-width: 100%;">-->
+<!--																		<div class="resize-sensor-expand"-->
+<!--																			 style="pointer-events: none; position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden; max-width: 100%;">-->
+<!--																			<div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 110px; height: 81px;"></div>-->
+<!--																		</div>-->
+<!--																		<div class="resize-sensor-shrink"-->
+<!--																			 style="pointer-events: none; position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden; max-width: 100%;">-->
+<!--																			<div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 200%; height: 200%;"></div>-->
+<!--																		</div>-->
+<!--																	</div>-->
+<!--																</div>-->
+<!--															</div>-->
+<!--														</div>-->
+<!--														<div data-v-3c81f518="" class="info-value"-->
+<!--															 style="color: rgb(1, 206, 162);">-->
+<!--															0%-->
+<!--														</div>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--											<div data-v-3c81f518="" class="main-info ml-3 nav-to-element">-->
+<!--												<div data-v-3c81f518="" data-v-4406bd73="" class="icon-and-label"-->
+<!--													 right="" color="base">-->
+<!--													<svg data-v-009a24aa="" data-v-3c81f518="" width="24" height="24"-->
+<!--														 class="km-icon-component mr-2" viewBox="0 0 24 24">-->
+<!--														<g transform="translate(5 2)" fill="none" fill-rule="evenodd">-->
+<!--															<rect width="8.187" height="18.056" x="1.063" y=".75"-->
+<!--																  stroke="currentColor" stroke-width="1.5"-->
+<!--																  rx="1"></rect>-->
+<!--															<path fill="currentColor"-->
+<!--																  d="M2.7 2.958h4.76v1.25H2.7zM2.7 7.125h4.76v1.25H2.7zM2.7 11.292h4.76v1.25H2.7zM2.7 15.458h4.76v1.25H2.7zM8.917 4.417h2.937v1.25H8.917zM8.917 7.75h2.937V9H8.917zM8.917 11.083h2.937v1.25H8.917zM8.917 14.417h2.937v1.25H8.917z"></path>-->
+<!--															<path stroke="currentColor" stroke-width="1.5"-->
+<!--																  d="M9.083 1.583V18h3.01a.25.25 0 0 0 .25-.25V1.833a.25.25 0 0 0-.25-.25h-3.01z"></path>-->
+<!--														</g>-->
+<!--													</svg>-->
+<!--													<h3 data-v-3c81f518="">Memory</h3></div>-->
+<!--												<div data-v-3c81f518=""-->
+<!--													 class="display-metric font-stylized font-light mb-0">-->
+<!--													<div data-v-3c81f518="">-->
+<!--														<div data-v-3c81f518=""-->
+<!--															 class="metric-line-chart-component visible">-->
+<!--															<div class="chart-container">-->
+<!--																<div data-v-2d8a7750=""-->
+<!--																	 class="e-charts-component chart">-->
+<!--																	<div data-v-2d8a7750="" class="chart"-->
+<!--																		 _echarts_instance_="ec_1644660624179"-->
+<!--																		 style="-webkit-tap-highlight-color: transparent; user-select: none;">-->
+<!--																		<div style="position: relative; overflow: hidden; width: 100px; height: 71px; padding: 0px; margin: 0px; border-width: 0px;">-->
+<!--																			<canvas data-zr-dom-id="zr_0" width="100"-->
+<!--																					height="71"-->
+<!--																					style="position: absolute; left: 0px; top: 0px; width: 100px; height: 71px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>-->
+<!--																		</div>-->
+<!--																		<div></div>-->
+<!--																	</div>-->
+<!--																	<div dir="ltr" class="resize-sensor"-->
+<!--																		 style="pointer-events: none; position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden; max-width: 100%;">-->
+<!--																		<div class="resize-sensor-expand"-->
+<!--																			 style="pointer-events: none; position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden; max-width: 100%;">-->
+<!--																			<div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 110px; height: 81px;"></div>-->
+<!--																		</div>-->
+<!--																		<div class="resize-sensor-shrink"-->
+<!--																			 style="pointer-events: none; position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden; max-width: 100%;">-->
+<!--																			<div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 200%; height: 200%;"></div>-->
+<!--																		</div>-->
+<!--																	</div>-->
+<!--																</div>-->
+<!--															</div>-->
+<!--														</div>-->
+<!--														<div data-v-3c81f518="" class="info-value"-->
+<!--															 style="color: rgb(1, 206, 162);">-->
+<!--															0B-->
+<!--														</div>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--											<div data-v-3c81f518="" class="main-info ml-3 unavailable">-->
+<!--												<div data-v-3c81f518="" class="icon-and-label">&lt;!&ndash;&ndash;&gt; <h3-->
+<!--														data-v-3c81f518="">Event Loop Lag</h3></div>-->
+<!--												<div data-v-3c81f518=""-->
+<!--													 class="display-metric font-stylized font-light mb-0">-->
+<!--													<div data-v-3c81f518="">&lt;!&ndash;&ndash;&gt;-->
+<!--														<div data-v-3c81f518="" class="info-value"-->
+<!--															 style="color: rgb(255, 255, 255);">-->
+<!--															Conf-->
+<!--														</div>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--											<div data-v-3c81f518="" class="main-info ml-3 unavailable nav-to-element">-->
+<!--												<div data-v-3c81f518="" class="icon-and-label">-->
+<!--													<svg data-v-009a24aa="" data-v-3c81f518="" width="24" height="24"-->
+<!--														 class="km-icon-component mr-2" viewBox="0 0 24 24">-->
+<!--														<g stroke="currentColor" stroke-width="1.5" fill="none"-->
+<!--														   fill-rule="evenodd" stroke-linecap="square">-->
+<!--															<path d="M5 4.123h14.628M5 12.333h14.628M5 20.544h14.628M12.579 8.228h7.314M12.579 16.439h7.314"></path>-->
+<!--														</g>-->
+<!--													</svg>-->
+<!--													<h3 data-v-3c81f518="">HTTP Latency</h3></div>-->
+<!--												<div data-v-3c81f518=""-->
+<!--													 class="display-metric font-stylized font-light mb-0">-->
+<!--													<div data-v-3c81f518="">&lt;!&ndash;&ndash;&gt;-->
+<!--														<div data-v-3c81f518="" class="info-value"-->
+<!--															 style="color: rgb(255, 255, 255);">-->
+<!--															Conf-->
+<!--														</div>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--											<div data-v-3c81f518="" class="main-info ml-3 nav-to-element">-->
+<!--												<div data-v-3c81f518="" class="icon-and-label">-->
+<!--													<svg data-v-009a24aa="" data-v-3c81f518="" width="24" height="24"-->
+<!--														 class="km-icon-component mr-2" viewBox="0 0 24 24">-->
+<!--														<g fill="none" fill-rule="evenodd" stroke="currentColor"-->
+<!--														   stroke-width="1.5" transform="translate(2 2)">-->
+<!--															<rect width="11.833" height="16" x="4.083" y="2.417"-->
+<!--																  rx="5.917"></rect>-->
+<!--															<path stroke-linecap="square"-->
+<!--																  d="M19.583 7.5h-2.916M3.333 7.5H.417M14.708 0L12.5 2.357M5 0l2.208 2.357M19.583 10.417h-2.916M11.25 9.167H8.333M11.25 11.667H8.333M3.333 10.417H.417M19.583 13.333h-2.916M3.333 13.333H.417"></path>-->
+<!--														</g>-->
+<!--													</svg>-->
+<!--													<h3 data-v-3c81f518="">Issues</h3></div>-->
+<!--												<div data-v-3c81f518=""-->
+<!--													 class="display-metric font-stylized font-light mb-0">-->
+<!--													<div data-v-3c81f518="" class="issues-count-component"-->
+<!--														 style="color: rgb(1, 206, 162);">-->
+<!--														0-->
+<!--													</div>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--											<div data-v-3c81f518="" class="main-info ml-3">-->
+<!--												<div data-v-3c81f518="" class="icon-and-label">-->
+<!--													<svg data-v-009a24aa="" data-v-3c81f518="" width="24" height="24"-->
+<!--														 class="km-icon-component mr-2" viewBox="0 0 24 24">-->
+<!--														<g fill="none" fill-rule="evenodd">-->
+<!--															<path fill="currentColor" fill-rule="nonzero"-->
+<!--																  d="M5.042 12.858l.005.25a7.424 7.424 0 1 0 7.579-7.58l-.25-.004.028-1.334.25.006a8.757 8.757 0 1 1-8.94 8.94l-.005-.25 1.333-.028z"></path>-->
+<!--															<path stroke="currentColor"-->
+<!--																  d="M14.522 2.708l-2.208 2.209 2.208 2.208"></path>-->
+<!--														</g>-->
+<!--													</svg>-->
+<!--													<h3 data-v-3c81f518="">Restarts</h3></div>-->
+<!--												<div data-v-3c81f518=""-->
+<!--													 class="display-metric font-stylized font-light mb-0">-->
+<!--													<div data-v-3c81f518="">&lt;!&ndash;&ndash;&gt;-->
+<!--														<div data-v-3c81f518="" class="info-value">-->
+<!--															30-->
+<!--														</div>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--											<div data-v-3c81f518="" class="main-info ml-3 versioning">-->
+<!--												<div data-v-3c81f518="" class="icon-and-label">&lt;!&ndash;&ndash;&gt; <h3-->
+<!--														data-v-3c81f518="">Versioning</h3></div>-->
+<!--												<div data-v-3c81f518="">-->
+<!--													<div data-v-3c81f518="" class="versioning mt-1">-->
+<!--														<div data-v-3c81f518="" class="versioning-line"><i-->
+<!--																data-v-3c81f518="" aria-hidden="true"-->
+<!--																class="v-icon  mdi  mdi-link-variant  theme&#45;&#45;dark"-->
+<!--																style="font-size: 16px;"></i> <a data-v-3c81f518=""-->
+<!--																								 href="https://github.com/novozhilovsergeydisk/salon-groom-server/commit/55be1a76701b845f6c4aea9924cfce5754e34ce3"-->
+<!--																								 target="_blank">-->
+<!--															https://github.com/novozhilovsergeydisk/salon-groom-server/commit/55be1a76701b845f6c4aea9924cfce5754e34ce3-->
+<!--														</a></div>-->
+<!--														<div data-v-3c81f518="" class="versioning-line"><i-->
+<!--																data-v-3c81f518="" aria-hidden="true"-->
+<!--																class="v-icon  mdi  mdi-source-branch  theme&#45;&#45;dark"-->
+<!--																style="font-size: 16px;"></i> <b data-v-3c81f518="">#main</b>-->
+<!--															- <b data-v-3c81f518="">55be1a76701b</b></div>-->
+<!--														<div data-v-3c81f518="" class="versioning-line"><i-->
+<!--																data-v-3c81f518="" aria-hidden="true"-->
+<!--																class="v-icon  mdi  mdi-comment  theme&#45;&#45;dark"-->
+<!--																style="font-size: 16px;"></i> <i data-v-3c81f518="">"modify-->
+<!--															views/contacts/index.html-->
+<!--															"</i> <span data-v-3c81f518=""-->
+<!--																		class="versioning-line error&#45;&#45;text">-->
+<!--                  Unstaged changes-->
+<!--                </span> &lt;!&ndash;&ndash;&gt;</div>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--											<div data-v-3c81f518="" class="main-actions mt-3  ml-2">-->
+<!--												<div data-v-28bdc68e="" data-v-3c81f518=""-->
+<!--													 class="action-runner-button-component action-menu-component mb-2 ml-2 mr-0 mt-0">-->
+<!--													<button data-v-3c81f518="" type="button"-->
+<!--															class="base pa-0 ma-0 embedded-action v-btn v-btn&#45;&#45;small theme&#45;&#45;dark primary">-->
+<!--														<div class="v-btn__content"><i data-v-3c81f518=""-->
+<!--																					   aria-hidden="true" class="v-icon pr-1-->
+<!--                mdi-->
+<!--                mdi-reload-->
+<!--               theme&#45;&#45;dark" style="font-size: 16px;"></i>-->
+<!--															Restart APPS-->
+<!--														</div>-->
+<!--													</button>-->
+<!--													<div data-v-64ffe22a="" class="v-dialog__container"-->
+<!--														 style="display: block;">-->
+<!--														<div tabindex="-1" data-v-64ffe22a="" class="v-dialog__content"-->
+<!--															 style="z-index: 0;">-->
+<!--															<div class="v-dialog action-runner-button-dialog v-dialog&#45;&#45;scrollable"-->
+<!--																 style="max-width: 800px; display: none;"></div>-->
+<!--														</div>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--												<button data-v-3c81f518="" type="button"-->
+<!--														class="base pa-0 mb-2 ml-2 mr-0 mt-0 embedded-action v-btn v-btn&#45;&#45;small theme&#45;&#45;dark">-->
+<!--													<div class="v-btn__content">-->
+<!--														<svg data-v-009a24aa="" data-v-3c81f518="" width="16"-->
+<!--															 height="16" class="km-icon-component mr-1"-->
+<!--															 viewBox="0 0 24 24">-->
+<!--															<g fill="none" fill-rule="evenodd" stroke="currentColor"-->
+<!--															   stroke-width="1.5" transform="translate(2 2)">-->
+<!--																<rect width="20" height="20" rx="1"></rect>-->
+<!--																<path d="M4.826 5.808h9.717M4.826 9.848h9.717M4.826 13.889h4.858"></path>-->
+<!--															</g>-->
+<!--														</svg>-->
+<!--														Show Logs-->
+<!--													</div>-->
+<!--												</button>-->
+<!--												<div data-v-28bdc68e="" data-v-3c81f518=""-->
+<!--													 class="action-runner-button-component action-menu-component mb-2 ml-2 mr-0 mt-0">-->
+<!--													<button data-v-3c81f518="" type="button"-->
+<!--															class="base pa-0 ma-0 embedded-action v-btn v-btn&#45;&#45;small theme&#45;&#45;dark">-->
+<!--														<div class="v-btn__content"><i data-v-3c81f518=""-->
+<!--																					   aria-hidden="true" class="v-icon pr-1-->
+<!--                mdi-->
+<!--                mdi-close-->
+<!--               theme&#45;&#45;dark" style="font-size: 16px;"></i>-->
+<!--															Reset Monit-->
+<!--														</div>-->
+<!--													</button>-->
+<!--													<div data-v-64ffe22a="" class="v-dialog__container"-->
+<!--														 style="display: block;">-->
+<!--														<div tabindex="-1" data-v-64ffe22a="" class="v-dialog__content"-->
+<!--															 style="z-index: 0;">-->
+<!--															<div class="v-dialog action-runner-button-dialog v-dialog&#45;&#45;scrollable"-->
+<!--																 style="max-width: 800px; display: none;"></div>-->
+<!--														</div>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--										</div> &lt;!&ndash;&ndash;&gt;-->
+<!--										<div data-v-3c81f518="" class="custom-section px-3"><h3 data-v-3c81f518=""-->
+<!--																								class="custom-section-title mr-3">-->
+<!--											<i data-v-3c81f518="" aria-hidden="true"-->
+<!--											   class="v-icon mdi mdi-function theme&#45;&#45;dark"></i>&nbsp;<span-->
+<!--												data-v-3c81f518="">Metrics</span></h3>-->
+<!--											<div data-v-3c81f518="" class="custom-metrics">-->
+<!--												<div data-v-3c81f518=""-->
+<!--													 class="custom-metric-cell-empty px-3 text-center"><a-->
+<!--														data-v-24d7b28c="" data-v-3c81f518=""-->
+<!--														href="http://doc.pm2.io/en//plus/guide/custom-metrics/"-->
+<!--														target="_blank"-->
+<!--														class="documentation-button-component text&#45;&#45;text mt-2 mb-2 v-btn v-btn&#45;&#45;small theme&#45;&#45;dark base">-->
+<!--													<div class="v-btn__content">-->
+<!--														Add your metric-->
+<!--														<svg data-v-009a24aa="" data-v-24d7b28c="" width="18"-->
+<!--															 height="18" class="km-icon-component ml-2"-->
+<!--															 viewBox="0 0 24 24">-->
+<!--															<g fill="none" fill-rule="evenodd">-->
+<!--																<circle cx="9.6" cy="9.6" r="8.85" stroke="currentColor"-->
+<!--																		stroke-width="1.5"-->
+<!--																		transform="translate(2 2)"></circle>-->
+<!--																<path fill="currentColor" stroke="currentColor"-->
+<!--																	  stroke-width=".5"-->
+<!--																	  d="M10.888 12.79c0-.288.029-.51.087-.665a.707.707 0 0 1 .274-.356 2.32 2.32 0 0 1 .56-.239l.373-.128c.327-.117.562-.226.706-.327a.741.741 0 0 0 .291-.408c.05-.17.076-.435.076-.793 0-.404-.056-.7-.169-.886-.113-.187-.292-.31-.536-.367-.245-.059-.617-.088-1.114-.088-.529 0-1.174.047-1.936.14v-.665c.319-.054.68-.097 1.085-.128.404-.031.758-.047 1.06-.047.576 0 1.033.059 1.371.175.338.117.587.319.746.607.16.287.24.684.24 1.19 0 .567-.065 1.002-.193 1.305-.128.304-.402.529-.822.677l-.338.116c-.381.14-.636.243-.764.31a.502.502 0 0 0-.25.238c-.04.094-.06.253-.06.479v.816h-.687v-.956zm-.082 3.16v-1.003h.863v1.003h-.863z"></path>-->
+<!--															</g>-->
+<!--														</svg>-->
+<!--													</div>-->
+<!--												</a></div>-->
+<!--												<div data-v-3c81f518="" class="custom-metric-cell-empty px-3"></div>-->
+<!--												<div data-v-3c81f518="" class="custom-metric-cell-empty px-3"></div>-->
+<!--												<div data-v-3c81f518="" class="custom-metric-cell-empty px-3"></div>-->
+<!--												<div data-v-3c81f518="" class="custom-metric-cell-empty px-3"></div>-->
+<!--												<div data-v-3c81f518="" class="custom-metric-cell-empty px-3"></div>-->
+<!--												<div data-v-3c81f518="" class="custom-metric-cell-empty px-3"></div>-->
+<!--												<div data-v-3c81f518="" class="custom-metric-cell-empty px-3"></div>-->
+<!--												<div data-v-3c81f518="" class="custom-metric-cell-empty px-3"></div>-->
+<!--											</div>-->
+<!--										</div> &lt;!&ndash;&ndash;&gt;</div>-->
+<!--								</div>-->
+<!--							</div> &lt;!&ndash;&ndash;&gt;</div> -->
+						<!---->
+						<div class="v-dialog__container"></div>
+						<div data-v-55fb1e30="" class="v-portal" style="display: none;">BOTTOM</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="beacon-container">
+	<div class="hsds-beacon">
+
+	</div>
+</div>
+</body>
+</html>
