@@ -155,7 +155,7 @@ class Server {
                                         // res.end(stream);
                                     }
                                     if (stream instanceof Object) {
-                                        log({ url, mimeType })
+                                        // log({ url, mimeType })
 
                                         stream.pipe(res);
                                     }
