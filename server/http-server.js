@@ -125,7 +125,15 @@ class Server {
     createServer(port, host) {
         const server = http.createServer(async (req, res) => {
             if (req.method === 'GET') {
-                const { url } = req;
+                let { url } = req;
+
+                const urlArr = url.split('?');
+                url = urlArr[0];
+
+                // log({ urlArr })
+                //
+                // log({ url })
+
                 const fileExt = path.extname(url).substring(1);
                 const mimeType = MIME_TYPES[fileExt] || MIME_TYPES.html;
                 const client = new ClientApp(req.headers.host, req.method, url, fileExt, mimeType);
@@ -233,6 +241,8 @@ class Server {
 
             if (req.method === 'POST') {
                 const { url } = req;
+
+
                 const fileExt = path.extname(url).substring(1);
                 const mimeType = MIME_TYPES[fileExt] || MIME_TYPES.html;
                 const client = new ClientApp(req.headers.host, req.method, url, fileExt, mimeType);
