@@ -34,6 +34,41 @@ const notify = (info => {
     mail.send();
 });
 
+const sliceLastSymbol = ((mod, url) => {
+    let urlMod = url;
+    if (mod === url) return url;
+    if (mod === '/') {
+        const lastSymbol = url.charAt(url.length - 1);
+        if (lastSymbol === '/') {
+            urlMod = url.slice (0, - 1);
+        }
+    }
+    return urlMod;
+})
+
+const notify404 = (info => {
+    // const mailOptions = {
+    //     from: 'purejs@yandex.ru',
+    //     to: 'purejs@yandex.ru',
+    //     subject: 'Запись на сайте',
+    //     text: info
+    // };
+    //
+    // this.transporter = nodemailer.createTransport({
+    //     host: conf.mailer.host,
+    //     port: conf.mailer.port,
+    //     secure: conf.mailer.secure,
+    //     auth: {
+    //         user: conf.mailer.auth.user,
+    //         pass: conf.mailer.auth.pass
+    //     }
+    // });
+
+    // mail.options(mailOptions);
+    //
+    // mail.send();
+});
+
 const postTransform = (str => {
     const body = decodeURIComponent(str);
     // log({ body });
@@ -284,6 +319,7 @@ module.exports = {
     errorLog,
     postTransform,
     notify,
+    sliceLastSymbol,
     __STATIC,
     __VIEWS
 };

@@ -4,7 +4,7 @@ const http = require('http');
 const path = require('path');
 const Route = require('./routes.js');
 const ClientApp = require('./lib/Client.js');
-const { notify, log, generateToken, hash } = require('./helpers.js');
+const { notify, log, sliceLastSymbol } = require('./helpers.js');
 const conf = require('./conf.js');
 const { mail } = require('./services/mail-service.js');
 
@@ -129,6 +129,7 @@ class Server {
 
                 const urlArr = url.split('?');
                 url = urlArr[0];
+                url = sliceLastSymbol('/', url);
 
                 // log({ urlArr })
                 //
