@@ -43,6 +43,7 @@ class Route {
                 '/webfonts/*': staticController.staticContent,
                 '/favicon.ico': staticController.staticContent,
                 '/robots.txt': staticController.staticContent,
+                '/sitemap.xml': staticController.staticContent,
                 '/client/add': reportsControllers.addClient
             },
             'POST': {
