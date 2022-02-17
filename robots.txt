@@ -1,0 +1,27 @@
+User-agent: *
+Disallow: *?*
+Disallow: /bin/
+Disallow: /cache/
+Disallow: /cli/
+Disallow: /logs/
+Disallow: /tmp/
+Disallow: /*feed&type
+Disallow: /*index.php
+Disallow: */?s=
+Disallow: *&*
+Allow: */uploads
+Allow: *.jpg
+Allow: *.png
+Allow: *.svg
+Allow: *.gif
+Allow: *.ico
+Allow: *.woff
+Allow: *.ttf
+Allow: *.otf
+Allow: *.js
+Allow: *.css
+
+Clean-param: gclid&yclid&ymclid&_openstat&frommarket&utm_source&utm_medium&utm_campaign&utm_content&utm_term&utm_email&utm_nooverride&utm_referrer&from&from=adwords&
+
+Sitemap: https://salon-groom.ru/sitemap.xml
+Host: https://salon-groom.ru
