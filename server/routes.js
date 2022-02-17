@@ -31,6 +31,7 @@ class Route {
                 '/review': mainControllers.review,
                 '/masters': mainControllers.masters,
                 '/contacts': mainControllers.contacts,
+                '/private': mainControllers.private,
                 '/api/activate/*': auth.activate,
                 '/api/refresh': auth.refresh,
                 '/api/register': patientController.register,
@@ -41,6 +42,7 @@ class Route {
                 '/fonts/*': staticController.staticContent,
                 '/webfonts/*': staticController.staticContent,
                 '/favicon.ico': staticController.staticContent,
+                '/robots.txt': staticController.staticContent,
                 '/client/add': reportsControllers.addClient
             },
             'POST': {
