@@ -127,7 +127,7 @@ class mainControllers {
         // log({ phone });
         const client = adminService.clientByPhone(phone);
 
-        log({ client });
+        // log({ client });
 
         const clientData = client
             .then(cliData => {
@@ -152,7 +152,7 @@ class mainControllers {
 
         // const data = adminService.addClient(cli);
 
-        log({ clientData });
+        // log({ clientData });
 
         // const result = clientData.then(data__ => {
         //     log({ data__ });
@@ -318,6 +318,10 @@ class mainControllers {
 
     async index() {
         return DTOFactory({ stream: nunjucks.render('main/index.html', { main: [] }) });
+    }
+
+    async private() {
+        return DTOFactory({ stream: nunjucks.render('private/index.html', { main: [] }) });
     }
 
     async refresh() {
