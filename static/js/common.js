@@ -651,7 +651,12 @@ $(document).ready(function () {
                 body: data
                 // body: JSON.stringify(data) // body data type must match "Content-Type" header
             });
-            return await response.json(); // parses JSON response into native JavaScript objects
+
+            const ret = response.json();
+
+            console.log({ ret })
+
+            return await ret; // parses JSON response into native JavaScript objects
         }
 
         const clientName = document.getElementById('name').value;
@@ -660,7 +665,9 @@ $(document).ready(function () {
         const data = dataRequest;
 
         postData('/order', data) // $('#contactform').serialize()
-            .then((data) => {
+            .then(data => {
+                console.log({ data })
+
                 if (data.status === 'success') {
                     document.getElementById('name').value = '';
                     document.getElementById('phone').value = '';

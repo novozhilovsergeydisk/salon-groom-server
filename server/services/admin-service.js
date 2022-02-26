@@ -9,12 +9,8 @@ class AdminService {
 
     async clientByPhone(phone) {
         if (phone) {
-            // const text = 'SELECT * FROM crm.clients WHERE phone = $1';
-            return query('SELECT * FROM crm.clients WHERE phone = $1', [phone]);
-
-            // log({ result })
-            //
-            // return promise(result);
+            const res = await query('SELECT * FROM crm.clients WHERE phone = $1', [phone]);
+            return res;
         }
     }
 
@@ -80,6 +76,9 @@ class AdminService {
 
         const text = `INSERT INTO crm.clients VALUES(${nextval}, $1, $2, $3) RETURNING *`;
         const values = [name, phone, generateToken(10)];
+
+        log({ values })
+
         return query(text, values);
     }
     async addOrder(client_id) {

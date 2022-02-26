@@ -1,16 +1,5 @@
-const path = require('path');
 const fs = require('fs');
-const { DTOFactory, log } = require('../helpers.js');
-const { VIEWS_PATH, STATIC_PATH } = require('../../constants.js');
-const nunjucks = require('nunjucks');
-const userService = require('../services/user-service.js');
-const { parse } = require('querystring');
-
-// const userService = new UserService();
-
-//log({ userService });
-
-nunjucks.configure(VIEWS_PATH, { autoescape: true });
+const { DTOFactory, __STATIC } = require('../helpers.js');
 
 // Demo data
 let patients = [
@@ -121,71 +110,19 @@ class patientControllers {
     }
 }
 
-const existFile = (file) => {
-    const filePromice = new Promise((resolve, reject) => {
-        fs.stat(file, function(err, stats) {
-            if (err) {
-                reject('File not found');
-            } else {
-                resolve(stats);
-            }
-        });
-    });
-
-    return filePromice.then(stats => {
-        return new Promise(resolve => {
-            stats._file = file;
-            resolve({ info: 'file ' + file, status: 'success', error: '' });
-        });
-    }).catch(err => {
-        return new Promise(reject => {
-            reject({ info: 'file ' + file, status: 'failed', error: err });
-        });
-    });
-};
-
-const createReadStream = (file, url) => {
-    // const { file, name } = client;
-    // log({ ' stream(file)': file });
-
-    const promiseStream = new Promise((resolve, reject) => {
-        fs.stat(file, (error) => {
-            if (error) {
-                const error_stream = 'No resource file: ' + url;
-                reject(error_stream);
-            }
-            else {
-                const stream = fs.createReadStream(file);
-                // log({ 'Served resource file and resolve promise': stream });
-                // log(`\n-------------------------------\n`);
-                resolve(stream);
-            }
-        });
-    });
-
-    return promiseStream;
-}
-
-const serve = (url) => {
-
-
-
-    const filePath = path.join(STATIC_PATH, url);
-    return Promise.resolve()
-        .then(() => {
-            return existFile(filePath);
-        })
-        .then(result => {
-            return result.stream = (result.status === 'success') ? createReadStream(filePath, url) : null;
-        })
-        .catch(err => {
-            console.log({ 'Error serve()': err });
-        });
-};
-
 const staticController = {
     staticContent: async (client) => {
-        return DTOFactory({ stream: serve(client.url) });
+        // log(client)
+
+        // log({ '__STATIC(client.url)': __STATIC(client.url) })
+
+        const stream = fs.createReadStream(__STATIC(client.url));
+
+        // log({ stream })
+
+        // const stream = promise(__STATIC(client.url), 'Error static').then(() => fs.createReadStream(__STATIC(client.url))).catch(e => log(e));
+        const dto = DTOFactory({ stream: stream });
+        return dto;
     }
 };
 

@@ -1,18 +1,50 @@
 'use strict'
 
 const http = require('http');
-const path = require('path');
+// const path = require('path');
 const Route = require('./routes.js');
 const ClientApp = require('./lib/Client.js');
-const { notify, log, sliceLastSymbol } = require('./helpers.js');
+const {bufferConcat, replace, memory, notifyOrder, log} = require('./helpers.js');
 const conf = require('./conf.js');
-const { mail } = require('./services/mail-service.js');
+const { mkd } = require('./lib/Renderer/index.js');
+const mailAdmin = require('./lib/MailerAdmin.js');
+const querystring = require('querystring');
 
-process.env.PGHOST='localhost';
-process.env.PGUSER='postgres';
-process.env.PGDATABASE='salon_groom';
-process.env.PGPASSWORD='postgres@12345';
-process.env.PGPORT=5432;
+// const cache = new Map();
+// const routeList = require('./route-list.js');
+// cache.set('routeList', routeList);
+
+// log({ cache })
+
+
+// const { MIME_TYPES } = require('./const.js');
+// const {mail} = require('./services/mail-service.js');
+
+// simplicity and flexibility | SAF platform | flexify
+//  SAF - server platform for building applications
+
+// const fs = require("fs"); // Or 'import fs from "fs";' with ESM
+// if (fs.existsSync(path)) {
+//     // Do something
+// }
+
+// const { sys } = require('util');
+//
+// log({ sys });
+
+// sys.puts(sys.inspect(someVariable));
+
+log({ conf })
+
+process.env.PGHOST = conf.db.host;
+process.env.PGUSER = conf.db.user;
+process.env.PGDATABASE = conf.db.name;
+process.env.PGPASSWORD = conf.db.password;
+process.env.PGPORT = conf.db.port;
+
+console.table(memory())
+
+// export const IDENTIFIER = /^[a-z$_][a-z$_0-9]*$/i
 
 // const Ajv = require("ajv")
 // const ajv = new Ajv() // options can be passed, e.g. {allErrors: true}
@@ -40,248 +72,189 @@ process.env.PGPORT=5432;
 // log(generateToken());
 // log(hash());
 
-const cachedPromise = new Map();
+// const cachedPromise = new Map();
 // const { Auth } = require('./lib/auth.js');
-const MIME_TYPES = {
-    html: 'text/html; charset=UTF-8',
-    js:   'application/javascript; charset=UTF-8',
-    css:  'text/css',
-    png:  'image/png',
-    jpeg: 'image/jpeg',
-    jpg:  'image/jpeg',
-    webp: 'image/webp',
-    ico:  'image/x-icon',
-    svg:  'application/xhtml+xml',
-    woff: 'application/x-font-woff',
-    woff2: 'application/x-font-woff2',
-    ttf: 'application/x-font-ttf',
-    otf: 'application/x-font-otf'
-};
 
 // http://espressocode.top/http-headers-content-type/
 // https://nodejsdev.ru/doc/email/
 
-// const CONTENT_TYPES = {
-//     MILTIPART_FORMDATA: 'multipart/form-data',
-//     MILTIPART_URLENCODED: 'application/x-www-form-urlencoded; charset=UTF-8',
-//     APPLICATION_JSON: 'application/json'
-// }
+const CONTENT_TYPES = {
+    MILTIPART_FORMDATA: 'multipart/form-data',
+    FORM_URLENCODED: 'application/x-www-form-urlencoded',
+    APPLICATION_JSON: 'application/json'
+}
 
 // log(MIME_TYPES.html);
 
-// console.table([
-//     {doctor: 'Новожилов С.Ю.'},
-//     {patient: 'Тихонова Галина Федотовна', sys: 143, dia: 89, pulse: 54, glukose: 5.9},
-//     {patient: 'Багдасарян Анна Рафаэловна', sys: 133, dia: 79, pulse: 64},
-//     {patient: 'Каргальская Ирина Геннадьевна', sys: 123, dia: 69, pulse: 74}
-// ]);
+const docPats = [
+    {doctor: 'Новожилов С.Ю.'},
+    {patient: 'Тихонова Галина Федотовна', sys: 143, dia: 89, pulse: 54, glukose: 5.9},
+    {patient: 'Багдасарян Анна Рафаэловна', sys: 133, dia: 79, pulse: 64},
+    {patient: 'Каргальская Ирина Геннадьевна', sys: 123, dia: 69, pulse: 74}
+];
 
-const resolve = data => {
-    return new Promise(resolve => {
-        // console.log console.log({ 'resolve(data)': data });
-        resolve(data);
-    });
-};
+const patients = [
+    {patient: 'Тихонова Галина Федотовна', sys: 143, dia: 89, pulse: 54, glukose: 5.9},
+    {patient: 'Багдасарян Анна Рафаэловна', sys: 133, dia: 79, pulse: 64, glukose: 5.8},
+    {patient: 'Каргальская Ирина Геннадьевна', sys: 123, dia: 69, pulse: 74, glukose: 5.7}
+];
 
-const reject = error => {
-    return new Promise(reject => {
-        // console.log({ 'reject(error)': error });
-        reject(error);
-    });
-};
+mkd.process(patients);
 
-const __404 = (client, res, info= null) => {
+const __404 = (client, res, info = null) => {
     res.setHeader('Content-Type', 'text/html; charset=UTF-8');
     res.statusCode = 404;
     res.end(info);
-    log('404 - ' + client.url);
-
-    // if (info) {
-    //     const mailOptions = {
-    //         from: conf.mailOptions.from,
-    //         to: conf.mailOptions.to,
-    //         subject: conf.mailOptions.subject,
-    //         text: '404 - ' + client.url
-    //     };
-    //
-    //     mail.options(mailOptions);
-    //
-    //     mail.send();
-    // }
 };
 
-class Server {
-    constructor() {};
+const send = (client => {
 
-    message(client, req) {
-        return req.headers.host + ' | ' + client.url + ' | ' + req.method + ' | ' + client.mimeType;
+    // log({ client })
+
+    const strinfifyData = JSON.stringify(client.data);
+
+    log({ strinfifyData })
+    //
+    // log(client.mimeType)
+
+
+    // log(client.statusCode)
+
+    client.res.setHeader('Content-Type', 'text/html; charset=UTF-8');
+    client.res.statusCode = 200;
+    client.res.end(strinfifyData);
+});
+
+const response = send;
+
+class Server {
+    constructor() {
     }
 
     response(mimeType, html, res, status = 200) {
         res.setHeader('Content-Type', mimeType);
         res.statusCode = status;
         res.end(html);
-    };
+    }
+
+    pipe(mimeType, stream, res, status = 200) {
+        res.setHeader('Content-Type', mimeType);
+        res.statusCode = status;
+        stream.pipe(res);
+    }
 
     createServer(port, host) {
         const server = http.createServer(async (req, res) => {
-            if (req.method === 'GET') {
-                let { url } = req;
+            const client = new ClientApp(req, res);
 
-                const urlArr = url.split('?');
-                url = urlArr[0];
-                url = sliceLastSymbol('/', url);
+            // log({ client })
 
-                // log({ urlArr })
-                //
-                // log({ url })
+            // const queryString = querystring.parse(req.url);
+            // log({ queryString })
+            const route = new Route(client);
+            const hasRoute = route.has();
 
-                const fileExt = path.extname(url).substring(1);
-                const mimeType = MIME_TYPES[fileExt] || MIME_TYPES.html;
-                const client = new ClientApp(req.headers.host, req.method, url, fileExt, mimeType);
-                client.res = res;
-                // let body = null;
-                // let bodyArr = [];
+            // log({ client })
+            // log(client.host)
+            // log(client.url)
+            // log(client.http_method)
+            // log({ hasRoute })
+            // log('----------')
 
-                console.time('route')
-                const resolve = new Route(client).resolve();
+            if (!hasRoute) {
+                __404(client, res, '404 - ' + client.url);
+                mailAdmin.sendMessage('Страница не найдена', '404 - ' + client.url).catch(console.error('mailAdmin.sendMessage()'));
+                // MailerAdmin.sendMessage('404 - ' + req.url, 'Страница не найдена');
+                // notify('404 - ' + req.url, 'Страница не найдена');
+            } else {
+                if (req.method === 'GET') {
+                    const resolve = await route.resolve(client);
 
-                if (!(resolve instanceof Promise)) {
-                    __404(client, res, '404 not found')
-                } else {
-                    resolve.then(content => {
-                        const isPromice = content instanceof Promise;
-                        // const info = req.headers.host + ' | ' + client.url + ' | ' + req.method + ' | ' + client.mimeType;
+                    // log({ resolve })
 
-                        if (!(content instanceof Promise)) {
-                            if (content.stream instanceof Promise) {
-                                content.stream.then(stream => {
+                    if ((typeof resolve.stream) === 'string') {
 
+                        // log({ client })
 
-                                    if ((typeof stream) === 'string') {
-                                        this.response(mimeType, stream, res);
-                                        // res.setHeader('Content-Type', mimeType);
-                                        // res.statusCode = 200;
-                                        // res.end(stream);
-                                    }
-                                    if (stream instanceof Object) {
-                                        // log({ url, mimeType })
-
-                                        stream.pipe(res);
-                                    }
-
-                                })
-                            } else {
-                                this.response(mimeType, content.stream, res);
-                                // res.setHeader('Content-Type', mimeType);
-                                // res.statusCode = 200;
-                                // res.end(content.stream);
-                            }
-
-                            // log({ 'content.status': content.status })
-                        }
-                        //
-
-                        // if (client.mimeType === MIME_TYPES.html) {
-                        //     if (content === null || content === undefined) {
-                        //         // log({ content })
-                        //         // __404(client, res,  this.message(client, req));
-                        //     } else {
-                        //         // log({ mimeType })
-                        //     }
-                        //     //     if (isPromice) {
-                        //     //         content.then(data => {
-                        //     //             console.time('cached-promise');
-                        //     //             (data === null) ? __404(client, res, info) : this.header(client.mimeType, data, res);
-                        //     //             console.timeEnd('cached-promise');
-                        //     //         });
-                        //     //     } else {
-                        //     //         console.time('cached-no-promise');
-                        //     //         const html = ((typeof content) ==='string' ) ? content : content.toString();
-                        //     //         this.header(client.mimeType, html, res);
-                        //     //         console.timeEnd('cached-no-promise');
-                        //     //     }
-                        //     // }
-                        // } else {
-                        //     if (isPromice) {
-                        //         // log({ mimeType })
-                        //
-                        //         // content
-                        //         //     .then(stream => {
-                        //         //         res.setHeader('Content-Type', client.mimeType);
-                        //         //         if (stream) {
-                        //         //             stream.pipe(res);
-                        //         //         } else {
-                        //         //             __404(client, res, info);
-                        //         //         }
-                        //         //     })
-                        //         //     .catch(error_stream => {
-                        //         //         __404(client, res, info); log({ 'error_stream': error_stream });
-                        //         //     });
-                        //     } else {
-                        //         // log({ url })
-                        //         // log({ mimeType })
-                        //         // log({ content })
-                        //         // __404(client, res, ' not promice');
-                        //     }
-                        // }
-
-                        // res.setHeader('Content-Type', mimeType);
-                        // res.statusCode = 200;
-                        // res.end('<h3>transplant</h3>');
-                    })
-                }
-
-                console.timeEnd('route')
-
-                // res.setHeader('Content-Type', MIME_TYPES.html);
-                // res.statusCode = 200;
-                // res.end('<h1>header</h1>');
-
-                // console.timeEnd('chain')
-            }
-
-            if (req.method === 'POST') {
-                const { url } = req;
-
-
-                const fileExt = path.extname(url).substring(1);
-                const mimeType = MIME_TYPES[fileExt] || MIME_TYPES.html;
-                const client = new ClientApp(req.headers.host, req.method, url, fileExt, mimeType);
-                let body = null;
-                let bodyArr = [];
-                req.on('data', chunk => {
-                    bodyArr.push(chunk);
-                });
-                req.on('end', function() {
-                    const urlencoded = req.method === 'POST' && req.headers["content-type"] === 'application/x-www-form-urlencoded';
-                    if (urlencoded) {
-                        body = Buffer.concat(bodyArr).toString();
-                        client.body = body;
-                        const resolve = new Route(client).resolve();
-                        resolve.renderer(resolve.route, undefined, client).then(Promise => {
-                            Promise.data.then(data => {
-                                data.order.then(fd => {
-                                    const order = fd[0];
-                                    const client = data.client;
-                                    const response = { status: 'success', order: { id: order.id, created_at: order.created_at }, client: { name: client.name, phone: client.phone } }
-                                    const info = 'Заявка №' + order.id + '. Клиент: ' + client.name + ', тел. ' + client.phone + '. Создана ' + order.created_at + '.';
-                                    notify(info);
-                                    res.setHeader('Content-Type', mimeType);
-                                    res.statusCode = 200;
-                                    res.end(JSON.stringify(response));
-                                })
-                            })
-                        })
-                        .catch(error => log({ error }))
+                        this.response(client.mimeType, resolve.stream, res);
+                    } else {
+                        const stream = await resolve.stream;
+                        this.pipe(client.mimeType, stream, res);
                     }
-                });
+                }
+                if (req.method === 'POST') {
+                    const contentType = req.headers['content-type'];
+                    let body = null;
+                    let bodyArr = [];
+                    req.on('data', chunk => {
+                        if (contentType === CONTENT_TYPES.FORM_URLENCODED) bodyArr.push(chunk);
+                        if (contentType === CONTENT_TYPES.APPLICATION_JSON) body += chunk;
+                    });
+                    req.on('end', async function () {
+
+                        log({ contentType })
+
+                        if (contentType === CONTENT_TYPES.FORM_URLENCODED) {
+                            try {
+                                body = bufferConcat(bodyArr); // bufferConcat
+
+                                log({ body })
+
+                                client.body = body;
+
+                                const stream = await route.resolve(client);
+
+                                log({ stream })
+
+                                log(stream.data)
+
+                                client.data = stream.data;
+
+                                const order = stream.data.order;
+                                log({  order })
+                                log('fin')
+                                const clientInfo = stream.data.client;
+
+                                // log({  order })
+
+                                response(client);
+                                const info = 'Заявка №' + order.id + '. Клиент: ' + clientInfo.name + ', тел. ' + clientInfo.phone + '. Создана ' + order.created_at + '.';
+
+                                log({ info })
+
+                                notifyOrder(info);
+                                mailAdmin.sendMessage(info, 'Запись на сайте').catch(console.error('mailAdmin.sendMessage'));
+                            } catch (er) {
+                                // bad json
+                                res.statusCode = 400;
+                                res.end(`error: ${er.message}`);
+                            }
+                        }
+                        if (contentType === CONTENT_TYPES.APPLICATION_JSON) {
+                            try {
+                                body = replace('null', '', body);
+                                const { stream } = await route.resolve(client);
+                                client.data = stream[0];
+                                response(client);
+                                mailAdmin.sendMessage(client.data, 'POST ' + client.url).catch(console.error('mailAdmin.sendMessage'));
+                            } catch (er) {
+                                // bad json
+                                res.statusCode = 400;
+                                res.end(`error: ${er.message}`);
+                            }
+                        }
+                    });
+                    req.on('information', (info) => {
+                        console.log(`Got information prior to main response: ${info.statusCode}`);
+                    });
+                }
             }
         });
 
-        server.on('request', function(req, res) {
-            // log(req.url)
-        });
+        // server.on('request', function (req, res) {
+        //     log('request')
+        //     // logger.run(req, res);
+        // });
 
         server.listen(port, host, () => {
             console.log(`Server running at http://${host}:${port}/`);

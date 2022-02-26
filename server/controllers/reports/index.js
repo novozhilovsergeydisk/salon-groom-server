@@ -2,7 +2,7 @@ const nunjucks = require('nunjucks');
 // const userService = require('../service/user-service.js');
 const adminService = require('../../services/admin-service.js');
 const { DTOFactory, getFunctionParams, log } = require('../../helpers.js');
-const { VIEWS_PATH } = require('../../../constants.js');
+const { VIEWS_PATH } = require('../../const.js');
 
 nunjucks.configure(VIEWS_PATH, { autoescape: true });
 

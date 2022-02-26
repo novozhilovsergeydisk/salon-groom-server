@@ -2,16 +2,16 @@
 
 const path = require('path');
 const crypto = require('crypto');
-const { Client } = require('pg');
+const {Client} = require('pg');
+const {mail} = require('./services/mail-service.js');
 const conf = require('./conf.js');
-const { STATIC_PATH, VIEWS_PATH } = require('../constants.js');
+const {STATIC_PATH, VIEWS_PATH} = require('./const.js');
 const TOKEN_LENGTH = 32;
 const ALPHA_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const ALPHA_LOWER = 'abcdefghijklmnopqrstuvwxyz';
 const ALPHA = ALPHA_UPPER + ALPHA_LOWER;
 const DIGIT = '0123456789';
 const ALPHA_DIGIT = ALPHA + DIGIT;
-const { mail } = require('./services/mail-service.js');
 
 const __STATIC = url => {
     return path.join(STATIC_PATH, url);
@@ -21,18 +21,17 @@ const __VIEWS = () => {
     return VIEWS_PATH;
 };
 
-const notify = (info => {
-    const mailOptions = {
-        from: conf.mailOptions.from,
-        to: conf.mailOptions.to,
-        subject: conf.mailOptions.subject,
-        text: info
-    };
+const throwErr = err => {
+    throw Error(err);
+};
 
-    mail.options(mailOptions);
+const errorLog = err => {
+    console.error(err);
+};
 
-    mail.send();
-});
+const __ERROR = errorLog;
+const __error = errorLog;
+const bytesToMb = bytes => Math.round(bytes / 1000, 2) / 1000;
 
 const sliceLastSymbol = ((mod, url) => {
     let urlMod = url;
@@ -46,56 +45,68 @@ const sliceLastSymbol = ((mod, url) => {
     return urlMod;
 })
 
-const notify404 = (info => {
-    // const mailOptions = {
-    //     from: 'purejs@yandex.ru',
-    //     to: 'purejs@yandex.ru',
-    //     subject: 'Запись на сайте',
-    //     text: info
-    // };
-    //
-    // this.transporter = nodemailer.createTransport({
-    //     host: conf.mailer.host,
-    //     port: conf.mailer.port,
-    //     secure: conf.mailer.secure,
-    //     auth: {
-    //         user: conf.mailer.auth.user,
-    //         pass: conf.mailer.auth.pass
-    //     }
-    // });
+const __ = (url => {
+    // log({ url })
+    const _split = url.split('?');
+    // log({ _split })
 
-    // mail.options(mailOptions);
-    //
-    // mail.send();
+    if (_split.length > 0) {
+        return _split[0];
+    }
+
+    return url;
+})
+
+const memory = (() => {
+    // console.clear();
+    const memory = [];
+    const usage = process.memoryUsage();
+    const row = {
+        rss: bytesToMb(usage.rss), // process resident set size
+        heapTotal: bytesToMb(usage.heapTotal), // v8 heap allocated
+        heapUsed: bytesToMb(usage.heapUsed), // v8 heap used
+        external: bytesToMb(usage.external), // c++ allocated
+        stack: bytesToMb(usage.rss - usage.heapTotal), // stack
+    };
+    memory.push(row);
+    // console.table(memory);
+    return memory;
+})
+
+const notifyOrder = (info => {
+    const options = {
+        from: conf.options.from,
+        to: conf.options.to,
+        subject: conf.options.subject,
+        text: info
+    };
+    mail.options(options);
+    mail.send();
 });
 
-const postTransform = (str => {
-    const body = decodeURIComponent(str);
-    // log({ body });
-    const split = body.split('&');
-    // log({ split })
-    let data = {};
-    let valueArr = [];
-    split.forEach((value, index) => {
-        valueArr = value.split('=');
-        data[valueArr[0]] = valueArr[1];
-        // log({ valueArr })
-    });
-    return data;
+const notify = ((error, sub = 'Ошибка сервиса', text = 'Error:') => {
+
+    log(conf.mailer)
+
+    const mailOptions = {
+        from: conf.options.from,
+        to: conf.options.to,
+        subject: sub,
+        text: text + ' ' + error
+    };
+    mail.options(mailOptions);
+    mail.send();
+    __ERROR(error)
+})
+
+const replace = ((oldS, newS, fullS) => {
+    for (var i = 0; i < fullS.length; ++i) {
+        if (fullS.substring(i, i + oldS.length) == oldS) {
+            fullS = fullS.substring(0, i) + newS + fullS.substring(i + oldS.length, fullS.length);
+        }
+    }
+    return fullS;
 });
-
-const error = err => {
-    throw Error(err);
-};
-
-const throwErr = error;
-
-const errorLog = err => {
-    console.error(err);
-};
-
-const _err = errorLog;
-const _error = errorLog;
 
 const reject = err => {
     return new Promise(reject => {
@@ -131,6 +142,8 @@ const generateToken = (length = null) => {
     return key;
 };
 
+const token = generateToken;
+
 const hash = () => {
     const phrase = generateToken();
     const hash = crypto.createHmac('sha256', conf.secret)
@@ -164,19 +177,19 @@ const end = () => {
  * @param fn Функция
  */
 const getFunctionParams = fn => {
-    const COMMENTS = /(\/\/.*$)|(\/\*[\s\S]*?\*\/)|(\s*=[^,\)]*(('(?:\\'|[^'\r\n])*')|("(?:\\"|[^"\r\n])*"))|(\s*=[^,\)]*))/gm;
+    const COMMENTS = /(\/\/.*$)|(\/\*[\s\S]*?\*\/)|(\s*=[^,\\)]*(('(?:\\'|[^'\r\n])*')|('(?:\\'|[^'\r\n])*'))|(\s*=[^,\\)]*))/gm;
     const DEFAULT_PARAMS = /=[^,]+/gm;
     const FAT_ARROW = /=>.*$/gm;
     const ARGUMENT_NAMES = /([^\s,]+)/g;
 
     const formattedFn = fn
         .toString()
-        .replace(COMMENTS, "")
-        .replace(FAT_ARROW, "")
-        .replace(DEFAULT_PARAMS, "");
+        .replace(COMMENTS, '')
+        .replace(FAT_ARROW, '')
+        .replace(DEFAULT_PARAMS, '');
 
     const params = formattedFn
-        .slice(formattedFn.indexOf("(") + 1, formattedFn.indexOf(")"))
+        .slice(formattedFn.indexOf('(') + 1, formattedFn.indexOf(')'))
         .match(ARGUMENT_NAMES);
 
     return params || [];
@@ -188,52 +201,80 @@ const getFunctionParams = fn => {
  */
 const getFunctionBody = fn => {
     const restoreIndent = body => {
-        const lines = body.split("\n");
-        const bodyLine = lines.find(line => line.trim() !== "");
-        let indent = typeof bodyLine !== "undefined" ? (/[ \t]*/.exec(bodyLine) || [])[0] : "";
-        indent = indent || "";
+        const lines = body.split('\n');
+        const bodyLine = lines.find(line => line.trim() !== '');
+        let indent = typeof bodyLine !== 'undefined' ? (/[ \t]*/.exec(bodyLine) || [])[0] : '';
+        indent = indent || '';
 
-        return lines.map(line => line.replace(indent, "")).join("\n");
+        return lines.map(line => line.replace(indent, '')).join('\n');
     };
 
     const fnStr = fn.toString();
     const rawBody = fnStr.substring(
-        fnStr.indexOf("{") + 1,
-        fnStr.lastIndexOf("}")
+        fnStr.indexOf('{') + 1,
+        fnStr.lastIndexOf('}')
     );
     const indentedBody = restoreIndent(rawBody);
-    const trimmedBody = indentedBody.replace(/^\s+|\s+$/g, "");
-
+    const trimmedBody = indentedBody.replace(/^\s+|\s+$/g, '');
 
     return trimmedBody;
 };
+
+class Database {
+    constructor() {
+    }
+    async connect() {
+        try {
+            this.client_pg = new Client();
+            this.connect = await this.client_pg.connect();
+            // const client_pg = new Client();
+            // const res = await client_pg.query(text, values);
+            // resolve(res.rows);
+            // await client_pg.end();
+        } catch (e) {
+            this.error = e.message;
+            // reject(e.message);
+        }
+        return this;
+    }
+
+    async query(text, values) {
+        try {
+            this.res = await this.client_pg.query(text, values);
+            await this.client_pg.end();
+            return this.res.rows;
+            // const client_pg = new Client();
+            // this.connect = await this.client_pg.connect();
+            // resolve(res.rows);
+        } catch (e) {
+            this.error = e.message;
+            // reject(e.message);
+        }
+        // return this;
+    }
+}
+
+const db = new Database();
 
 /**
  * DTO Factory function.
  * @param props
  */
 const DTOFactory = (props => {
-    // log({ props });
-
     if (!props) {
         throw Error('Invalid props param')
     }
-
     const ret = {
         status: props.status ? props.status : 'success',
         stream: props.stream ? props.stream : null,
         error: props.error ? props.error : undefined,
         ...props
     };
-
-    // log({ 'props': props, 'ret': ret });
-
     return ret;
 });
 
 const isNumber = (id => {
-    return (typeof parseInt(id)
-        === 'number');
+    return (typeof parseInt(id) === 'number');
 });
 
 const connect = (sql => {
@@ -245,7 +286,7 @@ const connect = (sql => {
                 const res = await client_pg.query(sql);
                 resolve(res.rows);
                 await client_pg.end();
-            } catch(e) {
+            } catch (e) {
                 reject(e.message);
             }
         })();
@@ -254,30 +295,26 @@ const connect = (sql => {
 
 const select = connect;
 
-const parse = ((text, values) => {
+const query = ((text, values) => {
     return new Promise((resolve, reject) => {
-        (async () => {
-            try {
-                const client_pg = new Client();
-                await client_pg.connect();
-                const res = await client_pg.query(text, values);
-
-                // log({ 'res.rows': res.rows })
-
-                resolve(res.rows);
-                await client_pg.end();
-            } catch(e) {
-                // log({ 'ERROR @': e })
-                reject(e.message);
-            }
-        })();
+        return (async () => {
+                try {
+                    const client_pg = new Client();
+                    await client_pg.connect();
+                    const res = await client_pg.query(text, values);
+                    resolve(res.rows);
+                    await client_pg.end();
+                } catch (e) {
+                    reject(e.message);
+                }
+            })();
+        });
     });
-});
 
-const sql = parse;
-const query = parse;
+const sql = query;
+const parse = query;
 
-const toObj = (body => {
+const bufferConcat = (body => {
     const bufConcat = Buffer.concat(body).toString();
     // log({ bufConcat });
     const bufArray = bufConcat.split('&');
@@ -301,6 +338,7 @@ module.exports = {
     getFunctionParams,
     getFunctionBody,
     generateToken,
+    token,
     hash,
     isNumber,
     connect,
@@ -308,18 +346,21 @@ module.exports = {
     select,
     sql,
     query,
-    toObj,
+    bufferConcat,
     promise,
     resolve,
     reject,
-    error,
-    _err,
-    _error,
+    __ERROR,
+    __error,
     throwErr,
     errorLog,
-    postTransform,
+    replace,
     notify,
+    memory,
     sliceLastSymbol,
+    db,
+    notifyOrder,
+    __,
     __STATIC,
     __VIEWS
 };

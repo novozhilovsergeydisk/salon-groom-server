@@ -1,7 +1,6 @@
 'use strict';
 
 const storage = require('./Storage.js');
-const { log } = require('../bootstrap.js');
 
 const TOKEN_LENGTH = 32;
 const ALPHA_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
