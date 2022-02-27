@@ -73,42 +73,32 @@ class mainControllers {
         return DTOFactory({ stream: body });
     }
 
-    async price() {
-        return DTOFactory({ stream: tmpl.process({ data: [] }, 'price/index.html') });
+    async price(client) {
+        return DTOFactory({ stream: tmpl.process({ yandexContent: client.yandexContent }, 'price/index.html') });
     }
 
-    async review() {
-        return DTOFactory({ stream: tmpl.process({ data: [] }, 'review/index.html') });
+    async review(client) {
+        return DTOFactory({ stream: tmpl.process({ yandexContent: client.yandexContent }, 'review/index.html') });
     }
 
-    async works() {
-        return DTOFactory({ stream: tmpl.process({ data: [] }, 'our-works/index.html') });
+    async works(client) {
+        return DTOFactory({ stream: tmpl.process({ yandexContent: client.yandexContent }, 'our-works/index.html') });
     }
 
-    async masters() {
-        return DTOFactory({ stream: tmpl.process({ data: [] }, 'our-masters/index.html') });
+    async masters(client) {
+        return DTOFactory({ stream: tmpl.process({ yandexContent: client.yandexContent }, 'our-masters/index.html') });
     }
 
-    async contacts() {
-        return DTOFactory({ stream: tmpl.process({ data: [] }, 'contacts/index.html') });
+    async contacts(client) {
+        return DTOFactory({ stream: tmpl.process({ yandexContent: client.yandexContent }, 'contacts/index.html') });
     }
 
     async index(client) {
-        // log({ 'client.yandexContent': client.yandexContent, 'client.url': client.url })
-
-        // {% if user.authorised %}
-        // {% extends "logged-in.html" %}
-        // {% else %}
-        // {% extends "logged-out.html" %}
-        // {% endif %}
-        // log({ VIEWS_PATH })
-        // log(nunjucks)
-        // return DTOFactory({ stream: 'test' });
         return DTOFactory({ stream: tmpl.process({ yandexContent: client.yandexContent }, 'main/index.html') });
     }
 
     async private() {
-        return DTOFactory({ stream: 'test' });
+        return DTOFactory({ stream: 'private' });
         // return DTOFactory({ stream: nunjucks.render('private/index.html', { main: [] }) });
     }
 

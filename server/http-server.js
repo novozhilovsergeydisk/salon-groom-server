@@ -198,21 +198,21 @@ class Server {
                             try {
                                 body = bufferConcat(bodyArr); // bufferConcat
 
-                                log({ body })
+                                // log({ body })
 
                                 client.body = body;
 
                                 const stream = await route.resolve(client);
 
-                                log({ stream })
-
-                                log(stream.data)
+                                // log({ stream })
+                                //
+                                // log(stream.data)
 
                                 client.data = stream.data;
 
                                 const order = stream.data.order;
-                                log({  order })
-                                log('fin')
+                                // log({  order })
+                                // log('fin')
                                 const clientInfo = stream.data.client;
 
                                 // log({  order })
@@ -220,7 +220,7 @@ class Server {
                                 response(client);
                                 const info = 'Заявка №' + order.id + '. Клиент: ' + clientInfo.name + ', тел. ' + clientInfo.phone + '. Создана ' + order.created_at + '.';
 
-                                log({ info })
+                                // log({ info })
 
                                 notifyOrder(info);
                                 mailAdmin.sendMessage(info, 'Запись на сайте').catch(console.error('mailAdmin.sendMessage'));
