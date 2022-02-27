@@ -17,6 +17,7 @@ const mimeTypes = {
     woff2: 'application/x-font-woff2',
     ttf:   'application/x-font-ttf',
     otf:   'application/x-font-otf',
+    webp:  'image/webp',
     mp3:   'audio/mpeg',
     mp4:   'video/mp4'
 };

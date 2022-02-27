@@ -20,6 +20,7 @@ const routing = {
         '/css/*': staticController.staticContent,
         '/js/*': staticController.staticContent,
         '/img/*': staticController.staticContent,
+        '/img/master/*': staticController.staticContent,
         '/images/*': staticController.staticContent,
         '/fonts/*': staticController.staticContent,
         '/webfonts/*': staticController.staticContent,
