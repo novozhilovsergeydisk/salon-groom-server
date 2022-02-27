@@ -4,7 +4,7 @@ const { VIEWS_PATH } = require('../../const.js');
 console.log({ 'VIEWS_PATH >>> ': VIEWS_PATH })
 
 const nunjucks = require('nunjucks');
-nunjucks.configure('/Users/novozhilovsergey/Projects/salon-groom-server/views', { autoescape: true });
+nunjucks.configure(VIEWS_PATH, { autoescape: true });
 
 class Renderer {
     render() {
