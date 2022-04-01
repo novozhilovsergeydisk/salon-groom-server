@@ -146,39 +146,26 @@ class Server {
     createServer(port, host) {
         const server = http.createServer(async (req, res) => {
             const client = new ClientApp(req, res);
-
-            // log({ client })
-
-            // const queryString = querystring.parse(req.url);
-            // log({ queryString })
             const route = new Route(client);
             const hasRoute = route.has();
-
-            // log({ client })
-            // log(client.host)
-            // log(client.url)
-            // log(client.http_method)
-            // log({ hasRoute })
-            // log('----------')
 
             if (!hasRoute) {
                 __404(client, res, '404 - ' + client.url);
                 mailAdmin.sendMessage('Страница не найдена', '404 - ' + client.url).catch(console.error('mailAdmin.sendMessage()'));
-                // MailerAdmin.sendMessage('404 - ' + req.url, 'Страница не найдена');
-                // notify('404 - ' + req.url, 'Страница не найдена');
             } else {
                 if (req.method === 'GET') {
                     const resolve = await route.resolve(client);
-
-                    // log({ resolve })
-
                     if ((typeof resolve.stream) === 'string') {
-
-                        // log({ client })
-
                         this.response(client.mimeType, resolve.stream, res);
                     } else {
                         const stream = await resolve.stream;
+
+                        // log({ client })
+
+                        if (client.url === '/robots.txt') {
+                            client.mimeType = 'text/plain';
+                        }
+
                         this.pipe(client.mimeType, stream, res);
                     }
                 }
