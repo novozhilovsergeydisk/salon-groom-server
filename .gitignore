@@ -1,4 +1,8 @@
-.clinic/
+access.log
+db.sql
+error.log
+static/img/kolomenskaya.jpeg
+static/img/motor.jpeg
 node_modules/
 formidable.js
 email.js
