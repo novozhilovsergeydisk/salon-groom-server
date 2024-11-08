@@ -41,6 +41,8 @@ process.env.PGUSER = conf.db.user;
 process.env.PGDATABASE = conf.db.name;
 process.env.PGPASSWORD = conf.db.password;
 process.env.PGPORT = conf.db.port;
+process.env.APP_PORT = conf.port;
+process.env.APP_HOST_NAME = conf.host_name;
 
 console.table(memory())
 
